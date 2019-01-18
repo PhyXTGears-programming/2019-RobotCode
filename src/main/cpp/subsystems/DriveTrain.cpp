@@ -5,9 +5,13 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#pragma once
+#include "subsystems/DriveTrain.h"
 
-class OI {
- public:
-  OI();
-};
+DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {}
+
+void DriveTrain::InitDefaultCommand() {
+
+}
+
+// Put methods for controlling this subsystem
+// here. Call these from Commands.
