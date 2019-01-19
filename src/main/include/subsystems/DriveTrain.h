@@ -31,6 +31,7 @@ class DriveTrain : public frc::Subsystem {
     public:
         DriveTrain();
         void InitDefaultCommand() override;
+        void Drive(double left, double right);
         void Drive(frc::XboxController& driver);
 
     private:

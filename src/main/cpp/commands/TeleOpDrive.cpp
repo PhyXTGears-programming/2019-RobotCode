@@ -13,20 +13,18 @@ TeleOpDrive::TeleOpDrive() {
     Requires(&Robot::m_DriveTrain);
 }
 
-// Called just before this Command runs the first time
 void TeleOpDrive::Initialize() {}
 
-// Called repeatedly when this Command is scheduled to run
 void TeleOpDrive::Execute() {
     Robot::m_DriveTrain.Drive(Robot::m_oi.GetDriverJoystick());
 }
 
-// Make this return true when this Command no longer needs to run execute()
 bool TeleOpDrive::IsFinished() { return false; }
 
-// Called once after isFinished returns true
-void TeleOpDrive::End() {}
+void TeleOpDrive::End() {
+    Robot::m_DriveTrain.Drive(0,0);
+}
 
-// Called when another command which requires one or more of the same
-// subsystems is scheduled to run
-void TeleOpDrive::Interrupted() {}
+void TeleOpDrive::Interrupted() {
+    Robot::m_DriveTrain.Drive(0,0);
+}

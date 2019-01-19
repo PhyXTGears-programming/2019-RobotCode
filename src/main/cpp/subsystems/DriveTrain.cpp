@@ -12,7 +12,12 @@
 DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {}
 
 void DriveTrain::InitDefaultCommand() {
+    // If no other command is using this subsystem, just drive like in TeleOp.
     SetDefaultCommand(new TeleOpDrive());
+}
+
+void DriveTrain::Drive(double left, double right) {
+    m_robotDrive.TankDrive(left, right);
 }
 
 void DriveTrain::Drive(frc::XboxController& driver) {
@@ -20,7 +25,4 @@ void DriveTrain::Drive(frc::XboxController& driver) {
     double hidY = driver.GetY(frc::XboxController::kLeftHand);
 
     m_robotDrive.TankDrive(hidY, hidY);
-} 
-
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
+}
