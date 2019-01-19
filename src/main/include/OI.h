@@ -7,7 +7,12 @@
 
 #pragma once
 
+#include <frc/XboxController.h>
+
 class OI {
- public:
-  OI();
+    public:
+        OI();
+    private:
+        frc::XboxController m_hidDriver   {0};
+        frc::XboxController m_hidOperator {1};
 };

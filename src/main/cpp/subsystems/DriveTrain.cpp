@@ -7,10 +7,16 @@
 
 #include "subsystems/DriveTrain.h"
 
+#include "commands/TeleOpDrive.h"
+
 DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {}
 
 void DriveTrain::InitDefaultCommand() {
+    SetDefaultCommand(new TeleOpDrive());
+}
 
+void DriveTrain::Drive() {
+    
 }
 
 // Put methods for controlling this subsystem

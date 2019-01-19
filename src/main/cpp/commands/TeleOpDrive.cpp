@@ -5,27 +5,28 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/ExampleCommand.h"
-
+#include "commands/TeleOpDrive.h"
 #include "Robot.h"
+#include "RobotMap.h"
 
-ExampleCommand::ExampleCommand() {
-  // Use Requires() here to declare subsystem dependencies
-  Requires(&Robot::m_subsystem);
+TeleOpDrive::TeleOpDrive() {
+    Requires(&Robot::m_DriveTrain);
 }
 
 // Called just before this Command runs the first time
-void ExampleCommand::Initialize() {}
+void TeleOpDrive::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
-void ExampleCommand::Execute() {}
+void TeleOpDrive::Execute() {
+    // Robot::m_DriveTrain->Drive(1,1);
+}
 
 // Make this return true when this Command no longer needs to run execute()
-bool ExampleCommand::IsFinished() { return false; }
+bool TeleOpDrive::IsFinished() { return false; }
 
 // Called once after isFinished returns true
-void ExampleCommand::End() {}
+void TeleOpDrive::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void ExampleCommand::Interrupted() {}
+void TeleOpDrive::Interrupted() {}
