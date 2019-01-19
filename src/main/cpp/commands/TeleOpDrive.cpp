@@ -18,7 +18,7 @@ void TeleOpDrive::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void TeleOpDrive::Execute() {
-    // Robot::m_DriveTrain->Drive(1,1);
+    Robot::m_DriveTrain.Drive(Robot::m_oi.GetDriverJoystick());
 }
 
 // Make this return true when this Command no longer needs to run execute()

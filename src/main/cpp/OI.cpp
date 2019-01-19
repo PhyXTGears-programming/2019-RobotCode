@@ -12,3 +12,7 @@
 OI::OI() {
     // Process operator interface input here.
 }
+
+frc::XboxController& OI::GetDriverJoystick() { return m_hidDriver; }
+
+frc::XboxController& OI::GetOperatorJoystick() { return m_hidOperator; }

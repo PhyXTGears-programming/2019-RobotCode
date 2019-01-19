@@ -15,9 +15,12 @@ void DriveTrain::InitDefaultCommand() {
     SetDefaultCommand(new TeleOpDrive());
 }
 
-void DriveTrain::Drive() {
-    
-}
+void DriveTrain::Drive(frc::XboxController& driver) {
+    double hidX = driver.GetX(frc::XboxController::kLeftHand);
+    double hidY = driver.GetY(frc::XboxController::kLeftHand);
+
+    m_robotDrive.TankDrive(hidY, hidY);
+} 
 
 // Put methods for controlling this subsystem
 // here. Call these from Commands.

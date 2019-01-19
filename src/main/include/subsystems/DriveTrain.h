@@ -9,6 +9,8 @@
 
 #include "RobotMap.h"
 
+#include <frc/XboxController.h>
+
 #include <frc/ADXRS450_Gyro.h>
 #include <frc/Encoder.h>
 #include <frc/SpeedControllerGroup.h>
@@ -29,7 +31,7 @@ class DriveTrain : public frc::Subsystem {
     public:
         DriveTrain();
         void InitDefaultCommand() override;
-        void Drive();
+        void Drive(frc::XboxController& driver);
 
     private:
         // Motors

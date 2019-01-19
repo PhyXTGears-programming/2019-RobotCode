@@ -12,6 +12,10 @@
 class OI {
     public:
         OI();
+
+        frc::XboxController& GetDriverJoystick();
+        frc::XboxController& GetOperatorJoystick();
+        
     private:
         frc::XboxController m_hidDriver   {0};
         frc::XboxController m_hidOperator {1};
