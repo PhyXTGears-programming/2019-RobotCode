@@ -10,6 +10,7 @@
 #include "RobotMap.h"
 
 TeleOpDrive::TeleOpDrive() {
+    // This command needs the drivetrain subsystem to be available while running.
     Requires(&Robot::m_DriveTrain);
 }
 
@@ -21,10 +22,6 @@ void TeleOpDrive::Execute() {
 
 bool TeleOpDrive::IsFinished() { return false; }
 
-void TeleOpDrive::End() {
-    Robot::m_DriveTrain.Drive(0,0);
-}
-
-void TeleOpDrive::Interrupted() {
-    Robot::m_DriveTrain.Drive(0,0);
-}
+// Make sure the motors stop moving when they aren't being controlled.
+void TeleOpDrive::End()         { Robot::m_DriveTrain.Drive(0, 0); }
+void TeleOpDrive::Interrupted() { Robot::m_DriveTrain.Drive(0, 0); }
