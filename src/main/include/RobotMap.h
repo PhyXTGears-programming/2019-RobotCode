@@ -16,7 +16,7 @@
 
 
 // Only define this macro if you're testing on the 1721 bot.
-#define PROTOBOT
+//#define PROTOBOT
 
 
 // Motor controller pins
@@ -27,19 +27,22 @@
 #   define kLeftFrontMotor     2
 #   define kLeftBackMotor      3
 
-#   define kRightEncoderPin0   0
-#   define kRightEncoderPin1   1
-#   define kLeftEncoderPin0    2
-#   define kLeftEncoderPin1    3
+// pin numbers for wheel encoders
+// protobot didn't have encoders
+#   define kLeftEncoderPin0    0
+#   define kLeftEncoderPin1    1
+#   define kRightEncoderPin0   2
+#   define kRightEncoderPin1   3
 #else
 // CAN ID numbers for CAN Bus TalonSRXs
-#   define kRightFrontMotor    0
-#   define kRightBackMotor     1
-#   define kLeftFrontMotor     2
-#   define kLeftBackMotor      3
+#   define kLeftFrontMotor     1
+#   define kLeftBackMotor      7
+#   define kRightFrontMotor    2
+#   define kRightBackMotor     4
 
-#   define kRightEncoderPin0   0
-#   define kRightEncoderPin1   1
-#   define kLeftEncoderPin0    2
-#   define kLeftEncoderPin1    3
+// pin numbers for wheel encoders
+#   define kLeftEncoderPin0    0
+#   define kLeftEncoderPin1    1
+#   define kRightEncoderPin0   2
+#   define kRightEncoderPin1   3
 #endif

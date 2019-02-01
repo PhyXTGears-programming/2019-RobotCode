@@ -10,6 +10,7 @@
 #include <frc/TimedRobot.h>
 #include <frc/commands/Command.h>
 #include <frc/smartdashboard/SendableChooser.h>
+#include <frc/PowerDistributionPanel.h>
 
 // Subsystems
 #include "subsystems/DriveTrain.h"
@@ -35,4 +36,6 @@ class Robot : public frc::TimedRobot {
    
     private:
         frc::SendableChooser<frc::Command*> m_chooser;
+        frc::PowerDistributionPanel m_pdp{0};
+
 };

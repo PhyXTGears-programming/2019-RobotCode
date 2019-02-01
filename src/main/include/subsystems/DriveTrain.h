@@ -51,5 +51,5 @@ class DriveTrain : public frc::Subsystem {
         // Encoders (reverse the right encoder)
         frc::Encoder m_encoderRight {kRightEncoderPin0, kRightEncoderPin1, true};
         frc::Encoder m_encoderLeft  {kLeftEncoderPin0, kLeftEncoderPin1, false};
-        frc::ADXRS450_Gyro m_gyro {}; // onboard RoboRIO gyro
+        //frc::ADXRS450_Gyro m_gyro {}; // onboard RoboRIO gyro
 };
