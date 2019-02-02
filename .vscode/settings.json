@@ -13,6 +13,7 @@
   },
   "C_Cpp.intelliSenseEngineFallback": "Enabled",
   "files.associations": {
-    "*.inc": "cpp"
+    "*.inc": "cpp",
+    "cmath": "cpp"
   }
 }

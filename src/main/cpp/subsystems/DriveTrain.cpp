@@ -9,6 +9,8 @@
 
 #include "commands/TeleOpDrive.h"
 
+#include <cmath>
+
 DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {
 #   ifndef PROTOBOT
         // Set up TalonSRXs.
@@ -19,10 +21,10 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {
 
         // The documentation says to do this, so that both sides get the proper values.
         // See https://phoenix-documentation.readthedocs.io/en/latest/ch15_WPIDrive.html?highlight=wpi_talon
-        m_motorRightFront.SetInverted(true);
-        m_motorRightBack.SetInverted(true);
-        m_motorLeftFront.SetInverted(false);
-        m_motorLeftBack.SetInverted(false);
+        m_motorRightFront.SetInverted(false);
+        m_motorRightBack.SetInverted(false);
+        m_motorLeftFront.SetInverted(true);
+        m_motorLeftBack.SetInverted(true);
         m_robotDrive.SetRightSideInverted(false);
 #   endif
 }
@@ -40,8 +42,10 @@ void DriveTrain::Drive(double left, double right) {
 // Given a controller object, use it to drive.
 void DriveTrain::Drive(frc::XboxController& driver) {
     // Get left stick axes values.
-    double hidX = driver.GetX(frc::XboxController::kLeftHand);
-    double hidY = driver.GetY(frc::XboxController::kLeftHand);
+    double hidX = -driver.GetX(frc::XboxController::kRightHand) * 0.7;
+    double hidY = driver.GetY(frc::XboxController::kLeftHand) * 0.6;
+    // double mag = (std::signbit(hidY) ? -1 : 1)*sqrt(hidX*hidX + hidY*hidY)*0.55;
 
-    m_robotDrive.TankDrive(hidY, hidY);
+    //m_robotDrive.TankDrive(hidY/3, hidY/3);
+    m_robotDrive.ArcadeDrive(hidY, hidX, true);
 }
