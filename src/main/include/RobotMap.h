@@ -16,7 +16,7 @@
 
 
 // Only define this macro if you're testing on the 1721 bot.
-//#define PROTOBOT
+#define PROTOBOT
 
 
 // Motor controller pins

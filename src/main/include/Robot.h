@@ -14,6 +14,7 @@
 
 // Subsystems
 #include "subsystems/DriveTrain.h"
+#include "subsystems/CreeperArm.h"
 // Commands
 #include "commands/TeleOpDrive.h"
 
@@ -23,6 +24,7 @@
 class Robot : public frc::TimedRobot {
     public:
         static DriveTrain m_DriveTrain;
+        static CreeperArm m_CreeperArm;
         static OI m_oi;
    
         void RobotInit() override;
