@@ -16,33 +16,43 @@
 
 
 // Only define this macro if you're testing on the 1721 bot.
-#define PROTOBOT
+//#define PROTOBOT
 
 
 // Motor controller pins
 #ifdef PROTOBOT
-// pin numbers for PWM motor controllers
+// Pin numbers for PWM motor controllers.
 #   define kRightFrontMotor    0
 #   define kRightBackMotor     1
 #   define kLeftFrontMotor     2
 #   define kLeftBackMotor      3
 
-// pin numbers for wheel encoders
-// protobot didn't have encoders
+// Pin numbers for wheel encoders
+// Protobot doesn't have encoders
 #   define kLeftEncoderPin0    0
 #   define kLeftEncoderPin1    1
 #   define kRightEncoderPin0   2
 #   define kRightEncoderPin1   3
 #else
-// CAN ID numbers for CAN Bus TalonSRXs
+// CAN IDs for CAN Bus TalonSRX's.
 #   define kLeftFrontMotor     1
 #   define kLeftBackMotor      7
 #   define kRightFrontMotor    2
 #   define kRightBackMotor     4
 
-// pin numbers for wheel encoders
+// Pin numbers for wheel encoders
 #   define kLeftEncoderPin0    0
 #   define kLeftEncoderPin1    1
 #   define kRightEncoderPin0   2
 #   define kRightEncoderPin1   3
+
+// PCM CAN ID
+#   define kPCM 9
+
+// Creeper Arm constants
+// TalonSRX CAN ID, Relay pin, and Solenoid PCM IDs
+#   define kCreeperArmRotate 6
+#   define kCreeperArmDrive  0
+#   define kCreeperSolenoidAscend  0
+#   define kCreeperSolenoidDescend 1
 #endif
