@@ -18,6 +18,7 @@
 #include "commands/TeleOpDrive.h"
 
 #include "OI.h"
+#include "RobotMap.h"
 
 class Robot : public frc::TimedRobot {
     public:
@@ -36,6 +37,9 @@ class Robot : public frc::TimedRobot {
    
     private:
         frc::SendableChooser<frc::Command*> m_chooser;
-        frc::PowerDistributionPanel m_pdp{0};
 
+        // Protobot doesn't have a CAN Bus to the PDP
+#       ifndef PROTOBOT
+            frc::PowerDistributionPanel m_pdp{0};
+#       endif
 };
