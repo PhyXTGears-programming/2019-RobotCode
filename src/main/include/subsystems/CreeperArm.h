@@ -7,12 +7,12 @@
 
 #pragma once
 
-#include "RobotMap.h"
-
 #include <frc/commands/Subsystem.h>
 
+#include "RobotMap.h"
 #ifndef PROTOBOT
 #   include <ctre/Phoenix.h>
+#   include <frc/AnalogPotentiometer.h>
 #   include <frc/Relay.h>
 #   include <frc/Solenoid.h>
 #endif
@@ -25,20 +25,26 @@ class CreeperArm : public frc::Subsystem {
     // Protobot must not use any of this.
 #   ifndef PROTOBOT
     // public:
+        // Creeper Arm rotation
+        double GetArmAngle();
         // Creeper Arm rotational speed
         void SetRotateSpeed(double spd);
-
         // Creeper Arm toggle arm wheels
         void SetRelay(bool on);
 
-        // Solenoid toggles
+        // Solenoid toggles (both independent)
         void SetSolenoidAscend(bool on);
         void SetSolenoidDescend(bool on);
 
     private:
-        WPI_TalonSRX  m_armRotate  {kCreeperArmRotate};
-        frc::Relay    m_armDrive   {kCreeperArmDrive, frc::Relay::kForwardOnly};
-        frc::Solenoid m_solAscend  {kPCM, kCreeperSolenoidAscend};
-        frc::Solenoid m_solDescend {kPCM, kCreeperSolenoidDescend};
+        // This gets the rotational position of the Creeper Arm
+        // 10k Full-turn potentiometer, could need changes later
+        frc::AnalogPotentiometer m_armHipot {kCreeperArmHipot, 360, 0};
+
+        // The motor that Rotates the Creeper Arm
+        WPI_TalonSRX     m_armRotate  {kCreeperArmRotate};
+        frc::Relay       m_armDrive   {kCreeperArmDrive, frc::Relay::kForwardOnly};
+        frc::Solenoid    m_solAscend  {kPCM, kCreeperSolenoidAscend};
+        frc::Solenoid    m_solDescend {kPCM, kCreeperSolenoidDescend};
 #   endif
 };

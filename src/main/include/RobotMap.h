@@ -14,6 +14,11 @@
  * floating around.
 **/
 
+/**
+ * !! ---------------------------------------------------------------------- !!
+ *  Programmers, be sure to always check the wiring spreadsheet in Google Docs 
+ * !! ---------------------------------------------------------------------- !!
+**/
 
 // Only define this macro if you're testing on the 1721 bot.
 #define PROTOBOT
@@ -49,10 +54,11 @@
 // PCM CAN ID
 #   define kPCM 9
 
-// Creeper Arm constants
+// Creeper Arm Climber constants
 // TalonSRX CAN ID, Relay pin, and Solenoid PCM IDs
-#   define kCreeperArmRotate 6
 #   define kCreeperArmDrive  0
+#   define kCreeperArmHipot  1
+#   define kCreeperArmRotate 6
 #   define kCreeperSolenoidAscend  0
 #   define kCreeperSolenoidDescend 1
 #endif
