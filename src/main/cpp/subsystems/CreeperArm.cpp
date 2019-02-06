@@ -13,7 +13,7 @@ void CreeperArm::InitDefaultCommand() {}
 
 #ifndef PROTOBOT
 
-double CreeperArm::GetRotation() { return m_armHipot.Get(); }
+double CreeperArm::GetArmAngle() { return m_armHipot.Get(); }
 
 void CreeperArm::SetRotateSpeed(double spd) { m_armRotate.Set(spd); }
 
