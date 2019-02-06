@@ -38,7 +38,12 @@
 #   define kLeftEncoderPin1    1
 #   define kRightEncoderPin0   2
 #   define kRightEncoderPin1   3
+
+// Cargo intake proximity sensor connected to DIO pin 4.
+#   define kCargoSensor 4
+
 #else
+
 // CAN IDs for CAN Bus TalonSRX's.
 #   define kLeftFrontMotor     1
 #   define kLeftBackMotor      7
@@ -61,4 +66,9 @@
 #   define kCreeperArmRotate 6
 #   define kCreeperSolenoidAscend  0
 #   define kCreeperSolenoidDescend 1
+
+// Cargo Intake constants
+// Cargo intake proximity sensor connected to DIO pin 4.
+#   define kCargoSensor 4
+
 #endif

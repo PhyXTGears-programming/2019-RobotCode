@@ -8,12 +8,12 @@
 #pragma once
 
 #include <frc/commands/Subsystem.h>
+#include <frc/DigitalInput.h>
+#include "RobotMap.h"
 
 #ifndef PROTOBOT
-#   include "RobotMap.h"
 #   include <ctre/Phoenix.h>
 #   include <frc/AnalogPotentiometer.h>
-#   include <frc/DigitalInput.h>
 #   include <frc/Relay.h>
 #   include <frc/Servo.h>
 #endif
@@ -22,10 +22,19 @@ class CargoIntake : public frc::Subsystem {
     public:
         CargoIntake();
         void InitDefaultCommand() override;
+
+        bool HasCargo();
+
+    private:
+        frc::DigitalInput m_CargoSensor {kCargoSensor};
     
     // Protobot must not use any of this.
 #   ifndef PROTOBOT
-    // public:
+
+    public:
+
+        void TurnOffIntakeRoller();
+        void TurnOnIntakeRoller();
 
     private:
         frc::AnalogPotentiometer  m_intakeRotation   {0};
