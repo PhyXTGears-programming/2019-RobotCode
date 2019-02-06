@@ -13,7 +13,7 @@
 DriveTrain Robot::m_DriveTrain;
 CreeperArm Robot::m_CreeperArm;
 CargoIntake Robot::m_CargoIntake;
-OI Robot::m_oi;
+OI Robot::m_Oi;
 
 void Robot::RobotInit() {}
 

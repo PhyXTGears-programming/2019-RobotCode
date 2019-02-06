@@ -39,12 +39,12 @@ class CreeperArm : public frc::Subsystem {
     private:
         // This gets the rotational position of the Creeper Arm
         // 10k Full-turn potentiometer, could need changes later
-        frc::AnalogPotentiometer m_armHipot {kCreeperArmHipot, 360, 0};
+        frc::AnalogPotentiometer m_ArmHipot {kCreeperArmHipot, 360, 0};
 
         // The motor that Rotates the Creeper Arm
-        WPI_TalonSRX     m_armRotate  {kCreeperArmRotate};
-        frc::Relay       m_armDrive   {kCreeperArmDrive, frc::Relay::kForwardOnly};
-        frc::Solenoid    m_solAscend  {kPCM, kCreeperSolenoidAscend};
-        frc::Solenoid    m_solDescend {kPCM, kCreeperSolenoidDescend};
+        WPI_TalonSRX     m_ArmRotate  {kCreeperArmRotate};
+        frc::Relay       m_ArmDrive   {kCreeperArmDrive, frc::Relay::kForwardOnly};
+        frc::Solenoid    m_SolAscend  {kPCM, kCreeperSolenoidAscend};
+        frc::Solenoid    m_SolDescend {kPCM, kCreeperSolenoidDescend};
 #   endif
 };

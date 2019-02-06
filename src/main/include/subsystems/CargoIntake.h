@@ -37,12 +37,12 @@ class CargoIntake : public frc::Subsystem {
         void TurnOnIntakeRoller();
 
     private:
-        frc::AnalogPotentiometer  m_intakeRotation   {0};
-        frc::DigitalInput         m_intakeTrigger    {4};
-        frc::Servo                m_hatchGripBack    {0};
-        frc::Servo                m_hatchGripFront   {1};
-        WPI_TalonSRX              m_intakeArmMotor   {6};
-        frc::Relay                m_intakeEject      {2};
-        frc::Relay                m_intakeRoller     {1};
+        frc::AnalogPotentiometer  m_IntakeRotation   {0};
+        frc::Servo                m_HatchGripBack    {0};
+        frc::Servo                m_HatchGripFront   {1};
+        WPI_TalonSRX              m_IntakeArmMotor   {6};
+        frc::Relay                m_IntakeEject      {2};
+        frc::Relay                m_IntakeRoller     {1};
+
 #   endif
 };

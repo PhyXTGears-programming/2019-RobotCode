@@ -13,15 +13,15 @@ void CreeperArm::InitDefaultCommand() {}
 
 #ifndef PROTOBOT
 
-double CreeperArm::GetArmAngle() { return m_armHipot.Get(); }
+double CreeperArm::GetArmAngle() { return m_ArmHipot.Get(); }
 
-void CreeperArm::SetRotateSpeed(double spd) { m_armRotate.Set(spd); }
+void CreeperArm::SetRotateSpeed(double spd) { m_ArmRotate.Set(spd); }
 
 void CreeperArm::SetRelay(bool on) {
-    m_armDrive.Set(on ? frc::Relay::kForward : frc::Relay::kOff);
+    m_ArmDrive.Set(on ? frc::Relay::kForward : frc::Relay::kOff);
 }
 
-void CreeperArm::SetSolenoidAscend(bool on) { m_solAscend.Set(on); }
-void CreeperArm::SetSolenoidDescend(bool on) { m_solDescend.Set(on); }
+void CreeperArm::SetSolenoidAscend(bool on) { m_SolAscend.Set(on); }
+void CreeperArm::SetSolenoidDescend(bool on) { m_SolDescend.Set(on); }
 
 #endif

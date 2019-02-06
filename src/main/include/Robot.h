@@ -27,7 +27,7 @@ class Robot : public frc::TimedRobot {
         static DriveTrain m_DriveTrain;
         static CreeperArm m_CreeperArm;
         static CargoIntake m_CargoIntake;
-        static OI m_oi;
+        static OI m_Oi;
    
         void RobotInit() override;
         void RobotPeriodic() override;
@@ -40,10 +40,10 @@ class Robot : public frc::TimedRobot {
         void TestPeriodic() override;
    
     private:
-        frc::SendableChooser<frc::Command*> m_chooser;
+        frc::SendableChooser<frc::Command*> m_Chooser;
 
         // Protobot doesn't have a CAN Bus to the PDP
 #       ifndef PROTOBOT
-            frc::PowerDistributionPanel m_pdp{0};
+            frc::PowerDistributionPanel m_Pdp{0};
 #       endif
 };
