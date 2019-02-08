@@ -9,9 +9,9 @@
 
 #include <frc/commands/Command.h>
 
-class TakeCargo : public frc::Command {
+class TakeCargoFromDispenser : public frc::Command {
  public:
-  TakeCargo();
+  TakeCargoFromDispenser();
   void Initialize() override;
   void Execute() override;
   bool IsFinished() override;

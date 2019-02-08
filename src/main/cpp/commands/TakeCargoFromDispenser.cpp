@@ -5,19 +5,19 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/TakeCargo.h"
+#include "commands/TakeCargoFromDispenser.h"
 #include "Robot.h"
 #include "RobotMap.h"
 
-TakeCargo::TakeCargo() {
+TakeCargoFromDispenser::TakeCargoFromDispenser() {
     // This command needs the drivetrain subsystem to be available while running.
     Requires(&Robot::m_CargoIntake);
 }
 
-void TakeCargo::Initialize() {
+void TakeCargoFromDispenser::Initialize() {
 }
 
-void TakeCargo::Execute() {
+void TakeCargoFromDispenser::Execute() {
 
 #ifndef PROTOBOT
     Robot::m_CargoIntake.TurnOnIntakeRoller();
@@ -25,12 +25,12 @@ void TakeCargo::Execute() {
 
 }
 
-bool TakeCargo::IsFinished() {
+bool TakeCargoFromDispenser::IsFinished() {
     return Robot::m_CargoIntake.HasCargo();
 }
 
 // Make sure the motors stop moving when they aren't being controlled.
-void TakeCargo::End() { 
+void TakeCargoFromDispenser::End() { 
 
 #ifndef PROTOBOT
     Robot::m_CargoIntake.TurnOffIntakeRoller();
@@ -38,4 +38,4 @@ void TakeCargo::End() {
 
 }
 
-void TakeCargo::Interrupted() {}
+void TakeCargoFromDispenser::Interrupted() {}
