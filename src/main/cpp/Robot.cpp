@@ -11,7 +11,9 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 DriveTrain Robot::m_DriveTrain;
-OI Robot::m_oi;
+CreeperArm Robot::m_CreeperArm;
+CargoIntake Robot::m_CargoIntake;
+OI Robot::m_Oi;
 
 void Robot::RobotInit() {}
 

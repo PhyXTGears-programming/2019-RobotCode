@@ -14,15 +14,20 @@
 
 // Subsystems
 #include "subsystems/DriveTrain.h"
+#include "subsystems/CreeperArm.h"
+#include "subsystems/CargoIntake.h"
 // Commands
 #include "commands/TeleOpDrive.h"
 
 #include "OI.h"
+#include "RobotMap.h"
 
 class Robot : public frc::TimedRobot {
     public:
         static DriveTrain m_DriveTrain;
-        static OI m_oi;
+        static CreeperArm m_CreeperArm;
+        static CargoIntake m_CargoIntake;
+        static OI m_Oi;
    
         void RobotInit() override;
         void RobotPeriodic() override;
@@ -35,7 +40,10 @@ class Robot : public frc::TimedRobot {
         void TestPeriodic() override;
    
     private:
-        frc::SendableChooser<frc::Command*> m_chooser;
-        frc::PowerDistributionPanel m_pdp{0};
+        frc::SendableChooser<frc::Command*> m_Chooser;
 
+        // Protobot doesn't have a CAN Bus to the PDP
+#       ifndef PROTOBOT
+            frc::PowerDistributionPanel m_Pdp{0};
+#       endif
 };

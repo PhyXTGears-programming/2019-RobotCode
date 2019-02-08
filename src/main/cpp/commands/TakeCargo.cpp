@@ -5,23 +5,37 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/TeleOpDrive.h"
+#include "commands/TakeCargo.h"
 #include "Robot.h"
 #include "RobotMap.h"
 
-TeleOpDrive::TeleOpDrive() {
+TakeCargo::TakeCargo() {
     // This command needs the drivetrain subsystem to be available while running.
-    Requires(&Robot::m_DriveTrain);
+    Requires(&Robot::m_CargoIntake);
 }
 
-void TeleOpDrive::Initialize() {}
-
-void TeleOpDrive::Execute() {
-    Robot::m_DriveTrain.Drive(Robot::m_Oi.GetDriverJoystick());
+void TakeCargo::Initialize() {
 }
 
-bool TeleOpDrive::IsFinished() { return false; }
+void TakeCargo::Execute() {
+
+#ifndef PROTOBOT
+    Robot::m_CargoIntake.TurnOnIntakeRoller();
+#endif
+
+}
+
+bool TakeCargo::IsFinished() {
+    return Robot::m_CargoIntake.HasCargo();
+}
 
 // Make sure the motors stop moving when they aren't being controlled.
-void TeleOpDrive::End()         { Robot::m_DriveTrain.Drive(0, 0); }
-void TeleOpDrive::Interrupted() { Robot::m_DriveTrain.Drive(0, 0); }
+void TakeCargo::End() { 
+
+#ifndef PROTOBOT
+    Robot::m_CargoIntake.TurnOffIntakeRoller();
+#endif
+
+}
+
+void TakeCargo::Interrupted() {}
