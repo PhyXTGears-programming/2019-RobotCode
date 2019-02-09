@@ -2,12 +2,13 @@
 
 #include <frc/commands/Command.h>
 
-class TeleOpDrive : public frc::Command {
+class ShootCargoForLevelTwoRocket : public frc::Command {
     public:
-        TeleOpDrive();
+        ShootCargoForLevelTwoRocket();
         void Initialize() override;
         void Execute() override;
         bool IsFinished() override;
+        bool IsInterruptible();
         void End() override;
         void Interrupted() override;
 };
