@@ -18,16 +18,22 @@
 #include "subsystems/CargoIntake.h"
 // Commands
 #include "commands/TeleOpDrive.h"
+#include "commands/GrabHatchFromDispenser.h"
+#include "commands/ReleaseHatch.h"
 
 #include "OI.h"
 #include "RobotMap.h"
 
 class Robot : public frc::TimedRobot {
     public:
+        // Subsystems
         static DriveTrain m_DriveTrain;
         static CreeperArm m_CreeperArm;
         static CargoIntake m_CargoIntake;
         static OI m_Oi;
+        // Commands
+        static GrabHatchFromDispenser m_GrabHatchFromDispenser;
+        static ReleaseHatch m_ReleaseHatch;
    
         void RobotInit() override;
         void RobotPeriodic() override;
@@ -44,6 +50,6 @@ class Robot : public frc::TimedRobot {
 
         // Protobot doesn't have a CAN Bus to the PDP
 #       ifndef PROTOBOT
-            frc::PowerDistributionPanel m_Pdp{0};
+            frc::PowerDistributionPanel m_PDP{0};
 #       endif
 };

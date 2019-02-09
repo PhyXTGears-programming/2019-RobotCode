@@ -25,6 +25,15 @@ class CargoIntake : public frc::Subsystem {
 
         bool HasCargo();
 
+        // HATCH functions
+
+        // parallel w/ cargo-intake
+        void GripHatchBottom() { m_HatchGripBottom.Set(0.5); }
+        void GripHatchTop()    { m_HatchGripTop.Set(0.5); }
+        // perpendicular (bottom goes down, top goes up)
+        void ReleaseHatchBottom() { m_HatchGripBottom.Set(1); }
+        void ReleaseHatchTop()    { m_HatchGripTop.Set(0); }
+
     private:
         frc::DigitalInput m_CargoSensor {kCargoSensor};
     
@@ -37,12 +46,14 @@ class CargoIntake : public frc::Subsystem {
         void TurnOnIntakeRoller();
 
     private:
-        frc::AnalogPotentiometer  m_IntakeRotation   {0};
-        frc::Servo                m_HatchGripBack    {0};
-        frc::Servo                m_HatchGripFront   {1};
-        WPI_TalonSRX              m_IntakeArmMotor   {6};
-        frc::Relay                m_IntakeEject      {2};
-        frc::Relay                m_IntakeRoller     {1};
+        frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor};
+        frc::Servo                m_HatchGripBottom {kCargoHatchServoBottom};
+        frc::Servo                m_HatchGripTop    {kCargoHatchServoTop};
+        WPI_TalonSRX              m_IntakeArmMotor  {kCargoTalonRotate};
+        frc::Relay                m_IntakeEject     {kCargoSpikeEjector};
+        frc::Relay                m_IntakeRoller    {kCargoSpikeRoller};
 
 #   endif
+
+    // Add variables for servo positions
 };

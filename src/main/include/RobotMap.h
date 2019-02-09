@@ -21,7 +21,7 @@
 **/
 
 // Only define this macro if you're testing on the 1721 bot.
-#define PROTOBOT
+//#define PROTOBOT
 
 
 // ROBORIO PINS
@@ -36,10 +36,10 @@
 #define DIO_8 8
 #define DIO_9 9
 
-#define AOI_0 0
-#define AOI_1 1
-#define AOI_2 2
-#define AOI_3 3
+#define AIO_0 0
+#define AIO_1 1
+#define AIO_2 2
+#define AIO_3 3
 
 #define RELAY_0 0
 #define RELAY_1 1
@@ -121,5 +121,15 @@
 // Cargo Intake constants
 // Cargo intake proximity sensor connected to DIO pin 4.
 #   define kCargoSensor DIO_4
+// Bottom and top servos for the hatch grabbers
+#   define kCargoHatchServoBottom PWM_0
+#   define kCargoHatchServoTop    PWM_1
+// Spike rlays for pickup rollers and ejector
+#   define kCargoSpikeEjector RELAY_2
+#   define kCargoSpikeRoller  RELAY_1
+// TalonSRX CAN ID for rotating
+#   define kCargoTalonRotate CAN_3
+// Hipot for rotation position
+#   define kCargoRotationSensor AIO_0
 
 #endif
