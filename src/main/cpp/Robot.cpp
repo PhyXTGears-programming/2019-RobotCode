@@ -3,10 +3,14 @@
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
+// Initialize Subsystems
 DriveTrain Robot::m_DriveTrain;
 CreeperArm Robot::m_CreeperArm;
 CargoIntake Robot::m_CargoIntake;
 OI Robot::m_Oi;
+// Initialize Commands
+GrabHatchFromDispenser Robot::m_GrabHatchFromDispenser;
+ReleaseHatch Robot::m_ReleaseHatch;
 
 void Robot::RobotInit() {}
 
@@ -22,7 +26,15 @@ void Robot::AutonomousPeriodic() { frc::Scheduler::GetInstance()->Run(); }
 
 void Robot::TeleopInit() {}
 
-void Robot::TeleopPeriodic() { frc::Scheduler::GetInstance()->Run(); }
+void Robot::TeleopPeriodic() {
+    if (m_Oi.GetDriverJoystick().GetAButtonPressed()) {
+        m_GrabHatchFromDispenser.Start();
+    }
+    if (m_Oi.GetDriverJoystick().GetBButtonPressed()) {
+        m_ReleaseHatch.Start();
+    }
+    frc::Scheduler::GetInstance()->Run();
+}
 
 void Robot::TestPeriodic() {}
 
