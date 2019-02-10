@@ -7,7 +7,9 @@
 
 #include "subsystems/CargoIntake.h"
 
-CargoIntake::CargoIntake() : Subsystem("CargoIntake") {}
+CargoIntake::CargoIntake() : Subsystem("CargoIntake") {
+    m_RotationPID.SetPID(1.0, 0.0, 0.0); // TODO Read JSON (PID Values)
+}
 
 void CargoIntake::InitDefaultCommand() {
     // Set the default command for a subsystem here.
@@ -31,8 +33,19 @@ bool CargoIntake::HasCargo() {
     return !this->m_CargoSensor.Get();
 }
 
-bool CargoIntake::IsRotationDone() {}
+bool CargoIntake::IsRotationDone() {
+    //
+}
 
-void CargoIntake::RotateToPosition(wpi::StringRef configName) {}
+void CargoIntake::RotateToPosition(wpi::StringRef configName) {
+    // TODO Read JSON (angle)
+}
 
-void CargoIntake::StopRotation() {}
+void CargoIntake::RotateToPosition(int angle) {
+   m_RotationPID.SetSetpoint(angle + 0.0); // TODO Read JSON (zero-point)
+   m_RotationPID.Enable();
+}
+
+void CargoIntake::StopRotation() {
+    m_RotationPID.Disable();
+}

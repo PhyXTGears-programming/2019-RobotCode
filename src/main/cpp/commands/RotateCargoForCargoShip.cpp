@@ -21,12 +21,11 @@
  */
 
 RotateCargoForCargoShip::RotateCargoForCargoShip() {
-    // This command needs the drivetrain subsystem to be available while running.
     Requires(&Robot::m_CargoIntake);
 }
 
 void RotateCargoForCargoShip::Initialize() {
-    Robot::m_CargoIntake.RotateToPosition("cargo_ship_shoot_angle");
+    Robot::m_CargoIntake.RotateToPosition("cargo-ship-shoot-angle");
 }
 
 void RotateCargoForCargoShip::Execute() {}

@@ -17,6 +17,7 @@
 #   include <frc/AnalogPotentiometer.h>
 #   include <frc/Relay.h>
 #   include <frc/Servo.h>
+#   include <frc/PIDController.h>
 #endif
 
 class CargoIntake : public frc::Subsystem {
@@ -37,6 +38,7 @@ class CargoIntake : public frc::Subsystem {
 
         bool IsRotationDone();
         void RotateToPosition(wpi::StringRef configName);
+        void RotateToPosition(int position);
         void StopRotation();
 
     private:
@@ -46,17 +48,18 @@ class CargoIntake : public frc::Subsystem {
 #   ifndef PROTOBOT
 
     public:
-
         void TurnOffIntakeRoller();
         void TurnOnIntakeRoller();
 
     private:
-        frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor};
+        frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 180.0, -90.0};
         frc::Servo                m_HatchGripBottom {kCargoHatchServoBottom};
         frc::Servo                m_HatchGripTop    {kCargoHatchServoTop};
         WPI_TalonSRX              m_IntakeArmMotor  {kCargoTalonRotate};
         frc::Relay                m_IntakeEject     {kCargoSpikeEjector};
         frc::Relay                m_IntakeRoller    {kCargoSpikeRoller};
+
+        frc::PIDController        m_RotationPID     {1.0, 0.0, 0.0, m_IntakeRotation, m_IntakeArmMotor};
 
 #   endif
 
