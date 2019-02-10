@@ -38,12 +38,12 @@ bool CargoIntake::IsRotationDone() {
 }
 
 void CargoIntake::RotateToPosition(wpi::StringRef configName) {
-    // TODO Read JSON (angle)
+    // TODO Read JSON (angle + zero-point)
 }
 
 void CargoIntake::RotateToPosition(int angle) {
-   m_RotationPID.SetSetpoint(angle + 0.0); // TODO Read JSON (zero-point)
-   m_RotationPID.Enable();
+    m_RotationPID.SetSetpoint(angle);
+    m_RotationPID.Enable();
 }
 
 void CargoIntake::StopRotation() {
