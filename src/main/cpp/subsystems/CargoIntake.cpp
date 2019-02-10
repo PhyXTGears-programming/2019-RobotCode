@@ -34,7 +34,8 @@ bool CargoIntake::HasCargo() {
 }
 
 bool CargoIntake::IsRotationDone() {
-    //
+    // Rotation is done when PID error is near zero.
+    return 0.001 > std::fabs(m_RotationPID.GetError());
 }
 
 void CargoIntake::RotateToPosition(wpi::StringRef configName) {
