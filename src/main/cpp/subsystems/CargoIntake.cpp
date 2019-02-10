@@ -30,3 +30,9 @@ void CargoIntake::TurnOnIntakeRoller() {
 bool CargoIntake::HasCargo() {
     return !this->m_CargoSensor.Get();
 }
+
+bool CargoIntake::IsRotationDone() {}
+
+void CargoIntake::RotateToPosition(wpi::StringRef configName) {}
+
+void CargoIntake::StopRotation() {}

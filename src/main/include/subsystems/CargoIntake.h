@@ -9,6 +9,7 @@
 
 #include <frc/commands/Subsystem.h>
 #include <frc/DigitalInput.h>
+#include <wpi/StringRef.h>
 #include "RobotMap.h"
 
 #ifndef PROTOBOT
@@ -33,6 +34,10 @@ class CargoIntake : public frc::Subsystem {
         // perpendicular (bottom goes down, top goes up)
         void ReleaseHatchBottom() { m_HatchGripBottom.Set(1); }
         void ReleaseHatchTop()    { m_HatchGripTop.Set(0); }
+
+        bool IsRotationDone();
+        void RotateToPosition(wpi::StringRef configName);
+        void StopRotation();
 
     private:
         frc::DigitalInput m_CargoSensor {kCargoSensor};
