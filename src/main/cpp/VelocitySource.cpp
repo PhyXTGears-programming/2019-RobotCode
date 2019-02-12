@@ -5,6 +5,6 @@ VelocitySource::VelocitySource(frc::Encoder &encoder) : frc::PIDSource() {
     m_Encoder = &encoder;
 }
 
-double VelocitySource::GetPID() {
+double VelocitySource::PIDGet() {
     return m_Encoder->GetRate();
 }
