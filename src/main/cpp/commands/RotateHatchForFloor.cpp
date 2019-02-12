@@ -6,10 +6,10 @@
  *
  *
  * Command start:
- * - Rotate cargo-intake until at 180 degrees and hold there.
+ * - Rotate cargo-intake until at -90 degrees and hold there.
  *
  * Command finished when:
- *  - Wait until cargo-intake is at 180 degrees.
+ *  - Wait until cargo-intake is at -90 degrees.
  *
  * Command end:
  *  - Stop/disable cargo-intake rotation motor.
