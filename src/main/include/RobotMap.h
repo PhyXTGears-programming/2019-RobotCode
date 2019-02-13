@@ -128,7 +128,9 @@
 #   define kCargoSpikeEjector RELAY_2
 #   define kCargoSpikeRoller  RELAY_1
 // TalonSRX CAN ID for rotating
-#   define kCargoTalonRotate CAN_3
+#   define kCargoTalonRotate CAN_6
+// TalonSRX CAN ID for rollers
+#   define kCargoTalonRollers CAN_3
 // Hipot for rotation position
 #   define kCargoRotationSensor AIO_0
 

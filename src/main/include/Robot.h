@@ -34,6 +34,7 @@ class Robot : public frc::TimedRobot {
         // Commands
         static GrabHatchFromDispenser m_GrabHatchFromDispenser;
         static ReleaseHatch m_ReleaseHatch;
+        static RotateCargoForCargoShip m_RotateCargoForCargoShip;
    
         void RobotInit() override;
         void RobotPeriodic() override;

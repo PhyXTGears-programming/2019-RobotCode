@@ -1,0 +1,12 @@
+{
+    "intake": {
+        "zero-point": 0,
+        "cargo-ship-shoot-angle": 25,
+        "rocket-1-shoot-angle": 10,
+        "rocket-2-shoot-angle": 30,
+        "hatch-floor-pickup-angle": -90,
+        "PID": [0.1, 0.0, 0.0]
+    },
+    "drive": {},
+    "climb": {}
+}
