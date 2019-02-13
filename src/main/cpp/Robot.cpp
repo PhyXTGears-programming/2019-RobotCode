@@ -11,6 +11,7 @@ OI Robot::m_Oi;
 // Initialize Commands
 GrabHatchFromDispenser Robot::m_GrabHatchFromDispenser;
 ReleaseHatch Robot::m_ReleaseHatch;
+RotateCargoForCargoShip Robot::m_RotateCargoForCargoShip;
 
 void Robot::RobotInit() {}
 
@@ -28,10 +29,7 @@ void Robot::TeleopInit() {}
 
 void Robot::TeleopPeriodic() {
     if (m_Oi.GetDriverJoystick().GetAButtonPressed()) {
-        m_GrabHatchFromDispenser.Start();
-    }
-    if (m_Oi.GetDriverJoystick().GetBButtonPressed()) {
-        m_ReleaseHatch.Start();
+        m_RotateCargoForCargoShip.Start();
     }
     frc::Scheduler::GetInstance()->Run();
 }

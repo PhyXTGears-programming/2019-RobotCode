@@ -13,6 +13,7 @@
 #include "commands/TeleOpDrive.h"
 #include "commands/GrabHatchFromDispenser.h"
 #include "commands/ReleaseHatch.h"
+#include "commands/RotateCargoForCargoShip.h"
 
 #include "OI.h"
 #include "RobotMap.h"
@@ -27,6 +28,7 @@ class Robot : public frc::TimedRobot {
         // Commands
         static GrabHatchFromDispenser m_GrabHatchFromDispenser;
         static ReleaseHatch m_ReleaseHatch;
+        static RotateCargoForCargoShip m_RotateCargoForCargoShip;
    
         void RobotInit() override;
         void RobotPeriodic() override;
