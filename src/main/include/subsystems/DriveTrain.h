@@ -49,8 +49,8 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
         frc::SpeedControllerGroup m_RightMotors {m_MotorRightFront, m_MotorRightBack};
         frc::SpeedControllerGroup m_LeftMotors {m_MotorLeftFront, m_MotorLeftBack};
         // Encoders (reverse the right encoder)
-        frc::Encoder m_EncoderRight {kRightEncoderPin0, kRightEncoderPin1, true};
-        frc::Encoder m_EncoderLeft  {kLeftEncoderPin0, kLeftEncoderPin1, false};
+        frc::Encoder m_EncoderRight {kRightEncoderPin0, kRightEncoderPin1, false};
+        frc::Encoder m_EncoderLeft  {kLeftEncoderPin0, kLeftEncoderPin1, true};
         //frc::ADXRS450_Gyro m_Gyro {}; // onboard RoboRIO gyro
 
         VelocitySource m_EncoderRightPID {m_EncoderRight};
