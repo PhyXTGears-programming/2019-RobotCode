@@ -68,7 +68,7 @@
 #define AIR_4 4
 #define AIR_5 5
 
-#define kEncoderDistPerPulse 1.0/256.0
+#define kEncoderDistPerPulse 1.0/256.0/3.0
 #define kRightP 0.1
 #define kRightI 0.00
 #define kRightD 0
