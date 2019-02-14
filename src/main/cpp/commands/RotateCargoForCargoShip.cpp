@@ -21,24 +21,24 @@
  */
 
 RotateCargoForCargoShip::RotateCargoForCargoShip() {
-    Requires(&Robot::m_CargoIntake);
+    Requires(&Robot::GetCargoIntake());
 }
 
 void RotateCargoForCargoShip::Initialize() {
-    Robot::m_CargoIntake.RotateToPosition("cargo-ship-shoot-angle");
+    Robot::GetCargoIntake().RotateToPosition("cargo-ship-shoot-angle");
 }
 
 void RotateCargoForCargoShip::Execute() {}
 
 bool RotateCargoForCargoShip::IsFinished() {
-    return Robot::m_CargoIntake.IsRotationDone();
+    return Robot::GetCargoIntake().IsRotationDone();
 }
 
 void RotateCargoForCargoShip::End() {
     // Make sure the motors stop moving when they aren't being controlled.
-    Robot::m_CargoIntake.StopRotation();
+    Robot::GetCargoIntake().StopRotation();
 }
 
 void RotateCargoForCargoShip::Interrupted() {
-    Robot::m_CargoIntake.StopRotation();
+    Robot::GetCargoIntake().StopRotation();
 }

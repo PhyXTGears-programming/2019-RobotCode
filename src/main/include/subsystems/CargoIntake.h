@@ -9,6 +9,7 @@
 
 #include <frc/commands/Subsystem.h>
 #include <frc/DigitalInput.h>
+#include <wpi/json.h>
 #include "RobotMap.h"
 
 #ifndef PROTOBOT
@@ -21,7 +22,7 @@
 
 class CargoIntake : public frc::Subsystem {
     public:
-        CargoIntake();
+        CargoIntake(wpi::json&);
         void InitDefaultCommand() override;
 
         bool HasCargo();
