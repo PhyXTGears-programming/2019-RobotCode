@@ -10,6 +10,12 @@
             "I": 0.0,
             "D": 0.0
         },
+        "rotation": {
+            "zero-adjust": 0.0,
+            "zero": 0.0,
+            "floor": 0.0,
+            "home": 0.0
+        }
     },
     "drive": {},
     "climb": {}

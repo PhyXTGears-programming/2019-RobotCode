@@ -52,7 +52,7 @@ class CargoIntake : public frc::Subsystem {
         void TurnOnIntakeRoller();
 
     private:
-        frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 180.0, -90.0};
+        frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 1.0, 0.0};
         frc::Servo                m_HatchGripBottom {kCargoHatchServoBottom};
         frc::Servo                m_HatchGripTop    {kCargoHatchServoTop};
         WPI_TalonSRX              m_IntakeArmMotor  {kCargoTalonRotate};
