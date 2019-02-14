@@ -12,6 +12,14 @@
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/PowerDistributionPanel.h>
 
+// for json config
+#include <wpi/StringRef.h>
+#include <wpi/json.h>
+#include <string>
+#include <fstream>
+#include <streambuf>
+#include <iostream>
+
 // Subsystems
 #include "subsystems/DriveTrain.h"
 #include "subsystems/CreeperArm.h"
@@ -35,6 +43,9 @@ class Robot : public frc::TimedRobot {
         static GrabHatchFromDispenser m_GrabHatchFromDispenser;
         static ReleaseHatch m_ReleaseHatch;
         static RotateCargoForCargoShip m_RotateCargoForCargoShip;
+
+        // this should probably be moved later
+        static wpi::json m_JsonConfig;
    
         void RobotInit() override;
         void RobotPeriodic() override;

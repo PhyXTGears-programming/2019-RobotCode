@@ -11,16 +11,35 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 // Initialize Subsystems
-DriveTrain Robot::m_DriveTrain;
-CreeperArm Robot::m_CreeperArm;
+DriveTrain  Robot::m_DriveTrain;
+CreeperArm  Robot::m_CreeperArm;
 CargoIntake Robot::m_CargoIntake;
-OI Robot::m_Oi;
+OI          Robot::m_Oi;
 // Initialize Commands
-GrabHatchFromDispenser Robot::m_GrabHatchFromDispenser;
-ReleaseHatch Robot::m_ReleaseHatch;
+GrabHatchFromDispenser  Robot::m_GrabHatchFromDispenser;
+ReleaseHatch            Robot::m_ReleaseHatch;
 RotateCargoForCargoShip Robot::m_RotateCargoForCargoShip;
 
-void Robot::RobotInit() {}
+// Initialize JSON reader
+wpi::json Robot::m_JsonConfig;
+
+void Robot::RobotInit() {
+    // get the json config deployed onto the roborio
+    std::ifstream jsonStream("/home/lvuser/deploy/config.json");
+    std::string jsonString;
+
+    // preallocate memory for string
+    jsonStream.seekg(0, std::ios::end);
+    jsonString.reserve(jsonStream.tellg());
+    jsonStream.seekg(0, std::ios::beg);
+
+    // pass the file data into the string
+    jsonString.assign((std::istreambuf_iterator<char>(jsonStream)),
+        std::istreambuf_iterator<char>());
+
+    //m_ConfigReader = new wpi::json(str);
+    m_JsonConfig = wpi::json::parse(jsonString);
+}
 
 void Robot::RobotPeriodic() {}
 

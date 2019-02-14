@@ -9,8 +9,6 @@
 
 #include <frc/commands/Subsystem.h>
 #include <frc/DigitalInput.h>
-#include <wpi/StringRef.h>
-#include <wpi/Json.h>
 #include "RobotMap.h"
 
 #ifndef PROTOBOT
@@ -56,13 +54,10 @@ class CargoIntake : public frc::Subsystem {
         frc::Servo                m_HatchGripBottom {kCargoHatchServoBottom};
         frc::Servo                m_HatchGripTop    {kCargoHatchServoTop};
         WPI_TalonSRX              m_IntakeArmMotor  {kCargoTalonRotate};
+        WPI_TalonSRX              m_IntakeRoller    {kCargoTalonRoller};
         frc::Relay                m_IntakeEject     {kCargoSpikeEjector};
-        frc::Relay                m_IntakeRoller    {kCargoSpikeRoller};
 
         frc::PIDController        m_RotationPID     {1.0, 0.0, 0.0, m_IntakeRotation, m_IntakeArmMotor};
-
-
-        wpi::json m_ConfigReader;
 
         int m_InRangeCount = 0;
 
