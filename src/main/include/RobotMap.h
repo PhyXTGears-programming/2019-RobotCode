@@ -71,17 +71,17 @@
 // Motor controller pins
 #ifdef PROTOBOT
 // Pin numbers for PWM motor controllers.
-#   define kRightFrontMotor    PWM_0
-#   define kRightBackMotor     PWM_1
-#   define kLeftFrontMotor     PWM_2
-#   define kLeftBackMotor      PWM_3
+#   define kRightFrontMotor PWM_0
+#   define kRightBackMotor  PWM_1
+#   define kLeftFrontMotor  PWM_2
+#   define kLeftBackMotor   PWM_3
 
 // Pin numbers for wheel encoders
 // Protobot doesn't have encoders
-#   define kLeftEncoderPin0    DIO_0
-#   define kLeftEncoderPin1    DIO_1
-#   define kRightEncoderPin0   DIO_2
-#   define kRightEncoderPin1   DIO_3
+#   define kLeftEncoderPin0  DIO_0
+#   define kLeftEncoderPin1  DIO_1
+#   define kRightEncoderPin0 DIO_2
+#   define kRightEncoderPin1 DIO_3
 
 // Cargo intake proximity sensor connected to DIO pin 4.
 #   define kCargoSensor DIO_4
@@ -89,16 +89,16 @@
 #else
 
 // CAN IDs for CAN Bus TalonSRX's.
-#   define kLeftFrontMotor     CAN_1
-#   define kLeftBackMotor      CAN_7
-#   define kRightFrontMotor    CAN_2
-#   define kRightBackMotor     CAN_4
+#   define kLeftFrontMotor  CAN_1
+#   define kLeftBackMotor   CAN_7
+#   define kRightFrontMotor CAN_2
+#   define kRightBackMotor  CAN_4
 
 // Pin numbers for wheel encoders
-#   define kLeftEncoderPin0    DIO_0
-#   define kLeftEncoderPin1    DIO_1
-#   define kRightEncoderPin0   DIO_2
-#   define kRightEncoderPin1   DIO_3
+#   define kLeftEncoderPin0  DIO_0
+#   define kLeftEncoderPin1  DIO_1
+#   define kRightEncoderPin0 DIO_2
+#   define kRightEncoderPin1 DIO_3
 
 // PCM CAN ID
 #   define kPCM CAN_9
@@ -107,7 +107,7 @@
 // TalonSRX CAN ID, Relay pin, and Solenoid PCM IDs
 #   define kCreeperArmDrive  RELAY_0
 #   define kCreeperArmHipot  AIO_1
-#   define kCreeperArmRotate CAN_6
+#   define kCreeperArmRotate CAN_8
 #   define kCreeperSolenoidAscend  AIR_0
 #   define kCreeperSolenoidDescend AIR_1
 
@@ -117,14 +117,12 @@
 // Bottom and top servos for the hatch grabbers
 #   define kCargoHatchServoBottom PWM_0
 #   define kCargoHatchServoTop    PWM_1
-// Spike rlays for pickup rollers and ejector
+// Spike relays for pickup rollers and ejector
 #   define kCargoSpikeEjector RELAY_2
-#   define kCargoSpikeRoller  RELAY_1
-// TalonSRX CAN ID for rotating
+// TalonSRX CAN ID for rotating arm and rollers
 #   define kCargoTalonRotate CAN_6
-// TalonSRX CAN ID for rollers
-#   define kCargoTalonRollers CAN_3
-// Hipot for rotation position
+#   define kCargoTalonRoller CAN_3
+// Potentiometer for rotation position
 #   define kCargoRotationSensor AIO_0
 
 #endif

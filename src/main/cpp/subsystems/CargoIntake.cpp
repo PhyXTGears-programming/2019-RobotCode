@@ -6,31 +6,15 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/CargoIntake.h"
+#include "Robot.h"
 
-#include <string>
-#include <fstream>
-#include <streambuf>
 #include <iostream>
 
-#include <wpi/StringRef.h>
-
 CargoIntake::CargoIntake() : Subsystem("CargoIntake") {
-    std::ifstream t("/home/lvuser/deploy/config.json");
-    std::string str;
 
-    t.seekg(0, std::ios::end);   
-    str.reserve(t.tellg());
-    t.seekg(0, std::ios::beg);
-
-    str.assign((std::istreambuf_iterator<char>(t)),
-            std::istreambuf_iterator<char>());
-
-    //m_ConfigReader = new wpi::json(str);
-    m_ConfigReader = wpi::json::parse(str);
-
-    double p = std::stod(m_ConfigReader["intake"]["PID"][0].dump());
-    double i = std::stod(m_ConfigReader["intake"]["PID"][1].dump());
-    double d = std::stod(m_ConfigReader["intake"]["PID"][2].dump());
+    double p = std::stod(Robot::m_JsonConfig["intake"]["PID"][0].dump());
+    double i = std::stod(Robot::m_JsonConfig["intake"]["PID"][1].dump());
+    double d = std::stod(Robot::m_JsonConfig["intake"]["PID"][2].dump());
 
     m_RotationPID.SetPID(p, i, d); // TODO Read JSON (PID Values)
     std::cout << "PID: " << p << " " << i << " " << d << std::endl;
@@ -73,8 +57,8 @@ bool CargoIntake::IsRotationDone() {
 
 void CargoIntake::RotateToPosition(wpi::StringRef configName) {
     // TODO Read JSON (angle + zero-point)
-    double ang = std::stod(m_ConfigReader["intake"][configName].dump());
-    ang += std::stod(m_ConfigReader["intake"]["zero-point"].dump());
+    double ang = std::stod(Robot::m_JsonConfig["intake"][configName].dump());
+    ang += std::stod(Robot::m_JsonConfig["intake"]["zero-point"].dump());
     RotateToPosition(ang);
 }
 
