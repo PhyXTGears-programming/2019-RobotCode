@@ -9,12 +9,12 @@
 #include "Robot.h"
 
 #include <iostream>
+#include <string>
 
 CargoIntake::CargoIntake() : Subsystem("CargoIntake") {
-
-    double p = std::stod(Robot::m_JsonConfig["intake"]["PID"][0].dump());
-    double i = std::stod(Robot::m_JsonConfig["intake"]["PID"][1].dump());
-    double d = std::stod(Robot::m_JsonConfig["intake"]["PID"][2].dump());
+    double p = Robot::mJsonConfig["intake"]["PID"]["P"];
+    double i = Robot::mJsonConfig["intake"]["PID"]["I"];
+    double d = Robot::mJsonConfig["intake"]["PID"]["D"];
 
     m_RotationPID.SetPID(p, i, d); // TODO Read JSON (PID Values)
     std::cout << "PID: " << p << " " << i << " " << d << std::endl;
