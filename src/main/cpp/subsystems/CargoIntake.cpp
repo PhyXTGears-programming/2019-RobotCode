@@ -11,10 +11,10 @@
 #include <iostream>
 #include <string>
 
-CargoIntake::CargoIntake() : Subsystem("CargoIntake") {
-    double p = Robot::mJsonConfig["intake"]["PID"]["P"];
-    double i = Robot::mJsonConfig["intake"]["PID"]["I"];
-    double d = Robot::mJsonConfig["intake"]["PID"]["D"];
+CargoIntake::CargoIntake(wpi::json &jsonConfig) : Subsystem("CargoIntake") {
+    double p = jsonConfig["intake"]["PID"]["P"];
+    double i = jsonConfig["intake"]["PID"]["I"];
+    double d = jsonConfig["intake"]["PID"]["D"];
 
     m_RotationPID.SetPID(p, i, d); // TODO Read JSON (PID Values)
     std::cout << "PID: " << p << " " << i << " " << d << std::endl;

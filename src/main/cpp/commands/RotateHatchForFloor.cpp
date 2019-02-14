@@ -19,12 +19,12 @@
  */
 
 RotateHatchForFloor::RotateHatchForFloor() {
-    Requires(&Robot::m_CargoIntake);
+    Requires(&Robot::GetCargoIntake());
 }
 
 // Called just before this Command runs the first time
 void RotateHatchForFloor::Initialize() {
-    Robot::m_CargoIntake.RotateToPosition("hatch-floor-pickup-angle");
+    Robot::GetCargoIntake().RotateToPosition("hatch-floor-pickup-angle");
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -32,12 +32,13 @@ void RotateHatchForFloor::Execute() {}
 
 // Make this return true when this Command no longer needs to run execute()
 bool RotateHatchForFloor::IsFinished() {
-    return Robot::m_CargoIntake.IsRotationDone();
+    return Robot::GetCargoIntake().IsRotationDone();
 }
 
 // Called once after isFinished returns true
 void RotateHatchForFloor::End() {
-    Robot::m_CargoIntake.StopRotation();
+    // Make sure the motors stop moving when they aren't being controlled.
+    Robot::GetCargoIntake().StopRotation();
 }
 
 // Called when another command which requires one or more of the same

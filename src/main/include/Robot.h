@@ -37,7 +37,7 @@ class Robot : public frc::TimedRobot {
         // Subsystems
         static DriveTrain m_DriveTrain;
         static CreeperArm m_CreeperArm;
-        static CargoIntake m_CargoIntake;
+        static CargoIntake * m_CargoIntake;
         static OI m_Oi;
         // Commands
         static GrabHatchFromDispenser m_GrabHatchFromDispenser;
@@ -47,6 +47,7 @@ class Robot : public frc::TimedRobot {
         // this should probably be moved later
         static wpi::json m_JsonConfig;
    
+        Robot();
         void RobotInit() override;
         void RobotPeriodic() override;
         void DisabledInit() override;
@@ -56,6 +57,8 @@ class Robot : public frc::TimedRobot {
         void TeleopInit() override;
         void TeleopPeriodic() override;
         void TestPeriodic() override;
+
+        static CargoIntake & GetCargoIntake() { return *Robot::m_CargoIntake; };
    
     private:
         frc::SendableChooser<frc::Command*> m_Chooser;

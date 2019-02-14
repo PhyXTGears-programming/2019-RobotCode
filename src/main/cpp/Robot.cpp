@@ -9,11 +9,12 @@
 
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <wpi/json.h>
 
 // Initialize Subsystems
 DriveTrain  Robot::m_DriveTrain;
+CargoIntake *Robot::m_CargoIntake;
 CreeperArm  Robot::m_CreeperArm;
-CargoIntake Robot::m_CargoIntake;
 OI          Robot::m_Oi;
 // Initialize Commands
 GrabHatchFromDispenser  Robot::m_GrabHatchFromDispenser;
@@ -23,7 +24,7 @@ RotateCargoForCargoShip Robot::m_RotateCargoForCargoShip;
 // Initialize JSON reader
 wpi::json Robot::m_JsonConfig;
 
-void Robot::RobotInit() {
+Robot::Robot() {
     // get the json config deployed onto the roborio
     std::ifstream jsonStream("/home/lvuser/deploy/config.json");
     std::string jsonString;
@@ -39,7 +40,11 @@ void Robot::RobotInit() {
 
     //m_ConfigReader = new wpi::json(str);
     m_JsonConfig = wpi::json::parse(jsonString);
+
+    Robot::m_CargoIntake = new CargoIntake(m_JsonConfig);
 }
+
+void Robot::RobotInit() {}
 
 void Robot::RobotPeriodic() {}
 
