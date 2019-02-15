@@ -110,6 +110,7 @@
 #   define kCreeperArmRotate CAN_6
 #   define kCreeperSolenoidAscend  AIR_0
 #   define kCreeperSolenoidDescend AIR_1
+#   define kCreeperSolenoidSwitch  DIO_4
 
 // Cargo Intake constants
 // Cargo intake proximity sensor connected to DIO pin 4.

@@ -15,9 +15,9 @@
 #ifndef PROTOBOT
 #   include <ctre/Phoenix.h>
 #   include <frc/AnalogPotentiometer.h>
+#   include <frc/PIDController.h>
 #   include <frc/Relay.h>
 #   include <frc/Servo.h>
-#   include <frc/PIDController.h>
 #endif
 
 class CargoIntake : public frc::Subsystem {
@@ -65,7 +65,7 @@ class CargoIntake : public frc::Subsystem {
         WPI_TalonSRX              m_IntakeRoller    {kCargoTalonRoller};
         frc::Relay                m_IntakeEject     {kCargoSpikeEjector};
 
-        frc::PIDController        m_RotationPID     {1.0, 0.0, 0.0, m_IntakeRotation, m_IntakeArmMotor};
+        frc::PIDController        m_RotationPID     {1, 0, 0, m_IntakeRotation, m_IntakeArmMotor};
 
         int m_InRangeCount = 0;
 

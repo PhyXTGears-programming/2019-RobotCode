@@ -54,6 +54,7 @@ class Robot : public frc::TimedRobot {
         void TestPeriodic() override;
 
         static CargoIntake & GetCargoIntake() { return *Robot::m_CargoIntake; };
+        static CreeperClimb & GetCreeperClimb() { return *Robot::m_CreeperClimb; };
    
     private:
         frc::SendableChooser<frc::Command*> m_Chooser;
