@@ -106,8 +106,8 @@
 // Creeper Arm Climber constants
 // TalonSRX CAN ID, Relay pin, and Solenoid PCM IDs
 #   define kCreeperArmDrive  RELAY_0
-#   define kCreeperArmHipot  AIO_1
-#   define kCreeperArmRotate CAN_8
+#   define kCreeperArmAngle  AIO_1
+#   define kCreeperArmRotate CAN_6
 #   define kCreeperSolenoidAscend  AIR_0
 #   define kCreeperSolenoidDescend AIR_1
 

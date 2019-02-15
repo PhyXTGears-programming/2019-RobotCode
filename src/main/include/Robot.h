@@ -15,7 +15,7 @@
 
 // Subsystems
 #include "subsystems/DriveTrain.h"
-#include "subsystems/CreeperArm.h"
+#include "subsystems/CreeperClimb.h"
 #include "subsystems/CargoIntake.h"
 // Commands
 #include "commands/TeleOpDrive.h"
@@ -28,14 +28,15 @@
 
 class Robot : public frc::TimedRobot {
     public:
-        // Subsystems
-        static DriveTrain   m_DriveTrain;
-        static CreeperArm   m_CreeperArm;
-        static CargoIntake* m_CargoIntake;
+        // Operator Interface
         static OI m_OI;
+        // Subsystems
+        static DriveTrain    m_DriveTrain;
+        static CreeperClimb* m_CreeperClimb;
+        static CargoIntake*  m_CargoIntake;
         // Commands
         static GrabHatchFromDispenser* m_GrabHatchFromDispenser;
-        static ReleaseHatch m_ReleaseHatch;
+        static ReleaseHatch            m_ReleaseHatch;
         static RotateCargoForCargoShip m_RotateCargoForCargoShip;
 
         // this should probably be moved later

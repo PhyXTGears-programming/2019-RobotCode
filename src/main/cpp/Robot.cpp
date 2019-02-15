@@ -3,11 +3,12 @@
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 
+// Initialize Operator Interface
+OI            Robot::m_OI;
 // Initialize Subsystems
-DriveTrain   Robot::m_DriveTrain;
-CargoIntake* Robot::m_CargoIntake;
-CreeperArm   Robot::m_CreeperArm;
-OI           Robot::m_OI;
+DriveTrain    Robot::m_DriveTrain;
+CargoIntake*  Robot::m_CargoIntake;
+CreeperClimb* Robot::m_CreeperClimb;
 // Initialize Commands
 GrabHatchFromDispenser* Robot::m_GrabHatchFromDispenser;
 ReleaseHatch            Robot::m_ReleaseHatch;
@@ -33,8 +34,10 @@ Robot::Robot() {
     //m_ConfigReader = new wpi::json(str);
     m_JsonConfig = wpi::json::parse(jsonString);
  
-    Robot::m_CargoIntake = new CargoIntake(m_JsonConfig);
+    m_CargoIntake = new CargoIntake(m_JsonConfig);
     m_GrabHatchFromDispenser = new GrabHatchFromDispenser();
+
+    m_CreeperClimb = new CreeperClimb();
 }
 
 void Robot::RobotInit() {
