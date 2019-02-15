@@ -7,7 +7,7 @@
 
 // for json config
 #include <wpi/StringRef.h>
-#include <wpi/Json.h>
+#include <wpi/json.h>
 #include <string>
 #include <fstream>
 #include <streambuf>
