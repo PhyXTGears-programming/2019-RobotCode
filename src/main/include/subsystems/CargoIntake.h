@@ -41,6 +41,12 @@ class CargoIntake : public frc::Subsystem {
         void RotateToPosition(int position);
         void StopRotation();
 
+        void GoHome();
+        double GetIntakeRotation() { 
+            // (double)Robot::m_JsonConfig["intake"]["rotation"]["zero-point"]
+            return m_IntakeRotation.Get();
+        }
+
     private:
         frc::DigitalInput m_CargoSensor {kCargoSensor};
     
@@ -52,7 +58,7 @@ class CargoIntake : public frc::Subsystem {
         void TurnOnIntakeRoller();
 
     private:
-        frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 1.0, 0.0};
+        frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 236.8, -111.3};
         frc::Servo                m_HatchGripBottom {kCargoHatchServoBottom};
         frc::Servo                m_HatchGripTop    {kCargoHatchServoTop};
         WPI_TalonSRX              m_IntakeArmMotor  {kCargoTalonRotate};

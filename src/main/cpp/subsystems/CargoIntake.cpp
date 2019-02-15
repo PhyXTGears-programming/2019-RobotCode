@@ -16,17 +16,18 @@ CargoIntake::CargoIntake(wpi::json &jsonConfig) : Subsystem("CargoIntake") {
     double i = jsonConfig["intake"]["PID"]["I"];
     double d = jsonConfig["intake"]["PID"]["D"];
 
-    m_RotationPID.SetPID(p, i, d); // TODO Read JSON (PID Values)
+    m_RotationPID.SetPID(p, i, d);
     std::cout << "PID: " << p << " " << i << " " << d << std::endl;
+
+    AddChild(&m_IntakeRotation);
+
+    m_IntakeArmMotor.SetInverted(true);
 }
 
 void CargoIntake::InitDefaultCommand() {
     // Set the default command for a subsystem here.
     // SetDefaultCommand(new MySpecialCommand());
 }
-
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
 
 #ifndef PROTOBOT
 void CargoIntake::TurnOffIntakeRoller() {
@@ -52,13 +53,19 @@ bool CargoIntake::IsRotationDone() {
     } else {
         m_InRangeCount = 0;
     }
+
     return false;
 }
 
+void CargoIntake::GoHome() {
+    double ang = Robot::m_JsonConfig["intake"]["rotation"]["home"];
+    ang += (double)Robot::m_JsonConfig["intake"]["rotation"]["zero-point"];
+    RotateToPosition(ang);
+}
+
 void CargoIntake::RotateToPosition(wpi::StringRef configName) {
-    // TODO Read JSON (angle + zero-point)
-    double ang = std::stod(Robot::m_JsonConfig["intake"][configName].dump());
-    ang += std::stod(Robot::m_JsonConfig["intake"]["zero-point"].dump());
+    double ang = Robot::m_JsonConfig["intake"]["rotation"]["angles"][configName];
+    ang += (double)Robot::m_JsonConfig["intake"]["rotation"]["zero-point"];
     RotateToPosition(ang);
 }
 

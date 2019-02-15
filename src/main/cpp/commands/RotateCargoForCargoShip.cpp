@@ -25,7 +25,7 @@ RotateCargoForCargoShip::RotateCargoForCargoShip() {
 }
 
 void RotateCargoForCargoShip::Initialize() {
-    Robot::GetCargoIntake().RotateToPosition("cargo-ship-shoot-angle");
+    Robot::GetCargoIntake().RotateToPosition("cargo-ship-shoot");
 }
 
 void RotateCargoForCargoShip::Execute() {}

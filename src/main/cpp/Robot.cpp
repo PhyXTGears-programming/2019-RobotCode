@@ -9,7 +9,7 @@ CargoIntake *Robot::m_CargoIntake;
 CreeperArm  Robot::m_CreeperArm;
 OI          Robot::m_Oi;
 // Initialize Commands
-GrabHatchFromDispenser  Robot::m_GrabHatchFromDispenser;
+GrabHatchFromDispenser* Robot::m_GrabHatchFromDispenser;
 ReleaseHatch            Robot::m_ReleaseHatch;
 RotateCargoForCargoShip Robot::m_RotateCargoForCargoShip;
 
@@ -34,6 +34,7 @@ Robot::Robot() {
     m_JsonConfig = wpi::json::parse(jsonString);
  
     Robot::m_CargoIntake = new CargoIntake(m_JsonConfig);
+    m_GrabHatchFromDispenser = new GrabHatchFromDispenser();
 }
 
 void Robot::RobotInit() {
@@ -43,7 +44,10 @@ void Robot::RobotPeriodic() {}
 
 void Robot::DisabledInit() {}
 
-void Robot::DisabledPeriodic() { frc::Scheduler::GetInstance()->Run(); }
+void Robot::DisabledPeriodic() {
+    frc::SmartDashboard::PutNumber("intake rotation", GetCargoIntake().GetIntakeRotation());
+    frc::Scheduler::GetInstance()->Run();
+}
 
 void Robot::AutonomousInit() {}
 
@@ -56,6 +60,8 @@ void Robot::TeleopPeriodic() {
         m_RotateCargoForCargoShip.Start();
     }
     frc::Scheduler::GetInstance()->Run();
+    
+    m_DriveTrain.Drive(0, 0);
 }
 
 void Robot::TestPeriodic() {}

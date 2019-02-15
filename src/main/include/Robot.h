@@ -34,7 +34,7 @@ class Robot : public frc::TimedRobot {
         static CargoIntake * m_CargoIntake;
         static OI m_Oi;
         // Commands
-        static GrabHatchFromDispenser m_GrabHatchFromDispenser;
+        static GrabHatchFromDispenser* m_GrabHatchFromDispenser;
         static ReleaseHatch m_ReleaseHatch;
         static RotateCargoForCargoShip m_RotateCargoForCargoShip;
 

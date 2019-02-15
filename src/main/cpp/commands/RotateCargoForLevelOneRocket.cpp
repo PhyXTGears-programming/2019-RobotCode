@@ -26,7 +26,7 @@ RotateCargoForLevelOneRocket::RotateCargoForLevelOneRocket() {
 }
 
 void RotateCargoForLevelOneRocket::Initialize() {
-    Robot::GetCargoIntake().RotateToPosition("rocket-1-shoot-angle");
+    Robot::GetCargoIntake().RotateToPosition("rocket-1-shoot");
 }
 
 void RotateCargoForLevelOneRocket::Execute() {}

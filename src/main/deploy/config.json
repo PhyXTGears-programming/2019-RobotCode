@@ -1,20 +1,24 @@
 {
     "intake": {
-        "zero-point": 0,
-        "cargo-ship-shoot-angle": 25,
-        "rocket-1-shoot-angle": 10,
-        "rocket-2-shoot-angle": 30,
-        "hatch-floor-pickup-angle": -90,
         "PID": {
-            "P": 0.1,
+            "P": 0.03,
             "I": 0.0,
             "D": 0.0
         },
         "rotation": {
-            "zero-adjust": 0.0,
-            "zero": 0.0,
-            "floor": 0.0,
-            "home": 0.0
+            "zero-point": 0.0,
+            "home": 0.0,
+            "angles": {
+                "cargo-ship-shoot": 25,
+                "rocket-1-shoot": 10,
+                "rocket-2-shoot": 30,
+                "hatch-floor-pickup": -90
+            },
+            "0-1 values": {
+                "home": 0.82,
+                "zero": 0.47,
+                "floor": 0.09
+            }
         }
     },
     "drive": {},

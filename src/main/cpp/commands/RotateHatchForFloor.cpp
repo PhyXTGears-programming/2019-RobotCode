@@ -24,7 +24,7 @@ RotateHatchForFloor::RotateHatchForFloor() {
 
 // Called just before this Command runs the first time
 void RotateHatchForFloor::Initialize() {
-    Robot::GetCargoIntake().RotateToPosition("hatch-floor-pickup-angle");
+    Robot::GetCargoIntake().RotateToPosition("hatch-floor-pickup");
 }
 
 // Called repeatedly when this Command is scheduled to run
