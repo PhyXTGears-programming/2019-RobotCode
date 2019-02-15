@@ -25,14 +25,20 @@ RotateCargoForLevelOneRocket::RotateCargoForLevelOneRocket() {
     Requires(&Robot::GetCargoIntake());
 }
 
-void RotateCargoForLevelOneRocket::Initialize() {}
+void RotateCargoForLevelOneRocket::Initialize() {
+    Robot::GetCargoIntake().RotateToPosition("rocket-1-shoot-angle");
+}
 
 void RotateCargoForLevelOneRocket::Execute() {}
 
-bool RotateCargoForLevelOneRocket::IsFinished() {}
-
-void RotateCargoForLevelOneRocket::End() {
-    // Make sure the motors stop moving when they aren't being controlled.
+bool RotateCargoForLevelOneRocket::IsFinished() {
+    return Robot::GetCargoIntake().IsRotationDone();
 }
 
-void RotateCargoForLevelOneRocket::Interrupted() {}
+void RotateCargoForLevelOneRocket::End() {
+    Robot::GetCargoIntake().StopRotation();
+}
+
+void RotateCargoForLevelOneRocket::Interrupted() {
+    Robot::GetCargoIntake().StopRotation();
+}
