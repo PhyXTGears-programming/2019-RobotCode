@@ -37,7 +37,7 @@ Robot::Robot() {
     m_CargoIntake = new CargoIntake(m_JsonConfig);
     m_GrabHatchFromDispenser = new GrabHatchFromDispenser();
 
-    m_CreeperClimb = new CreeperClimb();
+    m_CreeperClimb = new CreeperClimb(m_JsonConfig);
 }
 
 void Robot::RobotInit() {
