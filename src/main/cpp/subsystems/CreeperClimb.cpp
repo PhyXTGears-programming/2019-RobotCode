@@ -21,7 +21,11 @@ void CreeperClimb::SetArmAngle(wpi::StringRef configName) {
     SetArmAngle((double)Robot::m_JsonConfig["climb"][configName]);
 }
 
-void CreeperClimb::SetArmAngle(double ang) { m_RotationPID.SetSetpoint(ang); }
+void CreeperClimb::SetArmAngle(double ang) {
+    m_RotationPID.SetSetpoint(ang);
+    m_RotationPID.Enable();
+}
+
 double CreeperClimb::GetCurrentArmAngle() { return m_ArmAngle.Get(); }
 
 void CreeperClimb::SetRotateSpeed(double spd) { m_ArmRotate.Set(spd); }
