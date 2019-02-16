@@ -33,6 +33,8 @@ class CreeperClimb : public frc::Subsystem {
         // get solenoid reed switch state
         bool GetSolenoidSwitch();
 
+        frc::PIDController& GetArmPID() { return m_RotationPID; }
+
     private:
         // This gets the rotational position of the Creeper Arm
         // 10k Full-turn potentiometer, could need changes later
