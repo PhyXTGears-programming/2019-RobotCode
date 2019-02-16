@@ -15,6 +15,8 @@ CreeperClimb::CreeperClimb(wpi::json &jsonConfig) : Subsystem("CreeperClimb") {
     std::cout << "CreeperClimbPID: " << p << " " << i << " " << d << std::endl;
 
     m_ArmRotate.SetInverted(true);
+
+    AddChild(m_RotationPID);
 }
 
 void CreeperClimb::InitDefaultCommand() {}
