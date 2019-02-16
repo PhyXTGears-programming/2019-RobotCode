@@ -15,11 +15,13 @@
 
 // Subsystems
 #include "subsystems/DriveTrain.h"
-#include "subsystems/CreeperArm.h"
+#include "subsystems/CreeperClimb.h"
 #include "subsystems/CargoIntake.h"
 // Commands
+#include "commands/ClimbStep.h"
 #include "commands/TeleOpDrive.h"
 #include "commands/GrabHatchFromDispenser.h"
+#include "commands/ReadyCreeperArm.h"
 #include "commands/ReleaseHatch.h"
 #include "commands/RotateCargoForCargoShip.h"
 
@@ -28,15 +30,20 @@
 
 class Robot : public frc::TimedRobot {
     public:
-        // Subsystems
-        static DriveTrain   m_DriveTrain;
-        static CreeperArm   m_CreeperArm;
-        static CargoIntake* m_CargoIntake;
+        // Operator Interface
         static OI m_OI;
+        // Subsystems
+        static DriveTrain    m_DriveTrain;
+        static CreeperClimb* m_CreeperClimb;
+        static CargoIntake*  m_CargoIntake;
         // Commands
         static GrabHatchFromDispenser* m_GrabHatchFromDispenser;
-        static ReleaseHatch m_ReleaseHatch;
+        static ReleaseHatch            m_ReleaseHatch;
         static RotateCargoForCargoShip m_RotateCargoForCargoShip;
+
+        // Commands - Climb
+        static ReadyCreeperArm* m_ReadyCreeperArm;
+        static ClimbStep* m_ClimbStep;
 
         // this should probably be moved later
         static wpi::json m_JsonConfig;
@@ -53,6 +60,7 @@ class Robot : public frc::TimedRobot {
         void TestPeriodic() override;
 
         static CargoIntake & GetCargoIntake() { return *Robot::m_CargoIntake; };
+        static CreeperClimb & GetCreeperClimb() { return *Robot::m_CreeperClimb; };
    
     private:
         frc::SendableChooser<frc::Command*> m_Chooser;
