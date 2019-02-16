@@ -20,6 +20,7 @@ class CreeperClimb : public frc::Subsystem {
         void SetArmAngle(double ang);    // set desired arm angle
         double GetCurrentArmAngle();     // get current arm angle
         void SetRotateSpeed(double spd); // set rotational speed
+        bool IsArmRotationDone();
         void SetArmWheels(bool on);          // toggle wheels on arm
 
         // Solenoid toggles (independent)
@@ -41,4 +42,6 @@ class CreeperClimb : public frc::Subsystem {
         frc::DigitalInput m_SolSwitch  {kCreeperSolenoidSwitch};
 
         frc::PIDController m_RotationPID {1, 0, 0, m_ArmAngle, m_ArmRotate};
+
+        int m_InRangeCount = 0;
 };

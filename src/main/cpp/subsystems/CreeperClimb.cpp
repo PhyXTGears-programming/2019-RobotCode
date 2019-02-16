@@ -2,6 +2,9 @@
 
 #include <iostream>
 
+#define PID_NEAR_ZERO_THRESHOLD 1
+#define PID_NEAR_ZERO_MAX_COUNT 6
+
 CreeperClimb::CreeperClimb(wpi::json &jsonConfig) : Subsystem("CreeperClimb") {
     double p = jsonConfig["climb"]["PID"]["P"];
     double i = jsonConfig["climb"]["PID"]["I"];
@@ -26,3 +29,16 @@ void CreeperClimb::SetSolenoidAscend(bool on) { m_SolAscend.Set(on); }
 void CreeperClimb::SetSolenoidDescend(bool on) { m_SolDescend.Set(on); }
 
 bool CreeperClimb::GetSolenoidSwitch() { m_SolSwitch.Get(); }
+
+bool CreeperClimb::IsArmRotationDone() {
+    // Rotation is done when PID error is near zero.
+    if (PID_NEAR_ZERO_THRESHOLD > std::fabs(m_RotationPID.GetError())) {
+        m_InRangeCount++;
+        if (m_InRangeCount > PID_NEAR_ZERO_MAX_COUNT) {
+            return true;
+        }
+    } else {
+        m_InRangeCount = 0;
+    }
+    return false;
+}
