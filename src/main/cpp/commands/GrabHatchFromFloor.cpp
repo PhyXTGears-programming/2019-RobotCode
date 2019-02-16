@@ -24,7 +24,7 @@
 
 
 GrabHatchFromFloor::GrabHatchFromFloor() {
-  Requires(&Robot::m_CargoIntake);
+  Requires(&Robot::GetCargoIntake());
 }
 
 // Called just before this Command runs the first time
