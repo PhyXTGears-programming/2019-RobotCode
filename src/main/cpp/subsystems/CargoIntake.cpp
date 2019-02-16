@@ -79,3 +79,7 @@ void CargoIntake::RotateToPosition(int angle) {
 void CargoIntake::StopRotation() {
     m_RotationPID.Disable();
 }
+
+double CargoIntake::GetIntakeRotation() {
+    return m_IntakeRotation.Get() - (double)Robot::m_JsonConfig["intake"]["rotation"]["zero-point"];
+}

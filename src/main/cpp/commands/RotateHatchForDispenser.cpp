@@ -1,4 +1,5 @@
 #include "commands/RotateHatchForDispenser.h"
+#include "Robot.h"
 
 /* GOAL:
  *

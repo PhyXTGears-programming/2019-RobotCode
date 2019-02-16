@@ -21,7 +21,10 @@
 #include "commands/TeleOpDrive.h"
 #include "commands/GrabHatchFromDispenser.h"
 #include "commands/ReleaseHatch.h"
+#include "commands/RotateHatchForFloor.h"
+#include "commands/RotateHatchForDispenser.h"
 #include "commands/RotateCargoForCargoShip.h"
+#include "commands/RotateCargoForLevelOneRocket.h"
 
 #include "OI.h"
 #include "RobotMap.h"
@@ -36,7 +39,10 @@ class Robot : public frc::TimedRobot {
         // Commands
         static GrabHatchFromDispenser* m_GrabHatchFromDispenser;
         static ReleaseHatch m_ReleaseHatch;
+        static RotateHatchForFloor m_RotateHatchForFloor;
+        static RotateHatchForDispenser m_RotateHatchForDispenser;
         static RotateCargoForCargoShip m_RotateCargoForCargoShip;
+        static RotateCargoForLevelOneRocket m_RotateCargoForLevelOneRocket;
 
         // this should probably be moved later
         static wpi::json m_JsonConfig;
