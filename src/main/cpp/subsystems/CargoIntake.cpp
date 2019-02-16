@@ -58,6 +58,11 @@ bool CargoIntake::IsRotationDone() {
 }
 
 void CargoIntake::GoHome() {
+    GripHatchBottom();
+    GripHatchTop();
+
+    TurnOffIntakeRoller();
+
     double ang = Robot::m_JsonConfig["intake"]["rotation"]["home"];
     ang += (double)Robot::m_JsonConfig["intake"]["rotation"]["zero-point"];
     RotateToPosition(ang);
