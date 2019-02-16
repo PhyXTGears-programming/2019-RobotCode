@@ -38,14 +38,14 @@ Robot::Robot() {
     //m_ConfigReader = new wpi::json(str);
     m_JsonConfig = wpi::json::parse(jsonString);
  
+    // Allocate and initialize subsystems. 
     m_CargoIntake = new CargoIntake(m_JsonConfig);
-    m_GrabHatchFromDispenser = new GrabHatchFromDispenser();
-
     m_CreeperClimb = new CreeperClimb(m_JsonConfig);
 
     // Allocate and initialize commands.
     m_ReadyCreeperArm = new ReadyCreeperArm();
     m_ClimbStep = new ClimbStep();
+    m_GrabHatchFromDispenser = new GrabHatchFromDispenser();
 }
 
 void Robot::RobotInit() {
