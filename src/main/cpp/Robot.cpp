@@ -2,6 +2,7 @@
 
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <wpi/json.h>
 
 // Initialize Operator Interface
 OI            Robot::m_OI;
