@@ -42,8 +42,8 @@ class Robot : public frc::TimedRobot {
         static RotateCargoForCargoShip m_RotateCargoForCargoShip;
 
         // Commands - Climb
-        static ClimbPrep * m_ClimbPrep;
-        static ClimbStep * m_ClimbStep;
+        static ClimbPrep* m_ClimbPrep;
+        static ClimbStep* m_ClimbStep;
 
         // this should probably be moved later
         static wpi::json m_JsonConfig;

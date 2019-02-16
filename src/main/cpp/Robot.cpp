@@ -15,8 +15,8 @@ ReleaseHatch            Robot::m_ReleaseHatch;
 RotateCargoForCargoShip Robot::m_RotateCargoForCargoShip;
 
 // Initialize Commands - Climb
-ClimbPrep * Robot::m_ClimbPrep;
-ClimbStep * Robot::m_ClimbStep;
+ClimbPrep* Robot::m_ClimbPrep;
+ClimbStep* Robot::m_ClimbStep;
 
 // Initialize JSON reader
 wpi::json Robot::m_JsonConfig;
