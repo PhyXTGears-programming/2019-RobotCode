@@ -18,6 +18,8 @@
 #include "subsystems/CreeperClimb.h"
 #include "subsystems/CargoIntake.h"
 // Commands
+#include "commands/ClimbPrep.h"
+#include "commands/ClimbStep.h"
 #include "commands/TeleOpDrive.h"
 #include "commands/GrabHatchFromDispenser.h"
 #include "commands/ReleaseHatch.h"
@@ -38,6 +40,10 @@ class Robot : public frc::TimedRobot {
         static GrabHatchFromDispenser* m_GrabHatchFromDispenser;
         static ReleaseHatch            m_ReleaseHatch;
         static RotateCargoForCargoShip m_RotateCargoForCargoShip;
+
+        // Commands - Climb
+        static ClimbPrep * m_ClimbPrep;
+        static ClimbStep * m_ClimbStep;
 
         // this should probably be moved later
         static wpi::json m_JsonConfig;

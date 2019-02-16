@@ -14,6 +14,10 @@ GrabHatchFromDispenser* Robot::m_GrabHatchFromDispenser;
 ReleaseHatch            Robot::m_ReleaseHatch;
 RotateCargoForCargoShip Robot::m_RotateCargoForCargoShip;
 
+// Initialize Commands - Climb
+ClimbPrep * Robot::m_ClimbPrep;
+ClimbStep * Robot::m_ClimbStep;
+
 // Initialize JSON reader
 wpi::json Robot::m_JsonConfig;
 
@@ -38,6 +42,10 @@ Robot::Robot() {
     m_GrabHatchFromDispenser = new GrabHatchFromDispenser();
 
     m_CreeperClimb = new CreeperClimb(m_JsonConfig);
+
+    // Allocate and initialize commands.
+    m_ClimbPrep = new ClimbPrep();
+    m_ClimbStep = new ClimbStep();
 }
 
 void Robot::RobotInit() {
