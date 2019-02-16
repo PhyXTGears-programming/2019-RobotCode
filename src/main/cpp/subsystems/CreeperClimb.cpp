@@ -7,13 +7,13 @@ CreeperClimb::CreeperClimb(wpi::json &jsonConfig) : Subsystem("CreeperClimb") {
     double i = jsonConfig["climb"]["PID"]["I"];
     double d = jsonConfig["climb"]["PID"]["D"];
 
-    m_CreeperPID.SetPID(p, i, d);
+    m_RotationPID.SetPID(p, i, d);
     std::cout << "CreeperClimbPID: " << p << " " << i << " " << d << std::endl;
 }
 
 void CreeperClimb::InitDefaultCommand() {}
 
-void CreeperClimb::SetArmAngle(double ang) { m_CreeperPID.SetSetpoint(ang); }
+void CreeperClimb::SetArmAngle(double ang) { m_RotationPID.SetSetpoint(ang); }
 double CreeperClimb::GetCurrentArmAngle() { return m_ArmAngle.Get(); }
 
 void CreeperClimb::SetRotateSpeed(double spd) { m_ArmRotate.Set(spd); }

@@ -40,5 +40,5 @@ class CreeperClimb : public frc::Subsystem {
         frc::Solenoid     m_SolDescend {kPCM, kCreeperSolenoidDescend};
         frc::DigitalInput m_SolSwitch  {kCreeperSolenoidSwitch};
 
-        frc::PIDController m_CreeperPID {1, 0, 0, m_ArmAngle, m_ArmRotate};
+        frc::PIDController m_RotationPID {1, 0, 0, m_ArmAngle, m_ArmRotate};
 };
