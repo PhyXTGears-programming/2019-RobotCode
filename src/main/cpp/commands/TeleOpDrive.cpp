@@ -10,7 +10,7 @@ TeleOpDrive::TeleOpDrive() {
 void TeleOpDrive::Initialize() {}
 
 void TeleOpDrive::Execute() {
-    Robot::m_DriveTrain.Drive(Robot::m_Oi.GetDriverJoystick());
+    Robot::m_DriveTrain.Drive(Robot::m_OI.GetDriverJoystick());
 }
 
 bool TeleOpDrive::IsFinished() { return false; }

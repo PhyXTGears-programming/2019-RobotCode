@@ -7,7 +7,7 @@
 DriveTrain   Robot::m_DriveTrain;
 CargoIntake* Robot::m_CargoIntake;
 CreeperArm   Robot::m_CreeperArm;
-OI           Robot::m_Oi;
+OI           Robot::m_OI;
 // Initialize Commands
 GrabHatchFromDispenser* Robot::m_GrabHatchFromDispenser;
 ReleaseHatch            Robot::m_ReleaseHatch;
@@ -56,7 +56,7 @@ void Robot::AutonomousPeriodic() { frc::Scheduler::GetInstance()->Run(); }
 void Robot::TeleopInit() {}
 
 void Robot::TeleopPeriodic() {
-    if (m_Oi.GetDriverJoystick().GetAButtonPressed()) {
+    if (m_OI.GetDriverJoystick().GetAButtonPressed()) {
         m_RotateCargoForCargoShip.Start();
     }
     frc::Scheduler::GetInstance()->Run();
