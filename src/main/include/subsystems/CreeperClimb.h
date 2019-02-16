@@ -9,6 +9,7 @@
 #include <frc/Relay.h>
 #include <frc/Solenoid.h>
 #include <wpi/json.h>
+#include <wpi/StringRef.h>
 
 #include "RobotMap.h"
 
@@ -17,6 +18,7 @@ class CreeperClimb : public frc::Subsystem {
         CreeperClimb(wpi::json&);
         void InitDefaultCommand() override;
 
+        void SetArmAngle(wpi::StringRef configName);
         void SetArmAngle(double ang);    // set desired arm angle
         double GetCurrentArmAngle();     // get current arm angle
         void SetRotateSpeed(double spd); // set rotational speed

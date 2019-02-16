@@ -1,4 +1,5 @@
 #include "subsystems/CreeperClimb.h"
+#include "Robot.h"
 
 #include <iostream>
 
@@ -15,6 +16,10 @@ CreeperClimb::CreeperClimb(wpi::json &jsonConfig) : Subsystem("CreeperClimb") {
 }
 
 void CreeperClimb::InitDefaultCommand() {}
+
+void CreeperClimb::SetArmAngle(wpi::StringRef configName) {
+    SetArmAngle((double)Robot::m_JsonConfig["climb"][configName]);
+}
 
 void CreeperClimb::SetArmAngle(double ang) { m_RotationPID.SetSetpoint(ang); }
 double CreeperClimb::GetCurrentArmAngle() { return m_ArmAngle.Get(); }
