@@ -6,16 +6,25 @@
 /*----------------------------------------------------------------------------*/
 
 #include "subsystems/CargoIntake.h"
+#include "Robot.h"
 
-CargoIntake::CargoIntake() : Subsystem("CargoIntake") {}
+#include <iostream>
+#include <string>
 
-void CargoIntake::InitDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // SetDefaultCommand(new MySpecialCommand());
+CargoIntake::CargoIntake(wpi::json &jsonConfig) : Subsystem("CargoIntake") {
+    double p = jsonConfig["intake"]["PID"]["P"];
+    double i = jsonConfig["intake"]["PID"]["I"];
+    double d = jsonConfig["intake"]["PID"]["D"];
+
+    m_RotationPID.SetPID(p, i, d);
+
+    AddChild(&m_IntakeRotation);
+
+    m_IntakeArmMotor.SetInverted(true);
 }
 
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
+void CargoIntake::InitDefaultCommand() {
+}
 
 #ifndef PROTOBOT
 void CargoIntake::TurnOffIntakeRoller() {
@@ -31,8 +40,42 @@ bool CargoIntake::HasCargo() {
     return !this->m_CargoSensor.Get();
 }
 
-bool CargoIntake::IsRotationDone() {}
+bool CargoIntake::IsRotationDone() {
+    // Rotation is done when PID error is near zero.
+    if (3 > std::fabs(m_RotationPID.GetError())) {
+        m_InRangeCount++;
+        if (m_InRangeCount > 5) {
+            return true;
+        }
+    } else {
+        m_InRangeCount = 0;
+    }
 
-void CargoIntake::RotateToPosition(wpi::StringRef configName) {}
+    return false;
+}
 
-void CargoIntake::StopRotation() {}
+void CargoIntake::GoHome() {
+    GripHatchBottom();
+    GripHatchTop();
+
+    TurnOffIntakeRoller();
+
+    double ang = Robot::m_JsonConfig["intake"]["rotation"]["home"];
+    ang += (double)Robot::m_JsonConfig["intake"]["rotation"]["zero-point"];
+    RotateToPosition(ang);
+}
+
+void CargoIntake::RotateToPosition(wpi::StringRef configName) {
+    double ang = Robot::m_JsonConfig["intake"]["rotation"]["angles"][configName];
+    ang += (double)Robot::m_JsonConfig["intake"]["rotation"]["zero-point"];
+    RotateToPosition(ang);
+}
+
+void CargoIntake::RotateToPosition(int angle) {
+    m_RotationPID.SetSetpoint(angle);
+    m_RotationPID.Enable();
+}
+
+void CargoIntake::StopRotation() {
+    m_RotationPID.Disable();
+}

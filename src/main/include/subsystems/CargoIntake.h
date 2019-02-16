@@ -9,7 +9,7 @@
 
 #include <frc/commands/Subsystem.h>
 #include <frc/DigitalInput.h>
-#include <wpi/StringRef.h>
+#include <wpi/json.h>
 #include "RobotMap.h"
 
 #ifndef PROTOBOT
@@ -17,11 +17,12 @@
 #   include <frc/AnalogPotentiometer.h>
 #   include <frc/Relay.h>
 #   include <frc/Servo.h>
+#   include <frc/PIDController.h>
 #endif
 
 class CargoIntake : public frc::Subsystem {
     public:
-        CargoIntake();
+        CargoIntake(wpi::json&);
         void InitDefaultCommand() override;
 
         bool HasCargo();
@@ -37,7 +38,14 @@ class CargoIntake : public frc::Subsystem {
 
         bool IsRotationDone();
         void RotateToPosition(wpi::StringRef configName);
+        void RotateToPosition(int position);
         void StopRotation();
+
+        void GoHome();
+        double GetIntakeRotation() { 
+            // (double)Robot::m_JsonConfig["intake"]["rotation"]["zero-point"]
+            return m_IntakeRotation.Get();
+        }
 
     private:
         frc::DigitalInput m_CargoSensor {kCargoSensor};
@@ -46,17 +54,20 @@ class CargoIntake : public frc::Subsystem {
 #   ifndef PROTOBOT
 
     public:
-
         void TurnOffIntakeRoller();
         void TurnOnIntakeRoller();
 
     private:
-        frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor};
+        frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 236.8, -111.3};
         frc::Servo                m_HatchGripBottom {kCargoHatchServoBottom};
         frc::Servo                m_HatchGripTop    {kCargoHatchServoTop};
         WPI_TalonSRX              m_IntakeArmMotor  {kCargoTalonRotate};
+        WPI_TalonSRX              m_IntakeRoller    {kCargoTalonRoller};
         frc::Relay                m_IntakeEject     {kCargoSpikeEjector};
-        frc::Relay                m_IntakeRoller    {kCargoSpikeRoller};
+
+        frc::PIDController        m_RotationPID     {1.0, 0.0, 0.0, m_IntakeRotation, m_IntakeArmMotor};
+
+        int m_InRangeCount = 0;
 
 #   endif
 

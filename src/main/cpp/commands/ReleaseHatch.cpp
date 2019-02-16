@@ -25,14 +25,14 @@ using std::endl;
  */
 
 ReleaseHatch::ReleaseHatch() {
-    Requires(&Robot::m_CargoIntake);
+    Requires(&Robot::GetCargoIntake());
 }
 
 void ReleaseHatch::Initialize() {}
 
 void ReleaseHatch::Execute() {
-    Robot::m_CargoIntake.ReleaseHatchBottom();
-    Robot::m_CargoIntake.ReleaseHatchTop();
+    Robot::GetCargoIntake().ReleaseHatchBottom();
+    Robot::GetCargoIntake().ReleaseHatchTop();
 }
 
 bool ReleaseHatch::IsFinished() { return true; }

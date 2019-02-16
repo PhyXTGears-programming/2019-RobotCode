@@ -25,14 +25,14 @@ using std::endl;
  */
 
 GrabHatchFromDispenser::GrabHatchFromDispenser() {
-    Requires(&Robot::m_CargoIntake);
+    Requires(&Robot::GetCargoIntake());
 }
 
 void GrabHatchFromDispenser::Initialize() {}
 
 void GrabHatchFromDispenser::Execute() {
-    Robot::m_CargoIntake.GripHatchBottom();
-    Robot::m_CargoIntake.GripHatchTop();
+    Robot::GetCargoIntake().GripHatchBottom();
+    Robot::GetCargoIntake().GripHatchTop();
 }
 
 bool GrabHatchFromDispenser::IsFinished() {

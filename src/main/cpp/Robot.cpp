@@ -4,21 +4,50 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 // Initialize Subsystems
-DriveTrain Robot::m_DriveTrain;
-CreeperArm Robot::m_CreeperArm;
-CargoIntake Robot::m_CargoIntake;
-OI Robot::m_Oi;
+DriveTrain   Robot::m_DriveTrain;
+CargoIntake* Robot::m_CargoIntake;
+CreeperArm   Robot::m_CreeperArm;
+OI           Robot::m_OI;
 // Initialize Commands
-GrabHatchFromDispenser Robot::m_GrabHatchFromDispenser;
-ReleaseHatch Robot::m_ReleaseHatch;
+GrabHatchFromDispenser* Robot::m_GrabHatchFromDispenser;
+ReleaseHatch            Robot::m_ReleaseHatch;
+RotateCargoForCargoShip Robot::m_RotateCargoForCargoShip;
 
-void Robot::RobotInit() {}
+// Initialize JSON reader
+wpi::json Robot::m_JsonConfig;
+
+Robot::Robot() {
+    // get the json config deployed onto the roborio
+    std::ifstream jsonStream("/home/lvuser/deploy/config.json");
+    std::string jsonString;
+
+    // preallocate memory for string
+    jsonStream.seekg(0, std::ios::end);
+    jsonString.reserve(jsonStream.tellg());
+    jsonStream.seekg(0, std::ios::beg);
+
+    // pass the file data into the string
+    jsonString.assign((std::istreambuf_iterator<char>(jsonStream)),
+        std::istreambuf_iterator<char>());
+
+    //m_ConfigReader = new wpi::json(str);
+    m_JsonConfig = wpi::json::parse(jsonString);
+ 
+    Robot::m_CargoIntake = new CargoIntake(m_JsonConfig);
+    m_GrabHatchFromDispenser = new GrabHatchFromDispenser();
+}
+
+void Robot::RobotInit() {
+}
 
 void Robot::RobotPeriodic() {}
 
 void Robot::DisabledInit() {}
 
-void Robot::DisabledPeriodic() { frc::Scheduler::GetInstance()->Run(); }
+void Robot::DisabledPeriodic() {
+    frc::SmartDashboard::PutNumber("intake rotation", GetCargoIntake().GetIntakeRotation());
+    frc::Scheduler::GetInstance()->Run();
+}
 
 void Robot::AutonomousInit() {}
 
@@ -27,13 +56,12 @@ void Robot::AutonomousPeriodic() { frc::Scheduler::GetInstance()->Run(); }
 void Robot::TeleopInit() {}
 
 void Robot::TeleopPeriodic() {
-    if (m_Oi.GetDriverJoystick().GetAButtonPressed()) {
-        m_GrabHatchFromDispenser.Start();
-    }
-    if (m_Oi.GetDriverJoystick().GetBButtonPressed()) {
-        m_ReleaseHatch.Start();
+    if (m_OI.GetDriverJoystick().GetAButtonPressed()) {
+        m_RotateCargoForCargoShip.Start();
     }
     frc::Scheduler::GetInstance()->Run();
+    
+    m_DriveTrain.Drive(0, 0);
 }
 
 void Robot::TestPeriodic() {}
