@@ -13,11 +13,6 @@
                 "rocket-1-shoot": 10,
                 "rocket-2-shoot": 30,
                 "hatch-floor-pickup": -90
-            },
-            "voltages": {
-                "home": 4.20,
-                "zero": 2.35,
-                "floor": 0.45
             }
         }
     },
