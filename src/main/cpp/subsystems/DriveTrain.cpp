@@ -106,8 +106,8 @@ void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs)
 
     m_LeftPID.Enable();
     m_RightPID.Enable();
-    m_LeftPID.SetSetpoint(Limit(leftMotorOutput) * m_maxOutput);
-    m_RightPID.SetSetpoint(Limit(rightMotorOutput) * m_maxOutput);
+    m_LeftPID.SetSetpoint(Limit(leftMotorOutput) * m_maxOutput * 140.0);
+    m_RightPID.SetSetpoint(Limit(rightMotorOutput) * m_maxOutput * 140.0);
 
     Feed();
 }
