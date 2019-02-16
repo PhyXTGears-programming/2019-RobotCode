@@ -18,10 +18,10 @@
 #include "subsystems/CreeperClimb.h"
 #include "subsystems/CargoIntake.h"
 // Commands
-#include "commands/ClimbPrep.h"
 #include "commands/ClimbStep.h"
 #include "commands/TeleOpDrive.h"
 #include "commands/GrabHatchFromDispenser.h"
+#include "commands/ReadyCreeperArm.h"
 #include "commands/ReleaseHatch.h"
 #include "commands/RotateCargoForCargoShip.h"
 
@@ -42,7 +42,7 @@ class Robot : public frc::TimedRobot {
         static RotateCargoForCargoShip m_RotateCargoForCargoShip;
 
         // Commands - Climb
-        static ClimbPrep* m_ClimbPrep;
+        static ReadyCreeperArm* m_ReadyCreeperArm;
         static ClimbStep* m_ClimbStep;
 
         // this should probably be moved later

@@ -3,32 +3,46 @@
 
 /* GOAL:
  *
- * Prepare robot for climbing the platform
+ * Prepare the robot for climb.  Operator can activate preparation while
+ * driving robot to platform.
  *
  *
  * Command start:
- *  - set creeper arm setpoint to the proper angle dictated by the json config
+ *  - Return cargo-intake to home position.
+ *    - Rotate hatch grippers into closed position.
  *
  * Command finished when:
- *  - the angle of the creeper arm is close enough to the proper angle
+ *  - When creeper arm is in position (angle puts wheels approx 19.5" above ground).
  *
  * Command end:
- *  - None.
+ *  - No action.
  *
- * Follow-up options:
- *  - None.
+ * Notes:
+ *  - Run HomeCargo command before starting ReadyCreeperArm as cargo-intake may
+ *    collide with creeper arm.
  */
 
 ReadyCreeperArm::ReadyCreeperArm() {
-  Requires(&Robot::GetCreeperClimb());
+    Requires(&Robot::GetCreeperClimb());
 }
 
-void ReadyCreeperArm::Initialize() {}
+// Called just before this Command runs the first time
+void ReadyCreeperArm::Initialize() {
+}
 
-void ReadyCreeperArm::Execute() {}
+// Called repeatedly when this Command is scheduled to run
+void ReadyCreeperArm::Execute() {
+    Robot::GetCreeperClimb().SetArmAngle("arm-prep-angle");
+}
 
-bool ReadyCreeperArm::IsFinished() { return false; }
+// Make this return true when this Command no longer needs to run execute()
+bool ReadyCreeperArm::IsFinished() {
+    return Robot::GetCreeperClimb().IsArmRotationDone();
+}
 
+// Called once after isFinished returns true
 void ReadyCreeperArm::End() {}
 
+// Called when another command which requires one or more of the same
+// subsystems is scheduled to run
 void ReadyCreeperArm::Interrupted() {}
