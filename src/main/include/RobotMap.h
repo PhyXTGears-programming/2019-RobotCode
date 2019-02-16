@@ -67,6 +67,8 @@
 #define AIR_3 3
 #define AIR_4 4
 #define AIR_5 5
+#define AIR_6 6
+#define AIR_7 7
 
 // Motor controller pins
 #ifdef PROTOBOT
@@ -108,8 +110,8 @@
 #   define kCreeperArmDrive  RELAY_0
 #   define kCreeperArmAngle  AIO_1
 #   define kCreeperArmRotate CAN_8
-#   define kCreeperSolenoidAscend  AIR_0
-#   define kCreeperSolenoidDescend AIR_1
+#   define kCreeperSolenoidAscend  AIR_6
+#   define kCreeperSolenoidDescend AIR_7
 #   define kCreeperSolenoidSwitch  DIO_4
 
 // Cargo Intake constants
