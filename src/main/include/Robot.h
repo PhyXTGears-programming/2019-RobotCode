@@ -29,9 +29,9 @@
 class Robot : public frc::TimedRobot {
     public:
         // Subsystems
-        static DriveTrain m_DriveTrain;
-        static CreeperArm m_CreeperArm;
-        static CargoIntake * m_CargoIntake;
+        static DriveTrain   m_DriveTrain;
+        static CreeperArm   m_CreeperArm;
+        static CargoIntake* m_CargoIntake;
         static OI m_Oi;
         // Commands
         static GrabHatchFromDispenser* m_GrabHatchFromDispenser;

@@ -4,10 +4,10 @@
 #include <frc/smartdashboard/SmartDashboard.h>
 
 // Initialize Subsystems
-DriveTrain  Robot::m_DriveTrain;
-CargoIntake *Robot::m_CargoIntake;
-CreeperArm  Robot::m_CreeperArm;
-OI          Robot::m_Oi;
+DriveTrain   Robot::m_DriveTrain;
+CargoIntake* Robot::m_CargoIntake;
+CreeperArm   Robot::m_CreeperArm;
+OI           Robot::m_Oi;
 // Initialize Commands
 GrabHatchFromDispenser* Robot::m_GrabHatchFromDispenser;
 ReleaseHatch            Robot::m_ReleaseHatch;

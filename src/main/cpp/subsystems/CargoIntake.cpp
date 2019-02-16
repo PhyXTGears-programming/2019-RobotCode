@@ -17,7 +17,6 @@ CargoIntake::CargoIntake(wpi::json &jsonConfig) : Subsystem("CargoIntake") {
     double d = jsonConfig["intake"]["PID"]["D"];
 
     m_RotationPID.SetPID(p, i, d);
-    std::cout << "PID: " << p << " " << i << " " << d << std::endl;
 
     AddChild(&m_IntakeRotation);
 
@@ -25,8 +24,6 @@ CargoIntake::CargoIntake(wpi::json &jsonConfig) : Subsystem("CargoIntake") {
 }
 
 void CargoIntake::InitDefaultCommand() {
-    // Set the default command for a subsystem here.
-    // SetDefaultCommand(new MySpecialCommand());
 }
 
 #ifndef PROTOBOT
