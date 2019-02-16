@@ -21,6 +21,8 @@ class CreeperClimb : public frc::Subsystem {
         double GetCurrentArmAngle();     // get current arm angle
         void SetRotateSpeed(double spd); // set rotational speed
         bool IsArmRotationDone();
+        void StopArmRotation();             // Disable PID.
+
         void SetArmWheels(bool on);          // toggle wheels on arm
 
         // Solenoid toggles (independent)

@@ -42,3 +42,7 @@ bool CreeperClimb::IsArmRotationDone() {
     }
     return false;
 }
+
+void CreeperClimb::StopArmRotation() {
+    m_RotationPID.Disable();
+}
