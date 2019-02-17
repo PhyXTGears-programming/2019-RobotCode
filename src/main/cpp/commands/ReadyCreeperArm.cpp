@@ -37,6 +37,7 @@ void ReadyCreeperArm::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool ReadyCreeperArm::IsFinished() {
+    Robot::GetCreeperClimb().SetArmStatus(CreeperClimb::ArmStatus::READY);
     return Robot::GetCreeperClimb().IsArmRotationDone();
 }
 

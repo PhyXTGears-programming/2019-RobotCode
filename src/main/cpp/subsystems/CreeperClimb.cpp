@@ -59,3 +59,11 @@ bool CreeperClimb::IsArmRotationDone() {
 void CreeperClimb::StopArmRotation() {
     m_RotationPID.Disable();
 }
+
+void CreeperClimb::SetArmStatus(CreeperClimb::ArmStatus newStatus) {
+    m_ArmStatus = newStatus;
+}
+
+CreeperClimb::ArmStatus CreeperClimb::GetArmStatus() {
+    return m_ArmStatus;
+}

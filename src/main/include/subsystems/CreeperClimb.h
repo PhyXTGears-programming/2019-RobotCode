@@ -35,6 +35,15 @@ class CreeperClimb : public frc::Subsystem {
 
         frc::PIDController& GetArmPID() { return m_RotationPID; }
 
+        enum class ArmStatus {
+            HOME,
+            READY,
+            LIFTING,
+        };
+
+        void SetArmStatus(ArmStatus newStatus);
+        ArmStatus GetArmStatus();
+
     private:
         // This gets the rotational position of the Creeper Arm
         // 10k Full-turn potentiometer, could need changes later
@@ -50,4 +59,6 @@ class CreeperClimb : public frc::Subsystem {
         frc::PIDController m_RotationPID {0, 0, 0, m_ArmAngle, m_ArmRotate};
 
         int m_InRangeCount = 0;
+
+        ArmStatus m_ArmStatus = ArmStatus::HOME;
 };
