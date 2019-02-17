@@ -20,7 +20,7 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {
         m_MotorRightBack.SetInverted(false);
         m_MotorLeftFront.SetInverted(true);
         m_MotorLeftBack.SetInverted(true);
-        
+
 #   endif
 
     m_EncoderLeft.SetDistancePerPulse(kEncoderDistPerPulse);
@@ -54,7 +54,7 @@ void DriveTrain::Drive(frc::XboxController& driver) {
     // Get left stick axes values.
     double hidX = -driver.GetX(frc::XboxController::kRightHand);
     double hidY = driver.GetY(frc::XboxController::kLeftHand);
-    
+
     ArcadeDrive(hidY, hidX, true);
 }
 
@@ -103,10 +103,10 @@ void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs)
         }
     }
 
-    m_LeftPID.Enable();
-    m_RightPID.Enable();
     m_LeftPID.SetSetpoint(Limit(leftMotorOutput) * m_maxOutput * 140.0);
     m_RightPID.SetSetpoint(Limit(rightMotorOutput) * m_maxOutput * 140.0);
+    m_LeftPID.Enable();
+    m_RightPID.Enable();
 
     Feed();
 }
