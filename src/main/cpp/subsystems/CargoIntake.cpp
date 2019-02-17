@@ -35,7 +35,7 @@ bool CargoIntake::HasCargo() {
 
 bool CargoIntake::IsRotationDone() {
     // Rotation is done when PID error is near zero.
-    if (3 > std::fabs(m_RotationPID.GetError())) {
+    if (std::fabs(m_RotationPID.GetError()) < 3) {
         m_InRangeCount++;
         if (m_InRangeCount > 5) {
             return true;
@@ -71,4 +71,8 @@ void CargoIntake::RotateToPosition(int angle) {
 
 void CargoIntake::StopRotation() {
     m_RotationPID.Disable();
+}
+
+double CargoIntake::GetIntakeRotation() {
+    return m_IntakeRotation.Get() - (double)Robot::m_JsonConfig["intake"]["rotation"]["zero-point"];
 }

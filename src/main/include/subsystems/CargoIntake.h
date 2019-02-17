@@ -35,10 +35,7 @@ class CargoIntake : public frc::Subsystem {
         void StopRotation();
 
         void GoHome();
-        double GetIntakeRotation() { 
-            // (double)Robot::m_JsonConfig["intake"]["rotation"]["zero-point"]
-            return m_IntakeRotation.Get();
-        }
+        double GetIntakeRotation();
 
     private:
         frc::DigitalInput m_CargoSensor {kCargoSensor};

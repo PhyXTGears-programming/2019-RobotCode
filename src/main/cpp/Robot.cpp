@@ -10,9 +10,12 @@ DriveTrain    Robot::m_DriveTrain;
 CargoIntake*  Robot::m_CargoIntake;
 CreeperClimb* Robot::m_CreeperClimb;
 // Initialize Commands
-GrabHatchFromDispenser* Robot::m_GrabHatchFromDispenser;
-ReleaseHatch            Robot::m_ReleaseHatch;
-RotateCargoForCargoShip Robot::m_RotateCargoForCargoShip;
+GrabHatchFromDispenser*      Robot::m_GrabHatchFromDispenser;
+ReleaseHatch                 Robot::m_ReleaseHatch;
+RotateCargoForCargoShip      Robot::m_RotateCargoForCargoShip;
+RotateCargoForLevelOneRocket Robot::m_RotateCargoForLevelOneRocket;
+RotateHatchForFloor          Robot::m_RotateHatchForFloor;
+RotateHatchForDispenser      Robot::m_RotateHatchForDispenser;
 
 // Initialize Commands - Climb
 ReadyCreeperArm* Robot::m_ReadyCreeperArm;
@@ -51,26 +54,31 @@ Robot::Robot() {
 void Robot::RobotInit() {
 }
 
-void Robot::RobotPeriodic() {}
-
-void Robot::DisabledInit() {}
-
-void Robot::DisabledPeriodic() {
+void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("intake rotation", GetCargoIntake().GetIntakeRotation());
     frc::Scheduler::GetInstance()->Run();
 }
 
+void Robot::DisabledInit() {}
+
+void Robot::DisabledPeriodic() {}
+
 void Robot::AutonomousInit() {}
 
-void Robot::AutonomousPeriodic() { frc::Scheduler::GetInstance()->Run(); }
+void Robot::AutonomousPeriodic() {}
 
 void Robot::TeleopInit() {}
 
 void Robot::TeleopPeriodic() {
-    if (m_OI.GetDriverJoystick().GetAButtonPressed()) {
+    if (m_OI.GetDriverJoystick().GetXButtonPressed()) {
+        m_RotateHatchForFloor.Start();
+    } else if (m_OI.GetDriverJoystick().GetAButtonPressed()) {
         m_RotateCargoForCargoShip.Start();
+    } else if (m_OI.GetDriverJoystick().GetBButtonPressed()) {
+        m_RotateCargoForLevelOneRocket.Start();
+    } else if (m_OI.GetDriverJoystick().GetYButtonPressed()) {
+        m_RotateHatchForDispenser.Start();
     }
-    frc::Scheduler::GetInstance()->Run();
     
     m_DriveTrain.Drive(0, 0);
 }

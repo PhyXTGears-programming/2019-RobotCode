@@ -1,4 +1,5 @@
 #include "commands/RotateHatchForDispenser.h"
+#include "Robot.h"
 
 /* GOAL:
  *
@@ -28,11 +29,13 @@ void RotateHatchForDispenser::Initialize() {}
 
 // Called repeatedly when this Command is scheduled to run
 void RotateHatchForDispenser::Execute() {
-    
+    Robot::GetCargoIntake().RotateToPosition("hatch-dispenser-pickup");
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool RotateHatchForDispenser::IsFinished() { return false; }
+bool RotateHatchForDispenser::IsFinished() {
+    return Robot::GetCargoIntake().IsRotationDone();
+}
 
 // Called once after isFinished returns true
 void RotateHatchForDispenser::End() {}

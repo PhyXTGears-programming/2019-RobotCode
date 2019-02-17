@@ -23,7 +23,10 @@
 #include "commands/GrabHatchFromDispenser.h"
 #include "commands/ReadyCreeperArm.h"
 #include "commands/ReleaseHatch.h"
+#include "commands/RotateHatchForFloor.h"
+#include "commands/RotateHatchForDispenser.h"
 #include "commands/RotateCargoForCargoShip.h"
+#include "commands/RotateCargoForLevelOneRocket.h"
 
 #include "OI.h"
 #include "RobotMap.h"
@@ -38,8 +41,11 @@ class Robot : public frc::TimedRobot {
         static CargoIntake*  m_CargoIntake;
         // Commands
         static GrabHatchFromDispenser* m_GrabHatchFromDispenser;
-        static ReleaseHatch            m_ReleaseHatch;
+        static ReleaseHatch m_ReleaseHatch;
+        static RotateHatchForFloor m_RotateHatchForFloor;
+        static RotateHatchForDispenser m_RotateHatchForDispenser;
         static RotateCargoForCargoShip m_RotateCargoForCargoShip;
+        static RotateCargoForLevelOneRocket m_RotateCargoForLevelOneRocket;
 
         // Commands - Climb
         static ReadyCreeperArm* m_ReadyCreeperArm;

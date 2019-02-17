@@ -1,4 +1,5 @@
 #include "commands/RotateHatchForFloor.h"
+#include "Robot.h"
 
 /* GOAL:
  *

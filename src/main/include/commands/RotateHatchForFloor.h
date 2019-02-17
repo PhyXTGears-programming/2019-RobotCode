@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Robot.h"
 #include <frc/commands/Command.h>
 
 class RotateHatchForFloor : public frc::Command {
