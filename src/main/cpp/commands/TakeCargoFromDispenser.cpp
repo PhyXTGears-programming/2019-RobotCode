@@ -27,7 +27,7 @@
 
 TakeCargoFromDispenser::TakeCargoFromDispenser() {
     // This command needs the drivetrain subsystem to be available while running.
-    Requires(&Robot::m_CargoIntake);
+    Requires(&Robot::GetCargoIntake());
 }
 
 void TakeCargoFromDispenser::Initialize() {
@@ -36,20 +36,20 @@ void TakeCargoFromDispenser::Initialize() {
 void TakeCargoFromDispenser::Execute() {
 
 #ifndef PROTOBOT
-    Robot::m_CargoIntake.TurnOnIntakeRoller();
+    Robot::GetCargoIntake().TurnOnIntakeRoller();
 #endif
 
 }
 
 bool TakeCargoFromDispenser::IsFinished() {
-    return Robot::m_CargoIntake.HasCargo();
+    return Robot::GetCargoIntake().HasCargo();
 }
 
 // Make sure the motors stop moving when they aren't being controlled.
 void TakeCargoFromDispenser::End() { 
 
 #ifndef PROTOBOT
-    Robot::m_CargoIntake.TurnOffIntakeRoller();
+    Robot::GetCargoIntake().TurnOffIntakeRoller();
 #endif
 
 }

@@ -22,17 +22,23 @@
 
 RotateCargoForLevelOneRocket::RotateCargoForLevelOneRocket() {
     // This command needs the drivetrain subsystem to be available while running.
-    Requires(&Robot::m_CargoIntake);
+    Requires(&Robot::GetCargoIntake());
 }
 
-void RotateCargoForLevelOneRocket::Initialize() {}
+void RotateCargoForLevelOneRocket::Initialize() {
+    Robot::GetCargoIntake().RotateToPosition("rocket-1-shoot");
+}
 
 void RotateCargoForLevelOneRocket::Execute() {}
 
-bool RotateCargoForLevelOneRocket::IsFinished() {}
-
-void RotateCargoForLevelOneRocket::End() {
-    // Make sure the motors stop moving when they aren't being controlled.
+bool RotateCargoForLevelOneRocket::IsFinished() {
+    return Robot::GetCargoIntake().IsRotationDone();
 }
 
-void RotateCargoForLevelOneRocket::Interrupted() {}
+void RotateCargoForLevelOneRocket::End() {
+    Robot::GetCargoIntake().StopRotation();
+}
+
+void RotateCargoForLevelOneRocket::Interrupted() {
+    Robot::GetCargoIntake().StopRotation();
+}

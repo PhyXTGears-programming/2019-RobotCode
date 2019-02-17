@@ -28,7 +28,7 @@
 
 TakeCargoFromFloor::TakeCargoFromFloor() {
     // This command needs the drivetrain subsystem to be available while running.
-    Requires(&Robot::m_CargoIntake);
+    Requires(&Robot::GetCargoIntake());
 }
 
 void TakeCargoFromFloor::Initialize() {
@@ -37,20 +37,20 @@ void TakeCargoFromFloor::Initialize() {
 void TakeCargoFromFloor::Execute() {
 
 #ifndef PROTOBOT
-    Robot::m_CargoIntake.TurnOnIntakeRoller();
+    Robot::GetCargoIntake().TurnOnIntakeRoller();
 #endif
 
 }
 
 bool TakeCargoFromFloor::IsFinished() {
-    return Robot::m_CargoIntake.HasCargo();
+    return Robot::GetCargoIntake().HasCargo();
 }
 
 // Make sure the motors stop moving when they aren't being controlled.
 void TakeCargoFromFloor::End() { 
 
 #ifndef PROTOBOT
-    Robot::m_CargoIntake.TurnOffIntakeRoller();
+    Robot::GetCargoIntake().TurnOffIntakeRoller();
 #endif
 
 }
