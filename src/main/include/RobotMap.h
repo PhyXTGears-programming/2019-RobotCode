@@ -67,6 +67,17 @@
 #define AIR_3 3
 #define AIR_4 4
 #define AIR_5 5
+#define AIR_6 6
+#define AIR_7 7
+
+#define kEncoderDistPerPulse ((1.0/256.0) * 8 * 3.1416)
+
+#define kRightP 0.0018
+#define kRightI 0.0
+#define kRightD 0.0
+#define kLeftP 0.0018
+#define kLeftI 0.0
+#define kLeftD 0.0
 
 // Motor controller pins
 #ifdef PROTOBOT
@@ -106,10 +117,11 @@
 // Creeper Arm Climber constants
 // TalonSRX CAN ID, Relay pin, and Solenoid PCM IDs
 #   define kCreeperArmDrive  RELAY_0
-#   define kCreeperArmHipot  AIO_1
+#   define kCreeperArmAngle  AIO_1
 #   define kCreeperArmRotate CAN_8
-#   define kCreeperSolenoidAscend  AIR_0
-#   define kCreeperSolenoidDescend AIR_1
+#   define kCreeperSolenoidAscend  AIR_6
+#   define kCreeperSolenoidDescend AIR_7
+#   define kCreeperSolenoidSwitch  DIO_4
 
 // Cargo Intake constants
 // Cargo intake proximity sensor connected to DIO pin 4.
