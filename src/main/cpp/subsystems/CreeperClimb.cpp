@@ -41,7 +41,7 @@ void CreeperClimb::SetArmWheels(bool on) {
 void CreeperClimb::SetSolenoidAscend(bool on) { m_SolAscend.Set(on); }
 void CreeperClimb::SetSolenoidDescend(bool on) { m_SolDescend.Set(on); }
 
-bool CreeperClimb::GetSolenoidSwitch() { m_SolSwitch.Get(); }
+bool CreeperClimb::GetSolenoidSwitch() { return !m_SolSwitch.Get(); }
 
 bool CreeperClimb::IsArmRotationDone() {
     // Rotation is done when PID error is near zero.
