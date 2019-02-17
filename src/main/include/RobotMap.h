@@ -70,6 +70,15 @@
 #define AIR_6 6
 #define AIR_7 7
 
+#define kEncoderDistPerPulse ((1.0/256.0) * 8 * 3.1416)
+
+#define kRightP 0.0018
+#define kRightI 0.0
+#define kRightD 0.0
+#define kLeftP 0.0018
+#define kLeftI 0.0
+#define kLeftD 0.0
+
 // Motor controller pins
 #ifdef PROTOBOT
 // Pin numbers for PWM motor controllers.
