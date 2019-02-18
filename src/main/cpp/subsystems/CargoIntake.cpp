@@ -30,7 +30,7 @@ void CargoIntake::TurnOnIntakeRoller() {
 #endif
 
 bool CargoIntake::HasCargo() {
-    return !this->m_CargoSensor.Get();
+    return this->m_CargoSensor.Get();
 }
 
 bool CargoIntake::IsRotationDone() {
