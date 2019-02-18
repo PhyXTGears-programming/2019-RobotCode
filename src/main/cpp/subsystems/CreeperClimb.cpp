@@ -66,7 +66,16 @@ void CreeperClimb::StopArmWheels() {
     m_ArmDrive.Set(frc::Relay::kOff);
 }
 
+/**
+ * Open (on) or close (off) the solenoid that controls ascension of the robot
+ * as done by extending the piston.
+ */
 void CreeperClimb::SetSolenoidAscend(bool on) { m_SolAscend.Set(on); }
+
+/**
+ * Open (on) or close (off) the solenoid that controls the descent of the robot
+ * as done by retracting the piston.
+ */
 void CreeperClimb::SetSolenoidDescend(bool on) { m_SolDescend.Set(on); }
 
 bool CreeperClimb::GetSolenoidSwitch() { return !m_SolSwitch.Get(); }
