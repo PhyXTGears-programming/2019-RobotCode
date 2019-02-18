@@ -11,7 +11,14 @@ CargoIntake::CargoIntake(wpi::json &jsonConfig) : Subsystem("CargoIntake") {
 
     m_RotationPID.SetPID(p, i, d);
 
-    AddChild(&m_IntakeRotation);
+    AddChild("Intake Arm PID", &m_RotationPID);
+    AddChild("Intake Angle", &m_IntakeRotation);
+    AddChild("Hatch Grip (Bottom)", &m_HatchGripBottom);
+    AddChild("Hatch Grip (Top)", &m_HatchGripTop);
+    AddChild("Intake Arm Motor", &m_IntakeArmMotor);
+    AddChild("Intake Rollers", &m_IntakeRoller);
+    AddChild("Intake Ejecter", &m_IntakeEject);
+    AddChild("Cargo Sensor", &m_CargoSensor);
 
     m_IntakeArmMotor.SetInverted(true);
 }
