@@ -17,6 +17,10 @@
 //#define PROTOBOT
 
 
+// Set to 0 to disable joystick control of the drivetrain for testing.
+#define ENABLE_DRIVETRAIN_CONTROL 1
+
+
 // ROBORIO PINS
 #define DIO_0 0
 #define DIO_1 1
