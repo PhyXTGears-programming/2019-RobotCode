@@ -3,6 +3,36 @@
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
 #include <wpi/json.h>
+#include <frc/Timer.h>
+
+enum class AirState {
+    HOME,
+    LIFTING,
+    STOPPED,
+    LOCKED,
+    RETRACTING,
+};
+
+class StopWatch {
+    double mStartTime;
+    public:
+    StopWatch() {
+        Reset();
+    }
+
+    void Reset() { mStartTime = frc::Timer::GetFPGATimestamp(); }
+
+    double Elapsed() { return frc::Timer::GetFPGATimestamp() - mStartTime; }
+};
+
+class Delay {
+    double mPeriod;
+    StopWatch mWatch;
+    public:
+    Delay(double period) : mPeriod(period) {}
+    bool IsDone() { return mPeriod <= mWatch.Elapsed(); }
+    void Reset() { mWatch.Reset(); }
+};
 
 // Initialize Operator Interface
 OI            Robot::m_OI;
@@ -56,8 +86,11 @@ void Robot::RobotInit() {
 }
 
 void Robot::RobotPeriodic() {
-    frc::SmartDashboard::PutNumber("intake rotation", GetCargoIntake().GetIntakeRotation());
-    frc::Scheduler::GetInstance()->Run();
+    frc::SmartDashboard::PutNumber("intake: angle", GetCargoIntake().GetIntakeRotation());
+    frc::SmartDashboard::PutNumber("climb arm: angle", GetCreeperClimb().GetCurrentArmAngle());
+    frc::SmartDashboard::PutNumber("climb arm: pid error", GetCreeperClimb().GetArmPID().GetError());
+    frc::SmartDashboard::PutNumber("climb arm: pid output", GetCreeperClimb().GetArmPID().Get());
+    frc::SmartDashboard::PutBoolean("climb cyl: limit switch", GetCreeperClimb().GetSolenoidSwitch());
 }
 
 void Robot::DisabledInit() {}
@@ -71,15 +104,127 @@ void Robot::AutonomousPeriodic() {}
 void Robot::TeleopInit() {}
 
 void Robot::TeleopPeriodic() {
-    if (m_OI.GetDriverJoystick().GetXButtonPressed()) {
-        m_RotateHatchForFloor.Start();
-    } else if (m_OI.GetDriverJoystick().GetAButtonPressed()) {
-        m_RotateCargoForCargoShip.Start();
-    } else if (m_OI.GetDriverJoystick().GetBButtonPressed()) {
-        m_RotateCargoForLevelOneRocket.Start();
-    } else if (m_OI.GetDriverJoystick().GetYButtonPressed()) {
-        m_RotateHatchForDispenser.Start();
+
+    frc::XboxController& driver = m_OI.GetDriverJoystick();
+
+    // Hold A during manual control.  Release A to stop manual control.
+    //
+    //  1.  Press Left Trigger to rotate arm toward floor.
+    //  2.  Press Right Trigger to rotate arm toward home position.
+    //
+    // PID Control:
+    //
+    //  1.  Press X to rotate arm to 90 deg (vertical).
+    //  2.  Press B to rotate to preparation angle (19.5" above floor).
+    //  3.  Press Y to abort and disable PID beFORE SOMETHING BREAKS, ROBBY!!!! :P
+
+    if (driver.GetAButton()) {
+        double leftTrigger = driver.GetTriggerAxis(frc::XboxController::kLeftHand);
+        double rightTrigger = driver.GetTriggerAxis(frc::XboxController::kRightHand);
+        if (0.01 < leftTrigger) {
+            m_CreeperClimb->SetRotateSpeed(leftTrigger * -1);
+        } else if (0.01 < rightTrigger) {
+            m_CreeperClimb->SetRotateSpeed(rightTrigger * 1);
+        } else {
+            m_CreeperClimb->SetRotateSpeed(0.0);
+        }
+    } else if (driver.GetAButtonReleased()) {
+        m_CreeperClimb->SetRotateSpeed(0.0);
+    } else {
+        if (driver.GetXButtonPressed()) {
+            m_CreeperClimb->SetArmAngle(90.0);
+        }
+        if (driver.GetBButtonPressed()) {
+            m_CreeperClimb->SetArmAngle("arm-prep-angle");
+        }
+        if (driver.GetYButtonPressed()) {
+            m_CreeperClimb->StopArmRotation();
+        }
+        if (m_CreeperClimb->IsArmRotationDone()) {
+            m_CreeperClimb->StopArmRotation();
+        }
     }
+
+
+    static AirState creeperState = AirState::HOME;
+    static Delay retractDelay{1.5};
+    static StopWatch liftTime;
+
+    // Retract cylinder.  Robot down.
+    // Extend cyclinder.  Robot up.
+    switch (creeperState) {
+        case AirState::HOME:
+            if (driver.GetBumperPressed(frc::XboxController::kRightHand)) {
+                //std::cout << "Right bumper pressed       -> LIFTING" << std::endl;
+                GetCreeperClimb().SetSolenoidAscend(true);
+                GetCreeperClimb().SetSolenoidDescend(false);
+                liftTime.Reset();
+                creeperState = AirState::LIFTING;
+            }
+
+            break;
+
+        case AirState::LIFTING:
+            if (GetCreeperClimb().GetSolenoidSwitch()) {
+                //std::cout
+                //    << "Lifting reached max height -> STOPPED  "
+                //    << liftTime.Elapsed()
+                //    << " seconds"
+                //    << std::endl;
+                std::cout << liftTime.Elapsed() << " seconds" << std::endl;
+                GetCreeperClimb().SetSolenoidDescend(true);
+
+                creeperState = AirState::LOCKED;
+            }
+
+            if (driver.GetBumperPressed(frc::XboxController::kLeftHand)) {
+                //std::cout << "Left bumper pressed, halting lifting" << std::endl;
+                GetCreeperClimb().SetSolenoidAscend(false);
+                GetCreeperClimb().SetSolenoidDescend(false);
+
+                creeperState = AirState::STOPPED;
+            }
+
+            break;
+
+        case AirState::STOPPED:
+            if (driver.GetBumperPressed(frc::XboxController::kLeftHand)) {
+                //std::cout << "Left bumper pressed, retracting, wait 2 seconds" << std::endl;
+                GetCreeperClimb().SetSolenoidAscend(false);
+                GetCreeperClimb().SetSolenoidDescend(true);
+
+                retractDelay.Reset();
+
+                creeperState = AirState::RETRACTING;
+            }
+
+            break;
+
+        case AirState::LOCKED:
+            if (driver.GetBumperPressed(frc::XboxController::kLeftHand)) {
+                //std::cout << "Left bumper pressed, retracting, wait 2 seconds" << std::endl;
+                GetCreeperClimb().SetSolenoidAscend(false);
+                GetCreeperClimb().SetSolenoidDescend(true);
+
+                retractDelay.Reset();
+
+                creeperState = AirState::RETRACTING;
+            }
+            break;
+
+        case AirState::RETRACTING:
+            if (retractDelay.IsDone()) {
+                //std::cout << "Time elapsed, retracting complete" << std::endl;
+                GetCreeperClimb().SetSolenoidAscend(false);
+                GetCreeperClimb().SetSolenoidDescend(false);
+
+                creeperState = AirState::HOME;
+            }
+
+            break;
+    }
+
+    frc::Scheduler::GetInstance()->Run();
     
     m_DriveTrain.Drive(0, 0);
 }
