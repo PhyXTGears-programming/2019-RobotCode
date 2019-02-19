@@ -27,6 +27,7 @@ class CreeperClimb : public frc::Subsystem {
         bool IsArmRotationDone();
 
         void SetArmWheels(bool on);          // toggle wheels on arm
+        void StopArmWheels();
 
         // Solenoid toggles (independent)
         void SetSolenoidAscend(bool on);

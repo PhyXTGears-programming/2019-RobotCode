@@ -77,6 +77,12 @@ void ClimbStep::Execute() {
 
 bool ClimbStep::IsFinished() { return false; }
 
-void ClimbStep::End() {}
+void ClimbStep::End() {
+    // Make sure rollers are stopped.
+    Robot::GetCreeperClimb().StopArmWheels();
+}
 
-void ClimbStep::Interrupted() {}
+void ClimbStep::Interrupted() {
+    // Make sure rollers are stopped.
+    Robot::GetCreeperClimb().StopArmWheels();
+}

@@ -54,6 +54,10 @@ void CreeperClimb::SetArmWheels(bool on) {
     m_ArmDrive.Set(on ? frc::Relay::kForward : frc::Relay::kOff);
 }
 
+void CreeperClimb::StopArmWheels() {
+    m_ArmDrive.Set(frc::Relay::kOff);
+}
+
 void CreeperClimb::SetSolenoidAscend(bool on) { m_SolAscend.Set(on); }
 void CreeperClimb::SetSolenoidDescend(bool on) { m_SolDescend.Set(on); }
 
