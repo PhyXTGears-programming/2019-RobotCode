@@ -32,7 +32,7 @@ void ReadyCreeperArm::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void ReadyCreeperArm::Execute() {
-    Robot::GetCreeperClimb().RotateArmToPosition("arm-prep");
+    Robot::GetCreeperClimb().RotateArmToPosition("arm-ready");
 }
 
 // Make this return true when this Command no longer needs to run execute()
