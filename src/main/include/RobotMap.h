@@ -17,6 +17,10 @@
 //#define PROTOBOT
 
 
+// Set to 0 to disable joystick control of the drivetrain for testing.
+#define ENABLE_DRIVETRAIN_CONTROL 1
+
+
 // ROBORIO PINS
 #define DIO_0 0
 #define DIO_1 1
@@ -118,14 +122,14 @@
 // TalonSRX CAN ID, Relay pin, and Solenoid PCM IDs
 #   define kCreeperArmDrive  RELAY_0
 #   define kCreeperArmAngle  AIO_1
-#   define kCreeperArmRotate CAN_8
+#   define kCreeperArmRotate CAN_3
 #   define kCreeperSolenoidAscend  AIR_6
 #   define kCreeperSolenoidDescend AIR_7
 #   define kCreeperSolenoidSwitch  DIO_4
 
 // Cargo Intake constants
 // Cargo intake proximity sensor connected to DIO pin 4.
-#   define kCargoSensor DIO_4
+#   define kCargoSensor DIO_5
 // Bottom and top servos for the hatch grabbers
 #   define kCargoHatchServoBottom PWM_0
 #   define kCargoHatchServoTop    PWM_1
@@ -133,7 +137,7 @@
 #   define kCargoSpikeEjector RELAY_2
 // TalonSRX CAN ID for rotating arm and rollers
 #   define kCargoTalonRotate CAN_6
-#   define kCargoTalonRoller CAN_3
+#   define kCargoTalonRoller CAN_8
 // Potentiometer for rotation position
 #   define kCargoRotationSensor AIO_0
 
