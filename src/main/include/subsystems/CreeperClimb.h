@@ -25,6 +25,7 @@ class CreeperClimb : public frc::Subsystem {
 
         double GetCurrentArmPosition(); // get current arm angle
         bool IsArmRotationDone();
+        bool IsArmAtPosition(wpi::StringRef configName);
 
         void SetArmWheels(bool on);          // toggle wheels on arm
         void StopArmWheels();

@@ -6,6 +6,8 @@
 #define PID_NEAR_ZERO_THRESHOLD 1
 #define PID_NEAR_ZERO_MAX_COUNT 6
 
+#define ANGLE_TOLERANCE 2.5
+
 /**
  * Machine angles are those reported by machine sensors and subject to drift
  * and defects in assembly.
@@ -74,6 +76,13 @@ bool CreeperClimb::IsArmRotationDone() {
         m_InRangeCount = 0;
     }
     return false;
+}
+
+bool CreeperClimb::IsArmAtPosition(wpi::StringRef configName) {
+    double desiredAngle = Robot::m_JsonConfig["climb"]["rotation"]["angles"][configName];
+    double actualAngle = GetCurrentArmPosition();
+
+    return (ANGLE_TOLERANCE >= std::fabs(actualAngle - desiredAngle));
 }
 
 void CreeperClimb::StopArmRotation() {
