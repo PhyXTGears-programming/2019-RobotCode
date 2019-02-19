@@ -16,7 +16,13 @@ CreeperClimb::CreeperClimb(wpi::json &jsonConfig) : Subsystem("CreeperClimb") {
 
     m_ArmRotate.SetInverted(true);
 
-    AddChild(m_RotationPID);
+    AddChild("Climb Arm PID", m_RotationPID);
+    AddChild("Climb Arm Angle", m_ArmAngle);
+    AddChild("Climb Arm Motor", m_ArmRotate);
+    AddChild("Climb Arm Wheels", m_ArmDrive);
+    AddChild("Climb Sol Ascend", m_SolAscend);
+    AddChild("Climb Sol Descend", m_SolDescend);
+    AddChild("Climb Sol Limit", m_SolSwitch);
 }
 
 void CreeperClimb::InitDefaultCommand() {}

@@ -17,6 +17,10 @@
 //#define PROTOBOT
 
 
+// Set to 0 to disable joystick control of the drivetrain for testing.
+#define ENABLE_DRIVETRAIN_CONTROL 1
+
+
 // ROBORIO PINS
 #define DIO_0 0
 #define DIO_1 1
@@ -125,7 +129,7 @@
 
 // Cargo Intake constants
 // Cargo intake proximity sensor connected to DIO pin 4.
-#   define kCargoSensor DIO_4
+#   define kCargoSensor DIO_5
 // Bottom and top servos for the hatch grabbers
 #   define kCargoHatchServoBottom PWM_0
 #   define kCargoHatchServoTop    PWM_1
