@@ -21,18 +21,18 @@ CreeperClimb::CreeperClimb(wpi::json &jsonConfig) : Subsystem("CreeperClimb") {
 
 void CreeperClimb::InitDefaultCommand() {}
 
-void CreeperClimb::SetArmAngle(wpi::StringRef configName) {
-    SetArmAngle((double)Robot::m_JsonConfig["climb"][configName]);
+void CreeperClimb::RotateArmToPosition(wpi::StringRef configName) {
+    RotateArmToPosition((double)Robot::m_JsonConfig["climb"][configName]);
 }
 
-void CreeperClimb::SetArmAngle(double ang) {
+void CreeperClimb::RotateArmToPosition(double ang) {
     m_RotationPID.SetSetpoint(ang);
     m_RotationPID.Enable();
 }
 
-double CreeperClimb::GetCurrentArmAngle() { return m_ArmAngle.Get(); }
+double CreeperClimb::GetCurrentArmPosition() { return m_ArmPosition.Get(); }
 
-void CreeperClimb::SetRotateSpeed(double spd) { m_ArmRotate.Set(spd); }
+void CreeperClimb::SetArmRotateSpeed(double spd) { m_ArmRotate.Set(spd); }
 
 void CreeperClimb::SetArmWheels(bool on) {
     m_ArmDrive.Set(on ? frc::Relay::kForward : frc::Relay::kOff);

@@ -32,7 +32,7 @@ void ReadyCreeperArm::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void ReadyCreeperArm::Execute() {
-    Robot::GetCreeperClimb().SetArmAngle("arm-prep-angle");
+    Robot::GetCreeperClimb().RotateArmToPosition("arm-prep-angle");
 }
 
 // Make this return true when this Command no longer needs to run execute()
