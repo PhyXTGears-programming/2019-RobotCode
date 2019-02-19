@@ -6,6 +6,19 @@
 #define PID_NEAR_ZERO_THRESHOLD 1
 #define PID_NEAR_ZERO_MAX_COUNT 6
 
+/**
+ * Machine angles are those reported by machine sensors and subject to drift
+ * and defects in assembly.
+ *
+ * World angles are ideal values pertaining to actual orientation in the world
+ * with respect to a zero reference.
+ *
+ * config.json stores world angles with a zero-point used to convert between
+ * world and machine angles.
+ */
+double machineAngleToWorld(double);
+double worldAngleToMachine(double);
+
 CreeperClimb::CreeperClimb(wpi::json &jsonConfig) : Subsystem("CreeperClimb") {
     double p = jsonConfig["climb"]["PID"]["P"];
     double i = jsonConfig["climb"]["PID"]["I"];
@@ -25,12 +38,15 @@ void CreeperClimb::RotateArmToPosition(wpi::StringRef configName) {
     RotateArmToPosition((double)Robot::m_JsonConfig["climb"]["rotation"]["angles"][configName]);
 }
 
-void CreeperClimb::RotateArmToPosition(double ang) {
-    m_RotationPID.SetSetpoint(ang);
+void CreeperClimb::RotateArmToPosition(double worldAngle) {
+    m_RotationPID.SetSetpoint(worldAngleToMachine(worldAngle));
     m_RotationPID.Enable();
 }
 
-double CreeperClimb::GetCurrentArmPosition() { return m_ArmPosition.Get(); }
+// Returns a world angle of the creeper arm's position.
+double CreeperClimb::GetCurrentArmPosition() {
+    return machineAngleToWorld(m_ArmPosition.Get());
+}
 
 void CreeperClimb::SetArmRotateSpeed(double spd) { m_ArmRotate.Set(spd); }
 
@@ -58,4 +74,15 @@ bool CreeperClimb::IsArmRotationDone() {
 
 void CreeperClimb::StopArmRotation() {
     m_RotationPID.Disable();
+}
+
+
+// HELPER FUNCTIONS
+
+double machineAngleToWorld(double machine) {
+    return machine - (double)Robot::m_JsonConfig["climb"]["rotation"]["zero-point"];
+}
+
+double worldAngleToMachine(double world) {
+    return world + (double)Robot::m_JsonConfig["climb"]["rotation"]["zero-point"];
 }
