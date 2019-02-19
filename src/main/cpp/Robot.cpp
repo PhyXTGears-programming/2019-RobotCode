@@ -43,6 +43,7 @@ Robot::Robot() {
     m_JsonConfig = wpi::json::parse(jsonString);
  
     // Allocate and initialize subsystems. 
+
     m_CargoIntake = new CargoIntake(m_JsonConfig);
     m_CreeperClimb = new CreeperClimb(m_JsonConfig);
 
@@ -72,16 +73,16 @@ void Robot::TeleopInit() {}
 
 void Robot::TeleopPeriodic() {
     if (m_OI.GetDriverJoystick().GetXButtonPressed()) {
-        m_RotateHatchForFloor.Start();
+        Robot::GetCreeperClimb().SetSolenoidDescend(false);
+        Robot::GetCreeperClimb().SetSolenoidAscend(true);
     } else if (m_OI.GetDriverJoystick().GetAButtonPressed()) {
-        m_RotateCargoForCargoShip.Start();
+        m_ClimbStep->Start();
     } else if (m_OI.GetDriverJoystick().GetBButtonPressed()) {
-        m_RotateCargoForLevelOneRocket.Start();
+        Robot::GetCreeperClimb().SetSolenoidDescend(true);
+        Robot::GetCreeperClimb().SetSolenoidAscend(false);
     } else if (m_OI.GetDriverJoystick().GetYButtonPressed()) {
-        m_RotateHatchForDispenser.Start();
+        m_ReadyCreeperArm->Start();
     }
-    
-    m_DriveTrain.Drive(0, 0);
 }
 
 void Robot::TestPeriodic() {}

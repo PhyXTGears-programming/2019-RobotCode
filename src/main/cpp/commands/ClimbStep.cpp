@@ -46,15 +46,15 @@ void ClimbStep::Execute() {
 
     switch (m_Segment) {
         case 0:
-            /*
-            Robot::GetCreeperClimb().SetArmAngle( someAngle );
+            Robot::GetCreeperClimb().RotateArmToPosition("arm-climb");
 
-            Robot::GetCreeperClimb().SetSolenoidDescend(true);
+            Robot::GetCreeperClimb().SetSolenoidDescend(false);
+            Robot::GetCreeperClimb().SetSolenoidAscend(true);
 
-            if (Robot::GetCreeperClimb().GetSolenoidSwitch() == true) {
-                Robot::GetCreeperClimb().SetSolenoidAscend(true);
-            }
-            */
+            // if (Robot::GetCreeperClimb().GetSolenoidSwitch() == true) {
+            //     Robot::GetCreeperClimb().SetSolenoidDescend(true);
+            //     Robot::GetCreeperClimb().SetSolenoidAscend(false);
+            // }
             break;
         case 1:
             /*

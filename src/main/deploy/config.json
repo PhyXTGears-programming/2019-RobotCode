@@ -27,8 +27,8 @@
         "rotation": {
             "zero-point": 0.0,
             "angles": {
-                "arm-ready": 154.2,
-                "arm-climb": 200.0
+                "arm-ready": 145,
+                "arm-climb": 200
             }
         }
     }
