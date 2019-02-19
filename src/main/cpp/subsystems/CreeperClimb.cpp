@@ -22,7 +22,7 @@ CreeperClimb::CreeperClimb(wpi::json &jsonConfig) : Subsystem("CreeperClimb") {
 void CreeperClimb::InitDefaultCommand() {}
 
 void CreeperClimb::RotateArmToPosition(wpi::StringRef configName) {
-    RotateArmToPosition((double)Robot::m_JsonConfig["climb"][configName]);
+    RotateArmToPosition((double)Robot::m_JsonConfig["climb"]["rotation"]["angles"][configName]);
 }
 
 void CreeperClimb::RotateArmToPosition(double ang) {

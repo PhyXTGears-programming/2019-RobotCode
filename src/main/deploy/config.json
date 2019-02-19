@@ -24,6 +24,10 @@
             "I": 0.0000000,
             "D": 0.0000000
         },
-        "arm-prep-angle": 154.2
+        "rotation": {
+            "angles": {
+                "arm-prep": 154.2
+            }
+        }
     }
 }
