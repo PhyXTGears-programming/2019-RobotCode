@@ -5,6 +5,8 @@
 #include <frc/smartdashboard/SendableBuilder.h>
 
 #include <cmath>
+#include <iostream>
+#include <iomanip>
 
 DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {
 #   ifndef PROTOBOT
@@ -108,6 +110,48 @@ void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs)
     m_LeftPID.Enable();
     m_RightPID.Enable();
 
+    Feed();
+}
+
+void DriveTrain::StopMotor() {
+    m_LeftPID.Disable();
+    m_RightPID.Disable();
+
+    Feed();
+}
+
+void DriveTrain::GetDescription(wpi::raw_ostream& desc) const {
+    desc << "DriveTrain";
+}
+
+void DriveTrain::InitSendable(frc::SendableBuilder& builder) {
+    builder.SetSmartDashboardType("DifferentialDrive");
+    builder.SetActuator(true);
+    builder.SetSafeState([=] { StopMotor(); });
+    builder.AddDoubleProperty(
+        "Left Motor Speed",
+        [=]() { return m_LeftPID.Get(); },
+        [=](double value) { return m_LeftPID.SetSetpoint(value); }
+    );
+    builder.AddDoubleProperty(
+        "Right Motor Speed",
+        [=]() { return m_RightPID.Get(); },
+        [=](double value) { return m_RightPID.SetSetpoint(value); }
+    );
+    // double mag = (std::signbit(hidY) ? -1 : 1)*sqrt(hidX*hidX + hidY*hidY)*0.55;
+
+    /*
+    //m_RobotDrive.TankDrive(hidY/3, hidY/3);
+    if (0.1 > std::abs(hidX) && 0.1 > std::abs(hidY)) {
+        m_LeftPID.Disable();
+        m_RightPID.Disable();
+    } else {
+        m_LeftPID.Enable();
+        m_RightPID.Enable();
+        ArcadeDrive(hidY, hidX, true);
+    }
+    */
+        ArcadeDrive(hidY, hidX, true);
     Feed();
 }
 
