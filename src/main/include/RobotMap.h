@@ -122,7 +122,7 @@
 // TalonSRX CAN ID, Relay pin, and Solenoid PCM IDs
 #   define kCreeperArmDrive  RELAY_0
 #   define kCreeperArmAngle  AIO_1
-#   define kCreeperArmRotate CAN_8
+#   define kCreeperArmRotate CAN_3
 #   define kCreeperSolenoidAscend  AIR_6
 #   define kCreeperSolenoidDescend AIR_7
 #   define kCreeperSolenoidSwitch  DIO_4
@@ -137,7 +137,7 @@
 #   define kCargoSpikeEjector RELAY_2
 // TalonSRX CAN ID for rotating arm and rollers
 #   define kCargoTalonRotate CAN_6
-#   define kCargoTalonRoller CAN_3
+#   define kCargoTalonRoller CAN_8
 // Potentiometer for rotation position
 #   define kCargoRotationSensor AIO_0
 
