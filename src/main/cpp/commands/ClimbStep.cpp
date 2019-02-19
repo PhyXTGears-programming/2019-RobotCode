@@ -32,9 +32,18 @@ ClimbStep::ClimbStep() {
     Requires(&Robot::GetCreeperClimb());
 }
 
-void ClimbStep::Initialize() {}
+void ClimbStep::Initialize() {
+    // Prevent drive team from activating ClimbStep before ReadyCreeperArm
+    // runs.  Otherwise, the climb arm may swing into the cargo-intake.
+    m_HasPrerequisites = Robot::GetCreeperClimb().IsArmAtPosition("arm-ready");
+}
 
 void ClimbStep::Execute() {
+    if (IsFinished()) {
+        // Prevent climb sequence from beginning if IsFinished conditions aren't met.
+        return;
+    }
+
     switch (m_Segment) {
         case 0:
             /*
@@ -75,7 +84,9 @@ void ClimbStep::Execute() {
     }
 }
 
-bool ClimbStep::IsFinished() { return false; }
+bool ClimbStep::IsFinished() {
+    return ! m_HasPrerequisites;
+}
 
 void ClimbStep::End() {
     // Make sure rollers are stopped.

@@ -12,4 +12,5 @@ class ClimbStep : public frc::Command {
         void Interrupted() override;
     private:
         int m_Segment = 0;
+        bool m_HasPrerequisites;
 };
