@@ -32,11 +32,13 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
         void InitDefaultCommand() override;
         void Drive(double left, double right);
         void Drive(frc::XboxController& driver);
-        void ArcadeDrive(double xSpeed, double zRotation, bool squareInputs);
+        void ArcadeDrive(double xSpeed, double zRotation, bool squareInputs = false);
 
         void StopMotor() override;
         void GetDescription(wpi::raw_ostream& desc) const override;
         void InitSendable(frc::SendableBuilder& builder) override;
+
+        void RunReset();
 
     private:
         // Motors

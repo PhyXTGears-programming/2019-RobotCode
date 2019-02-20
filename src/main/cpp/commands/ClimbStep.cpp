@@ -36,6 +36,9 @@ void ClimbStep::Initialize() {
     // Prevent drive team from activating ClimbStep before ReadyCreeperArm
     // runs.  Otherwise, the climb arm may swing into the cargo-intake.
     m_HasPrerequisites = Robot::GetCreeperClimb().IsArmAtPosition("arm-ready");
+    m_Segment = Segment::Initialize;
+
+    Robot::GetCreeperClimb().SetOutputRange(-0.7, 0.7);
 }
 
 void ClimbStep::Execute() {
@@ -45,55 +48,67 @@ void ClimbStep::Execute() {
     }
 
     switch (m_Segment) {
-        case 0:
+        case Segment::Initialize: // Initialization, runs once
             Robot::GetCreeperClimb().RotateArmToPosition("arm-climb");
 
             Robot::GetCreeperClimb().SetSolenoidDescend(false);
             Robot::GetCreeperClimb().SetSolenoidAscend(true);
 
-            // if (Robot::GetCreeperClimb().GetSolenoidSwitch() == true) {
-            //     Robot::GetCreeperClimb().SetSolenoidDescend(true);
-            //     Robot::GetCreeperClimb().SetSolenoidAscend(false);
-            // }
+            m_Segment = Segment::CheckSwitch;
             break;
-        case 1:
-            /*
-            Robot::GetCreeperClimb().SetArmWheels(true); // wheels need to be SLOWED!!
-            Robot::GetDriveTrain().Drive(0.2, 0.2); // move robot wheels slow
-            */
+        case Segment::CheckSwitch:
+            if (Robot::GetCreeperClimb().GetSolenoidSwitch()) {
+                Robot::GetCreeperClimb().SetSolenoidDescend(true);
+                Robot::GetCreeperClimb().SetSolenoidAscend(true);
+
+                m_Segment = Segment::CheckArm;
+            }
             break;
-        case 2:
-            /*
-            Robot::GetCreeperClimb().SetSolenoidDescend(false);
-            Robot::GetCreeperClimb().SetSolenoidAscend(true);
-            */
+        case Segment::CheckArm:
+            if (Robot::GetCreeperClimb().IsArmAtPosition("arm-climb")) {
+                m_Segment = Segment::RollCreeper;
+            }
+        case Segment::RollCreeper:
+            Robot::GetCreeperClimb().SetArmWheels(true);
+            m_Delay.Start();
+
+            m_Segment = Segment::StopCreeper;
             break;
-        case 3:
-            /*
-            Robot::GetDriveTrain().Drive(0.2, 0.2); // move robot wheels slow
-            */
+        case Segment::StopCreeper:
+            if (m_Delay.IsDone()) {
+                m_Delay.Stop();
+                Robot::GetCreeperClimb().SetArmWheels(false);
+                m_Segment = Segment::RaiseSolenoids;
+            }
+            break;
+        case Segment::RaiseSolenoids:
+            Robot::GetCreeperClimb().RotateArmToPosition("home");
+            Robot::GetCreeperClimb().SetSolenoidDescend(true);
+            Robot::GetCreeperClimb().SetSolenoidAscend(false);
+            m_Segment = Segment::End;
+            break;
+        case Segment::End:
             break;
         default:
             cout << "Unknown segment in ClimbStep! (segment:" << m_Segment << ")" << endl;
     }
 
-    if (Robot::m_OI.GetOperatorJoystick().GetAButtonPressed()) {
-        m_Segment++; // next segment every A button press
-    } else if (Robot::m_OI.GetOperatorJoystick().GetBButtonPressed()) {
-        m_Segment--; // let operator go back a segment in case of a mis-press
-    }
+    cout << "segment: " << m_Segment << endl;
+    Robot::GetDriveTrain().ArcadeDrive(0, 0);
 }
 
 bool ClimbStep::IsFinished() {
-    return ! m_HasPrerequisites;
+    return !m_HasPrerequisites || m_Segment == Segment::End;
 }
 
 void ClimbStep::End() {
     // Make sure rollers are stopped.
     Robot::GetCreeperClimb().StopArmWheels();
+    Robot::GetCreeperClimb().SetOutputRange(-1, 1);
 }
 
 void ClimbStep::Interrupted() {
     // Make sure rollers are stopped.
     Robot::GetCreeperClimb().StopArmWheels();
+    Robot::GetCreeperClimb().SetOutputRange(-1, 1);
 }

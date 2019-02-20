@@ -20,15 +20,16 @@
     "drive": {},
     "climb": {
         "PID": {
-            "P": 0.060,
-            "I": 0.0000000,
-            "D": 0.0000000
+            "P": 0.05,
+            "I": 0.0,
+            "D": 0.0
         },
         "rotation": {
             "zero-point": 0.0,
             "angles": {
+                "home": 82,
                 "arm-ready": 145,
-                "arm-climb": 200
+                "arm-climb": 197
             }
         }
     }

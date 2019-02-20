@@ -36,6 +36,8 @@ class CreeperClimb : public frc::Subsystem {
         // get solenoid reed switch state
         bool GetSolenoidSwitch();
 
+        void SetOutputRange(double minimumOutput, double maximumOutput);
+
         frc::PIDController& GetArmPID() { return m_RotationPID; }
 
     private:

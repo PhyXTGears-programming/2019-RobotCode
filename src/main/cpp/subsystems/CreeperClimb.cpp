@@ -32,7 +32,7 @@ CreeperClimb::CreeperClimb(wpi::json &jsonConfig) : Subsystem("CreeperClimb") {
     m_ArmRotate.SetInverted(true);
 
     AddChild("Climb Arm PID", m_RotationPID);
-    AddChild("Climb Arm Angle", m_ArmAngle);
+    AddChild("Climb Arm Angle", m_ArmPosition);
     AddChild("Climb Arm Motor", m_ArmRotate);
     AddChild("Climb Arm Wheels", m_ArmDrive);
     AddChild("Climb Sol Ascend", m_SolAscend);
@@ -59,7 +59,7 @@ double CreeperClimb::GetCurrentArmPosition() {
 void CreeperClimb::SetArmRotateSpeed(double spd) { m_ArmRotate.Set(spd); }
 
 void CreeperClimb::SetArmWheels(bool on) {
-    m_ArmDrive.Set(on ? frc::Relay::kForward : frc::Relay::kOff);
+    m_ArmDrive.Set(on ? frc::Relay::kOn : frc::Relay::kOff);
 }
 
 void CreeperClimb::StopArmWheels() {
@@ -93,6 +93,10 @@ bool CreeperClimb::IsArmAtPosition(wpi::StringRef configName) {
 
 void CreeperClimb::StopArmRotation() {
     m_RotationPID.Disable();
+}
+
+void CreeperClimb::SetOutputRange(double minimumOutput, double maximumOutput) {
+    m_RotationPID.SetOutputRange(minimumOutput, maximumOutput);
 }
 
 
