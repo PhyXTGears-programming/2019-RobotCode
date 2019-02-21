@@ -10,13 +10,14 @@ OI            Robot::m_OI;
 DriveTrain    Robot::m_DriveTrain;
 CargoIntake*  Robot::m_CargoIntake;
 CreeperClimb* Robot::m_CreeperClimb;
-// Initialize Commands
-GrabHatchFromDispenser*      Robot::m_GrabHatchFromDispenser;
-ReleaseHatch                 Robot::m_ReleaseHatch;
-RotateCargoForCargoShip      Robot::m_RotateCargoForCargoShip;
-RotateCargoForLevelOneRocket Robot::m_RotateCargoForLevelOneRocket;
-RotateHatchForFloor          Robot::m_RotateHatchForFloor;
-RotateHatchForDispenser      Robot::m_RotateHatchForDispenser;
+
+// Initialize Commands - Cargo-intake
+GrabHatchFromDispenser*       Robot::m_GrabHatchFromDispenser;
+ReleaseHatch*                 Robot::m_ReleaseHatch;
+RotateCargoForCargoShip*      Robot::m_RotateCargoForCargoShip;
+RotateCargoForLevelOneRocket* Robot::m_RotateCargoForLevelOneRocket;
+RotateHatchForFloor*          Robot::m_RotateHatchForFloor;
+RotateHatchForDispenser*      Robot::m_RotateHatchForDispenser;
 
 // Initialize Commands - Climb
 ReadyCreeperArm* Robot::m_ReadyCreeperArm;
@@ -46,10 +47,17 @@ Robot::Robot() {
     m_CargoIntake = new CargoIntake(m_JsonConfig);
     m_CreeperClimb = new CreeperClimb(m_JsonConfig);
 
-    // Allocate and initialize commands.
+    // Allocate and initialize commands - Cargo-intake.
+    m_GrabHatchFromDispenser = new GrabHatchFromDispenser();
+    m_ReleaseHatch = new ReleaseHatch();
+    m_RotateCargoForCargoShip = new RotateCargoForCargoShip();
+    m_RotateCargoForLevelOneRocket = new RotateCargoForLevelOneRocket();
+    m_RotateHatchForFloor = new RotateHatchForFloor();
+    m_RotateHatchForDispenser = new RotateHatchForDispenser();
+
+    // Allocate and initialize commands - Climb.
     m_ReadyCreeperArm = new ReadyCreeperArm();
     m_ClimbStep = new ClimbStep();
-    m_GrabHatchFromDispenser = new GrabHatchFromDispenser();
 }
 
 void Robot::RobotInit() {
@@ -72,15 +80,15 @@ void Robot::TeleopInit() {}
 
 void Robot::TeleopPeriodic() {
     if (m_OI.GetDriverJoystick().GetXButtonPressed()) {
-        m_RotateHatchForFloor.Start();
+        m_RotateHatchForFloor->Start();
     } else if (m_OI.GetDriverJoystick().GetAButtonPressed()) {
-        m_RotateCargoForCargoShip.Start();
+        m_RotateCargoForCargoShip->Start();
     } else if (m_OI.GetDriverJoystick().GetBButtonPressed()) {
-        m_RotateCargoForLevelOneRocket.Start();
+        m_RotateCargoForLevelOneRocket->Start();
     } else if (m_OI.GetDriverJoystick().GetYButtonPressed()) {
-        m_RotateHatchForDispenser.Start();
+        m_RotateHatchForDispenser->Start();
     }
-    
+
     m_DriveTrain.Drive(0, 0);
 }
 

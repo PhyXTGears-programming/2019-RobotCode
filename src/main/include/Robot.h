@@ -39,13 +39,14 @@ class Robot : public frc::TimedRobot {
         static DriveTrain    m_DriveTrain;
         static CreeperClimb* m_CreeperClimb;
         static CargoIntake*  m_CargoIntake;
-        // Commands
-        static GrabHatchFromDispenser* m_GrabHatchFromDispenser;
-        static ReleaseHatch m_ReleaseHatch;
-        static RotateHatchForFloor m_RotateHatchForFloor;
-        static RotateHatchForDispenser m_RotateHatchForDispenser;
-        static RotateCargoForCargoShip m_RotateCargoForCargoShip;
-        static RotateCargoForLevelOneRocket m_RotateCargoForLevelOneRocket;
+
+        // Commands - Cargo-intake
+        static GrabHatchFromDispenser*          m_GrabHatchFromDispenser;
+        static ReleaseHatch*                    m_ReleaseHatch;
+        static RotateHatchForFloor*             m_RotateHatchForFloor;
+        static RotateHatchForDispenser*         m_RotateHatchForDispenser;
+        static RotateCargoForCargoShip*         m_RotateCargoForCargoShip;
+        static RotateCargoForLevelOneRocket*    m_RotateCargoForLevelOneRocket;
 
         // Commands - Climb
         static ReadyCreeperArm* m_ReadyCreeperArm;
