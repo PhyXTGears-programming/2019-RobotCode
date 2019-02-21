@@ -6,14 +6,14 @@
             "D": 0.0
         },
         "rotation": {
-            "zero-point": 6.0,
+            "zero-point": -7.0,
             "home": 80.0,
             "angles": {
                 "cargo-ship-shoot": 25,
                 "rocket-1-shoot": 10,
                 "rocket-2-shoot": 30,
                 "hatch-dispenser-pickup": 0,
-                "hatch-floor-pickup": -90
+                "hatch-floor-pickup": -97
             }
         }
     },
