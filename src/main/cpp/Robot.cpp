@@ -58,6 +58,7 @@ void Robot::RobotInit() {
 
 void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("intake rotation", GetCargoIntake().GetIntakeRotation());
+    frc::SmartDashboard::PutNumber("climb stage", GetClimbStep().m_Segment);
     frc::Scheduler::GetInstance()->Run();
 }
 
@@ -74,7 +75,6 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-    frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->m_Segment);
 }
 
 void Robot::TestPeriodic() {}
