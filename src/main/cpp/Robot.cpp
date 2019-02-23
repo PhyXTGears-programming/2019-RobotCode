@@ -44,6 +44,7 @@ Robot::Robot() {
     m_JsonConfig = wpi::json::parse(jsonString);
  
     // Allocate and initialize subsystems. 
+
     m_CargoIntake = new CargoIntake(m_JsonConfig);
     m_CreeperClimb = new CreeperClimb(m_JsonConfig);
 
@@ -66,6 +67,7 @@ void Robot::RobotInit() {
 
 void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("intake rotation", GetCargoIntake().GetIntakeRotation());
+    frc::SmartDashboard::PutNumber("climb stage", GetClimbStep().m_Segment);
     frc::Scheduler::GetInstance()->Run();
 }
 
@@ -77,30 +79,11 @@ void Robot::AutonomousInit() {}
 
 void Robot::AutonomousPeriodic() {}
 
-void Robot::TeleopInit() {}
+void Robot::TeleopInit() {
+    GetDriveTrain().RunReset();
+}
 
 void Robot::TeleopPeriodic() {
-    if (m_OI.GetDriverJoystick().GetXButtonPressed()) {
-        m_RotateHatchForFloor->Start();
-    } else if (m_OI.GetDriverJoystick().GetAButtonPressed()) {
-        m_RotateCargoForCargoShip->Start();
-    } else if (m_OI.GetDriverJoystick().GetBButtonPressed()) {
-        m_RotateCargoForLevelOneRocket->Start();
-    } else if (m_OI.GetDriverJoystick().GetYButtonPressed()) {
-        m_RotateHatchForDispenser->Start();
-    } else if (m_OI.GetDriverJoystick().GetBackButtonPressed()) {
-        GetCargoIntake().GoHome();
-    }
-
-    if (m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kLeftHand)) {
-        m_GrabHatchFromDispenser->Start();
-        std::cout << "left" << std::endl;
-    } else if (m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kRightHand)) {
-        m_ReleaseHatch->Start();
-        std::cout << "right" << std::endl;
-    }
-    
-    m_DriveTrain.Drive(0, 0);
 }
 
 void Robot::TestPeriodic() {}

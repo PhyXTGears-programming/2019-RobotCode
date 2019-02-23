@@ -55,7 +55,7 @@ void DriveTrain::Drive(frc::XboxController& driver) {
     double hidX = -driver.GetX(frc::XboxController::kRightHand);
     double hidY = driver.GetY(frc::XboxController::kLeftHand);
 
-    ArcadeDrive(hidY, hidX, true);
+    ArcadeDrive(hidY, hidX);
 }
 
 void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs) {
@@ -136,4 +136,11 @@ void DriveTrain::InitSendable(frc::SendableBuilder& builder) {
         [=]() { return m_RightPID.Get(); },
         [=](double value) { return m_RightPID.SetSetpoint(value); }
     );
+}
+
+void DriveTrain::RunReset() {
+    m_RightPID.Reset();
+    m_LeftPID.Reset();
+    m_RightPID.Enable();
+    m_LeftPID.Enable();
 }
