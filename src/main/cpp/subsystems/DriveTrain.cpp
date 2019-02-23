@@ -55,7 +55,11 @@ void DriveTrain::Drive(frc::XboxController& driver) {
     double hidX = -driver.GetX(frc::XboxController::kRightHand);
     double hidY = driver.GetY(frc::XboxController::kLeftHand);
 
-    ArcadeDrive(hidY, hidX);
+    if (ENABLE_DRIVETRAIN_CONTROL) {
+        m_Drive.ArcadeDrive(hidY, hidX, true);
+    } else {
+        ArcadeDrive(hidY, hidX, true);
+    }
 }
 
 void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs) {
