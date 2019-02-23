@@ -84,6 +84,17 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
+    if (m_OI.GetDriverJoystick().GetXButtonPressed()) {
+        m_RotateHatchForFloor->Start();
+    } else if (m_OI.GetDriverJoystick().GetAButtonPressed()) {
+        m_RotateCargoForCargoShip->Start();
+    } else if (m_OI.GetDriverJoystick().GetBButtonPressed()) {
+        m_RotateCargoForLevelOneRocket->Start();
+    } else if (m_OI.GetDriverJoystick().GetYButtonPressed()) {
+        m_RotateHatchForDispenser->Start();
+    } else if (m_OI.GetDriverJoystick().GetBackButtonPressed()) {
+        GetCargoIntake().GoHome();
+    }
 }
 
 void Robot::TestPeriodic() {}

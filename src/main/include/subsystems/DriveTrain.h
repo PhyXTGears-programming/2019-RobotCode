@@ -50,6 +50,7 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
         // Group the motors into their sides and then combine them into the drivetrain
         frc::SpeedControllerGroup m_RightMotors {m_MotorRightFront, m_MotorRightBack};
         frc::SpeedControllerGroup m_LeftMotors {m_MotorLeftFront, m_MotorLeftBack};
+        frc::DifferentialDrive m_Drive {m_LeftMotors, m_RightMotors};
         // Encoders (reverse the right encoder)
         frc::Encoder m_EncoderRight {kRightEncoderPin0, kRightEncoderPin1, false};
         frc::Encoder m_EncoderLeft  {kLeftEncoderPin0, kLeftEncoderPin1, true};
