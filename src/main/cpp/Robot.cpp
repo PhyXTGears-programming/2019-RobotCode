@@ -101,7 +101,9 @@ void Robot::AutonomousInit() {}
 
 void Robot::AutonomousPeriodic() {}
 
-void Robot::TeleopInit() {}
+void Robot::TeleopInit() {
+    m_DriveTrain.RunReset();
+}
 
 void Robot::TeleopPeriodic() {
 

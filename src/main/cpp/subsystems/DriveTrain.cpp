@@ -137,3 +137,10 @@ void DriveTrain::InitSendable(frc::SendableBuilder& builder) {
         [=](double value) { return m_RightPID.SetSetpoint(value); }
     );
 }
+
+void DriveTrain::RunReset() {
+    m_LeftPID.Reset();
+    m_RightPID.Reset();
+    m_LeftPID.Enable();
+    m_RightPID.Enable();
+}

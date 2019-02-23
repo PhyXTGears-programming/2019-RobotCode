@@ -38,6 +38,8 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
         void GetDescription(wpi::raw_ostream& desc) const override;
         void InitSendable(frc::SendableBuilder& builder) override;
 
+        void RunReset();
+
     private:
         // Motors
         MOTORTYPE m_MotorRightFront {kRightFrontMotor};
