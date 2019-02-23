@@ -11,7 +11,14 @@ CargoIntake::CargoIntake(wpi::json &jsonConfig) : Subsystem("CargoIntake") {
 
     m_RotationPID.SetPID(p, i, d);
 
-    AddChild(&m_IntakeRotation);
+    AddChild("Intake Arm PID", &m_RotationPID);
+    AddChild("Intake Angle", &m_IntakeRotation);
+    AddChild("Hatch Grip (Bottom)", &m_HatchGripBottom);
+    AddChild("Hatch Grip (Top)", &m_HatchGripTop);
+    AddChild("Intake Arm Motor", &m_IntakeArmMotor);
+    AddChild("Intake Rollers", &m_IntakeRoller);
+    AddChild("Intake Ejecter", &m_IntakeEject);
+    AddChild("Cargo Sensor", &m_CargoSensor);
 
     m_IntakeArmMotor.SetInverted(true);
 }
@@ -30,12 +37,12 @@ void CargoIntake::TurnOnIntakeRoller() {
 #endif
 
 bool CargoIntake::HasCargo() {
-    return !this->m_CargoSensor.Get();
+    return this->m_CargoSensor.Get();
 }
 
 bool CargoIntake::IsRotationDone() {
     // Rotation is done when PID error is near zero.
-    if (std::fabs(m_RotationPID.GetError()) < 3) {
+    if (std::fabs(m_RotationPID.GetError()) < 1) {
         m_InRangeCount++;
         if (m_InRangeCount > 5) {
             return true;

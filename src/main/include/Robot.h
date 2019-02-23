@@ -4,6 +4,7 @@
 #include <frc/commands/Command.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/PowerDistributionPanel.h>
+#include <cameraserver/CameraServer.h>
 
 // for json config
 #include <wpi/StringRef.h>
@@ -41,11 +42,11 @@ class Robot : public frc::TimedRobot {
         static CargoIntake*  m_CargoIntake;
         // Commands
         static GrabHatchFromDispenser* m_GrabHatchFromDispenser;
-        static ReleaseHatch m_ReleaseHatch;
-        static RotateHatchForFloor m_RotateHatchForFloor;
-        static RotateHatchForDispenser m_RotateHatchForDispenser;
-        static RotateCargoForCargoShip m_RotateCargoForCargoShip;
-        static RotateCargoForLevelOneRocket m_RotateCargoForLevelOneRocket;
+        static ReleaseHatch* m_ReleaseHatch;
+        static RotateHatchForFloor* m_RotateHatchForFloor;
+        static RotateHatchForDispenser* m_RotateHatchForDispenser;
+        static RotateCargoForCargoShip* m_RotateCargoForCargoShip;
+        static RotateCargoForLevelOneRocket* m_RotateCargoForLevelOneRocket;
 
         // Commands - Climb
         static ReadyCreeperArm* m_ReadyCreeperArm;
@@ -67,7 +68,8 @@ class Robot : public frc::TimedRobot {
 
         static CargoIntake & GetCargoIntake() { return *Robot::m_CargoIntake; };
         static CreeperClimb & GetCreeperClimb() { return *Robot::m_CreeperClimb; };
-   
+        static DriveTrain & GetDriveTrain() { return Robot::m_DriveTrain; };
+
     private:
         frc::SendableChooser<frc::Command*> m_Chooser;
 

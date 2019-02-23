@@ -40,13 +40,14 @@ OI            Robot::m_OI;
 DriveTrain    Robot::m_DriveTrain;
 CargoIntake*  Robot::m_CargoIntake;
 CreeperClimb* Robot::m_CreeperClimb;
-// Initialize Commands
-GrabHatchFromDispenser*      Robot::m_GrabHatchFromDispenser;
-ReleaseHatch                 Robot::m_ReleaseHatch;
-RotateCargoForCargoShip      Robot::m_RotateCargoForCargoShip;
-RotateCargoForLevelOneRocket Robot::m_RotateCargoForLevelOneRocket;
-RotateHatchForFloor          Robot::m_RotateHatchForFloor;
-RotateHatchForDispenser      Robot::m_RotateHatchForDispenser;
+
+// Initialize Commands - Intake
+GrabHatchFromDispenser*         Robot::m_GrabHatchFromDispenser;
+ReleaseHatch*                   Robot::m_ReleaseHatch;
+RotateCargoForCargoShip*        Robot::m_RotateCargoForCargoShip;
+RotateCargoForLevelOneRocket*   Robot::m_RotateCargoForLevelOneRocket;
+RotateHatchForFloor*            Robot::m_RotateHatchForFloor;
+RotateHatchForDispenser*        Robot::m_RotateHatchForDispenser;
 
 // Initialize Commands - Climb
 ReadyCreeperArm* Robot::m_ReadyCreeperArm;
@@ -76,13 +77,21 @@ Robot::Robot() {
     m_CargoIntake = new CargoIntake(m_JsonConfig);
     m_CreeperClimb = new CreeperClimb(m_JsonConfig);
 
-    // Allocate and initialize commands.
+    // Allocate and initialize commands - Intake
+    m_GrabHatchFromDispenser = new GrabHatchFromDispenser();
+    m_ReleaseHatch = new ReleaseHatch();
+    m_RotateCargoForCargoShip = new RotateCargoForCargoShip();
+    m_RotateCargoForLevelOneRocket = new RotateCargoForLevelOneRocket();
+    m_RotateHatchForFloor = new RotateHatchForFloor();
+    m_RotateHatchForDispenser = new RotateHatchForDispenser();
+    
+    // Allocate and initialize commands - 
     m_ReadyCreeperArm = new ReadyCreeperArm();
     m_ClimbStep = new ClimbStep();
-    m_GrabHatchFromDispenser = new GrabHatchFromDispenser();
 }
 
 void Robot::RobotInit() {
+    frc::CameraServer::GetInstance()->StartAutomaticCapture();
 }
 
 void Robot::RobotPeriodic() {
