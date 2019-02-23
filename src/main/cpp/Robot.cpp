@@ -74,33 +74,6 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-    if (m_OI.GetDriverJoystick().GetXButtonPressed()) {
-        Robot::GetCreeperClimb().SetSolenoidDescend(false);
-        Robot::GetCreeperClimb().SetSolenoidAscend(true);
-    } else if (m_OI.GetDriverJoystick().GetAButtonPressed()) {
-        m_ClimbStep->Start();
-    } else if (m_OI.GetDriverJoystick().GetBButtonPressed()) {
-        Robot::GetCreeperClimb().SetSolenoidDescend(true);
-        Robot::GetCreeperClimb().SetSolenoidAscend(false);
-    } else if (m_OI.GetDriverJoystick().GetYButtonPressed()) {
-        m_ReadyCreeperArm->Start();
-    } else if (m_OI.GetDriverJoystick().GetBackButtonPressed()) {
-        Robot::GetCreeperClimb().RotateArmToPosition("home");
-    }
-
-    if (m_OI.GetDriverJoystick().GetStartButton()) {
-        Robot::GetCreeperClimb().SetArmWheels(true); // wheels need to be SLOWED!!
-        std::cout << "start" << std::endl;
-    } else if (m_OI.GetDriverJoystick().GetStartButtonReleased()) {
-        Robot::GetCreeperClimb().SetArmWheels(false);
-    }
-
-    // if (m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kLeftHand)) {
-    //     m_ClimbStep--;
-    // } else if (m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kLeftHand)) {
-    //     m_ClimbStep++;
-    // }
-
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->m_Segment);
 }
 
