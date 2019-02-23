@@ -65,7 +65,7 @@ void Robot::RobotInit() {
 }
 
 void Robot::RobotPeriodic() {
-    frc::SmartDashboard::PutNumber("intake rotation", GetCargoIntake().GetIntakeRotation());
+    frc::SmartDashboard::PutNumber("flight throttle", m_OI.GetOperatorJoystick().GetThrottle());
     frc::Scheduler::GetInstance()->Run();
 }
 
@@ -80,27 +80,49 @@ void Robot::AutonomousPeriodic() {}
 void Robot::TeleopInit() {}
 
 void Robot::TeleopPeriodic() {
-    if (m_OI.GetDriverJoystick().GetXButtonPressed()) {
-        m_RotateHatchForFloor->Start();
-    } else if (m_OI.GetDriverJoystick().GetAButtonPressed()) {
-        m_RotateCargoForCargoShip->Start();
-    } else if (m_OI.GetDriverJoystick().GetBButtonPressed()) {
-        m_RotateCargoForLevelOneRocket->Start();
-    } else if (m_OI.GetDriverJoystick().GetYButtonPressed()) {
-        m_RotateHatchForDispenser->Start();
-    } else if (m_OI.GetDriverJoystick().GetBackButtonPressed()) {
-        GetCargoIntake().GoHome();
-    }
+    // Controls will go here.
 
-    if (m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kLeftHand)) {
-        m_GrabHatchFromDispenser->Start();
-        std::cout << "left" << std::endl;
-    } else if (m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kRightHand)) {
-        m_ReleaseHatch->Start();
-        std::cout << "right" << std::endl;
-    }
+    /* DRIVE CONTROLS
     
-    m_DriveTrain.Drive(0, 0);
+
+    */
+
+    /* OPERATOR CONTROLS
+
+    // Change rotation of cargo intake
+    if m_OI::GetOperator().GetFloorHatchPickupPressed() then
+        RotateHatchForFloor.Start()
+    elif GetFloorCargoPickupPressed() then
+        RotateCargoForFloor.Start()
+    elif GetHatchFeederScorePressed() then
+        RotateHatchForDispenser.Start()
+    elif GetRocketShotPressed() then
+        RotateCargoForLevelOneRocket.Start()
+    elif GetCargoShotPressed() then
+        RotateCargoForCargoShip.Start()
+    elif GetGoHomePressed() then
+        RotateIntakeToHome.Start()
+    end
+
+    // action command buttons, stuff happens
+    if m_OI::GetOperator().GetCargoCloseShotPressed() then
+        ShootCargo.Start() ??
+    elif GetCargoHighShotPressed() then
+        ShootCargoForLevelOneRocket.Start()
+    elif GetHatchGrabPressed() then
+        GrabHatchFromDispenser.start()
+    elif GetHatchReleasePressed() then
+        ReleaseHatch.Start()
+    end
+
+    // manual controls
+    if m_OI::GetOperator().GetThrottle() >= 0.75 then
+        Flightstick controls creeper arms
+    else if m_OI::GetOperator().GetThrottle() <= -0.75 then
+        Flightstick controls cargo intake
+    end
+
+    */
 }
 
 void Robot::TestPeriodic() {}

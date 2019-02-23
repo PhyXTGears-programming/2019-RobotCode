@@ -68,11 +68,11 @@ void ClimbStep::Execute() {
             cout << "Unknown segment in ClimbStep! (segment:" << m_Segment << ")" << endl;
     }
 
-    if (Robot::m_OI.GetOperatorJoystick().GetAButtonPressed()) {
-        m_Segment++; // next segment every A button press
-    } else if (Robot::m_OI.GetOperatorJoystick().GetBButtonPressed()) {
-        m_Segment--; // let operator go back a segment in case of a mis-press
-    }
+    // if (Robot::m_OI.GetOperatorJoystick().GetAButtonPressed()) {
+    //     m_Segment++; // next segment every A button press
+    // } else if (Robot::m_OI.GetOperatorJoystick().GetBButtonPressed()) {
+    //     m_Segment--; // let operator go back a segment in case of a mis-press
+    // }
 }
 
 bool ClimbStep::IsFinished() { return false; }
