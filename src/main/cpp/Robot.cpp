@@ -67,7 +67,7 @@ void Robot::RobotInit() {
 
 void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("intake rotation", GetCargoIntake().GetIntakeRotation());
-    frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->m_Segment);
+    frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
     frc::Scheduler::GetInstance()->Run();
 }
 

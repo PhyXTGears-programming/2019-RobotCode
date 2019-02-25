@@ -22,8 +22,10 @@ class ClimbStep : public frc::Command {
         bool IsFinished() override;
         void End() override;
         void Interrupted() override;
-        Segment m_Segment = Segment::Initialize;
+
+        Segment GetSegment() { return m_Segment; }
     private:
         bool m_HasPrerequisites;
         Delay m_Delay{2.5};
+        Segment m_Segment = Segment::Initialize;
 };
