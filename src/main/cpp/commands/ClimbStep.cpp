@@ -57,7 +57,7 @@ void ClimbStep::Execute() {
             m_Segment = Segment::CheckSwitch;
             break;
         case Segment::CheckSwitch:
-            if (Robot::GetCreeperClimb().GetSolenoidSwitch()) {
+            if (Robot::GetCreeperClimb().IsPistonAtLimit()) {
                 Robot::GetCreeperClimb().SetSolenoidDescend(true);
                 Robot::GetCreeperClimb().SetSolenoidAscend(true);
 

@@ -34,7 +34,7 @@ class CreeperClimb : public frc::Subsystem {
         void SetSolenoidAscend(bool on);
         void SetSolenoidDescend(bool on);
         // get solenoid reed switch state
-        bool GetSolenoidSwitch();
+        bool IsPistonAtLimit();
 
         void SetOutputRange(double minimumOutput, double maximumOutput);
 
