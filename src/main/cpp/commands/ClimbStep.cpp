@@ -50,16 +50,13 @@ void ClimbStep::Execute() {
     switch (m_Segment) {
         case Segment::Initialize: // Initialization, runs once
             Robot::GetCreeperClimb().RotateArmToPosition("arm-climb");
-
-            Robot::GetCreeperClimb().SetSolenoidDescend(false);
-            Robot::GetCreeperClimb().SetSolenoidAscend(true);
+            Robot::GetCreeperClimb().PistonExtend();
 
             m_Segment = Segment::CheckSwitch;
             break;
         case Segment::CheckSwitch:
             if (Robot::GetCreeperClimb().IsPistonAtLimit()) {
-                Robot::GetCreeperClimb().SetSolenoidDescend(true);
-                Robot::GetCreeperClimb().SetSolenoidAscend(true);
+                Robot::GetCreeperClimb().PistonHold();
 
                 m_Segment = Segment::CheckArm;
             }
@@ -83,8 +80,7 @@ void ClimbStep::Execute() {
             break;
         case Segment::RaiseSolenoids:
             Robot::GetCreeperClimb().RotateArmToPosition("home");
-            Robot::GetCreeperClimb().SetSolenoidDescend(true);
-            Robot::GetCreeperClimb().SetSolenoidAscend(false);
+            Robot::GetCreeperClimb().PistonRetract();
             m_Segment = Segment::End;
             break;
         case Segment::End:

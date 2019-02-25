@@ -30,9 +30,16 @@ class CreeperClimb : public frc::Subsystem {
         void SetArmWheels(bool on);          // toggle wheels on arm
         void StopArmWheels();
 
-        // Solenoid toggles (independent)
+        // Solenoid toggles (independent)   !!! Use Piston* methods instead.
         void SetSolenoidAscend(bool on);
         void SetSolenoidDescend(bool on);
+
+        // Piston control methods.
+        void PistonDisable();   // Disconnect air pressure from piston.
+        void PistonExtend();    // Extends piston to cause robot to ascend.
+        void PistonRetract();   // Retract piston to cause robot to descend.
+        void PistonHold();      // Pressurize both sides of piston to hold its position.
+
         // get solenoid reed switch state
         bool IsPistonAtLimit();
 
