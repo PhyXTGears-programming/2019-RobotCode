@@ -136,7 +136,7 @@ void CreeperClimb::StopArmRotation() {
     m_RotationPID.Disable();
 }
 
-void CreeperClimb::SetOutputRange(double minimumOutput, double maximumOutput) {
+void CreeperClimb::SetRotatePIDOutputRange(double minimumOutput, double maximumOutput) {
     m_RotationPID.SetOutputRange(minimumOutput, maximumOutput);
 }
 

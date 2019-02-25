@@ -43,7 +43,7 @@ class CreeperClimb : public frc::Subsystem {
         // get solenoid reed switch state
         bool IsPistonAtLimit();
 
-        void SetOutputRange(double minimumOutput, double maximumOutput);
+        void SetRotatePIDOutputRange(double minimumOutput, double maximumOutput);
 
         frc::PIDController& GetArmPID() { return m_RotationPID; }
 

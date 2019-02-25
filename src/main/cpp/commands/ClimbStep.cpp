@@ -38,7 +38,7 @@ void ClimbStep::Initialize() {
     m_HasPrerequisites = Robot::GetCreeperClimb().IsArmAtPosition("arm-ready");
     m_Segment = Segment::Initialize;
 
-    Robot::GetCreeperClimb().SetOutputRange(-0.7, 0.7);
+    Robot::GetCreeperClimb().SetRotatePIDOutputRange(-0.7, 0.7);
 }
 
 void ClimbStep::Execute() {
@@ -100,11 +100,11 @@ bool ClimbStep::IsFinished() {
 void ClimbStep::End() {
     // Make sure rollers are stopped.
     Robot::GetCreeperClimb().StopArmWheels();
-    Robot::GetCreeperClimb().SetOutputRange(-1, 1);
+    Robot::GetCreeperClimb().SetRotatePIDOutputRange(-1, 1);
 }
 
 void ClimbStep::Interrupted() {
     // Make sure rollers are stopped.
     Robot::GetCreeperClimb().StopArmWheels();
-    Robot::GetCreeperClimb().SetOutputRange(-1, 1);
+    Robot::GetCreeperClimb().SetRotatePIDOutputRange(-1, 1);
 }
