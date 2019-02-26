@@ -92,6 +92,77 @@ void Robot::TeleopPeriodic() {
 
 void Robot::TestPeriodic() {}
 
+void Robot::JoystickDemoCargo() {
+    frc::XboxController& driver = m_OI.GetDriverJoystick();
+
+    // X + trigger = rotate cargo intake.
+    // Y = rotate cargo intake to cargo ship.
+    // A = shoot cargo at cargo ship.
+    // B = take cargo from floor.
+    // R Bumper = take cargo from loading station.
+
+    if (driver.GetXButton()) {
+        double leftTrigger = driver.GetTriggerAxis(frc::XboxController::kLeftHand);
+        double rightTrigger = driver.GetTriggerAxis(frc::XboxController::kRightHand);
+
+        if (0.1 < leftTrigger) {
+            GetCargoIntake().SetRotateSpeed(leftTrigger * -1.0);
+        } else if (0.1 < rightTrigger) {
+            GetCargoIntake().SetRotateSpeed(rightTrigger * -1.0);
+        } else {
+            GetCargoIntake().SetRotateSpeed(0.0);
+        }
+    } else if (driver.GetYButtonReleased()) {
+        GetCargoIntake().SetRotateSpeed(0.0);
+    }
+
+    if (driver.GetYButtonPressed()) {
+        m_RotateCargoForCargoShip->Start();
+    }
+    if (driver.GetAButtonPressed()) {
+        m_ShootCargoForCargoShip->Start();
+    }
+    if (driver.GetBButtonPressed()) {
+        m_TakeCargoFromFloor->Start();
+    }
+}
+
+void Robot::JoystickDemoCreeperClimb() {
+    frc::XboxController& driver = m_OI.GetDriverJoystick();
+
+    // Y = ready creeper arm.
+    // A = start climb sequence.
+    //
+    // X = extend piston.
+    // B = retract piston.
+    //
+    // Back = rotate creeper arm to home position.
+    // Start (hold) = engage creeper arm wheels.
+
+    if (driver.GetYButtonPressed()) {
+        m_ReadyCreeperArm->Start();
+    } else if (driver.GetAButtonPressed()) {
+        m_ClimbStep->Start();
+    }
+
+    if (driver.GetXButtonPressed()) {
+        Robot::GetCreeperClimb().PistonExtend();
+    } else if (driver.GetBButtonPressed()) {
+        Robot::GetCreeperClimb().PistonRetract();
+    } else if (driver.GetBackButtonPressed()) {
+        Robot::GetCreeperClimb().RotateArmToPosition("home");
+    }
+
+    if (driver.GetStartButton()) {
+        Robot::GetCreeperClimb().SetArmWheels(true); // wheels need to be SLOWED!!
+        std::cout << "start" << std::endl;
+    } else if (driver.GetStartButtonReleased()) {
+        Robot::GetCreeperClimb().StopArmWheels();
+    }
+}
+
+
+
 #ifndef RUNNING_FRC_TESTS
 int main() { return frc::StartRobot<Robot>(); }
 #endif

@@ -83,4 +83,8 @@ class Robot : public frc::TimedRobot {
 #       ifndef PROTOBOT
             frc::PowerDistributionPanel m_PDP{0};
 #       endif
+
+        // Control functions for testing subsystems.
+        void JoystickDemoCargo();
+        void JoystickDemoCreeperClimb();
 };
