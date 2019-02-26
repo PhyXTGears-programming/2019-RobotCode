@@ -19,6 +19,10 @@ RotateCargoForLevelOneRocket*   Robot::m_RotateCargoForLevelOneRocket;
 RotateHatchForFloor*            Robot::m_RotateHatchForFloor;
 RotateHatchForDispenser*        Robot::m_RotateHatchForDispenser;
 
+ShootCargoForCargoShip*         Robot::m_ShootCargoForCargoShip;
+
+TakeCargoFromFloor*             Robot::m_TakeCargoFromFloor;
+
 // Initialize Commands - Climb
 ReadyCreeperArm* Robot::m_ReadyCreeperArm;
 ClimbStep*       Robot::m_ClimbStep;
@@ -67,7 +71,7 @@ void Robot::RobotInit() {
 
 void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("intake rotation", GetCargoIntake().GetIntakeRotation());
-    frc::SmartDashboard::PutNumber("climb stage", GetClimbStep().m_Segment);
+    frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
     frc::Scheduler::GetInstance()->Run();
 }
 

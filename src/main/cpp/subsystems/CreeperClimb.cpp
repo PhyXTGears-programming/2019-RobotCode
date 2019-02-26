@@ -78,7 +78,39 @@ void CreeperClimb::SetSolenoidAscend(bool on) { m_SolAscend.Set(on); }
  */
 void CreeperClimb::SetSolenoidDescend(bool on) { m_SolDescend.Set(on); }
 
-bool CreeperClimb::GetSolenoidSwitch() { return !m_SolSwitch.Get(); }
+/**
+ * Disconnect air pressure from piston.
+ */
+void CreeperClimb::PistonDisable() {
+    SetSolenoidAscend(false);
+    SetSolenoidDescend(false);
+}
+
+/**
+ * Extends piston to cause robot to ascend.
+ */
+void CreeperClimb::PistonExtend() {
+    SetSolenoidAscend(true);
+    SetSolenoidDescend(false);
+}
+
+/**
+ * Retract piston to cause robot to descend.
+ */
+void CreeperClimb::PistonRetract() {
+    SetSolenoidAscend(false);
+    SetSolenoidDescend(true);
+}
+
+/**
+ * Pressurize both sides of piston to hold its position.
+ */
+void CreeperClimb::PistonHold() {
+    SetSolenoidAscend(true);
+    SetSolenoidDescend(true);
+}
+
+bool CreeperClimb::IsPistonAtLimit() { return !m_SolSwitch.Get(); }
 
 bool CreeperClimb::IsArmRotationDone() {
     // Rotation is done when PID error is near zero.
@@ -104,17 +136,17 @@ void CreeperClimb::StopArmRotation() {
     m_RotationPID.Disable();
 }
 
-void CreeperClimb::SetOutputRange(double minimumOutput, double maximumOutput) {
+void CreeperClimb::SetRotatePIDOutputRange(double minimumOutput, double maximumOutput) {
     m_RotationPID.SetOutputRange(minimumOutput, maximumOutput);
 }
 
 
 // HELPER FUNCTIONS
 
-double machineAngleToWorld(double machine) {
+double CreeperClimb::machineAngleToWorld(double machine) {
     return machine - (double)Robot::m_JsonConfig["climb"]["rotation"]["zero-point"];
 }
 
-double worldAngleToMachine(double world) {
+double CreeperClimb::worldAngleToMachine(double world) {
     return world + (double)Robot::m_JsonConfig["climb"]["rotation"]["zero-point"];
 }

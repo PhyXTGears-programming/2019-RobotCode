@@ -134,7 +134,7 @@
 #   define kCargoHatchServoBottom PWM_0
 #   define kCargoHatchServoTop    PWM_1
 // Spike relays for pickup rollers and ejector
-#   define kCargoSpikeEjector RELAY_2
+#   define kCargoEjectServo PWM_2
 // TalonSRX CAN ID for rotating arm and rollers
 #   define kCargoTalonRotate CAN_6
 #   define kCargoTalonRoller CAN_8

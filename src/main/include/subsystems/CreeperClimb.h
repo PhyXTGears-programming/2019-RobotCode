@@ -30,13 +30,20 @@ class CreeperClimb : public frc::Subsystem {
         void SetArmWheels(bool on);          // toggle wheels on arm
         void StopArmWheels();
 
-        // Solenoid toggles (independent)
+        // Solenoid toggles (independent)   !!! Use Piston* methods instead.
         void SetSolenoidAscend(bool on);
         void SetSolenoidDescend(bool on);
-        // get solenoid reed switch state
-        bool GetSolenoidSwitch();
 
-        void SetOutputRange(double minimumOutput, double maximumOutput);
+        // Piston control methods.
+        void PistonDisable();   // Disconnect air pressure from piston.
+        void PistonExtend();    // Extends piston to cause robot to ascend.
+        void PistonRetract();   // Retract piston to cause robot to descend.
+        void PistonHold();      // Pressurize both sides of piston to hold its position.
+
+        // get solenoid reed switch state
+        bool IsPistonAtLimit();
+
+        void SetRotatePIDOutputRange(double minimumOutput, double maximumOutput);
 
         frc::PIDController& GetArmPID() { return m_RotationPID; }
 
@@ -55,4 +62,18 @@ class CreeperClimb : public frc::Subsystem {
         frc::PIDController m_RotationPID {0, 0, 0, m_ArmPosition, m_ArmRotate};
 
         int m_InRangeCount = 0;
+
+
+        /**
+        * Machine angles are those reported by machine sensors and subject to drift
+        * and defects in assembly.
+        *
+        * World angles are ideal values pertaining to actual orientation in the world
+        * with respect to a zero reference.
+        *
+        * config.json stores world angles with a zero-point used to convert between
+        * world and machine angles.
+        */
+        double machineAngleToWorld(double);
+        double worldAngleToMachine(double);
 };
