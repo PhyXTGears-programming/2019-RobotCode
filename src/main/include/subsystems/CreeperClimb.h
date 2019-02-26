@@ -62,4 +62,18 @@ class CreeperClimb : public frc::Subsystem {
         frc::PIDController m_RotationPID {0, 0, 0, m_ArmPosition, m_ArmRotate};
 
         int m_InRangeCount = 0;
+
+
+        /**
+        * Machine angles are those reported by machine sensors and subject to drift
+        * and defects in assembly.
+        *
+        * World angles are ideal values pertaining to actual orientation in the world
+        * with respect to a zero reference.
+        *
+        * config.json stores world angles with a zero-point used to convert between
+        * world and machine angles.
+        */
+        double machineAngleToWorld(double);
+        double worldAngleToMachine(double);
 };

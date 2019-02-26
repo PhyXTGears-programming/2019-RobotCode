@@ -143,10 +143,10 @@ void CreeperClimb::SetRotatePIDOutputRange(double minimumOutput, double maximumO
 
 // HELPER FUNCTIONS
 
-double machineAngleToWorld(double machine) {
+double CreeperClimb::machineAngleToWorld(double machine) {
     return machine - (double)Robot::m_JsonConfig["climb"]["rotation"]["zero-point"];
 }
 
-double worldAngleToMachine(double world) {
+double CreeperClimb::worldAngleToMachine(double world) {
     return world + (double)Robot::m_JsonConfig["climb"]["rotation"]["zero-point"];
 }
