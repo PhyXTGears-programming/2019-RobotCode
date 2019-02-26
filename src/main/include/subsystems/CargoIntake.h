@@ -30,6 +30,9 @@ class CargoIntake : public frc::Subsystem {
         void ReleaseHatchBottom() { m_HatchGripBottom.Set(1); }
         void ReleaseHatchTop()    { m_HatchGripTop.Set(0); }
 
+        void ExtendEjector();
+        void RetractEjector();
+
         bool IsRotationDone();
         bool IsAtPosition(wpi::StringRef configName);
         void RotateToPosition(wpi::StringRef configName);
@@ -57,7 +60,7 @@ class CargoIntake : public frc::Subsystem {
         frc::Servo                m_HatchGripTop    {kCargoHatchServoTop};
         WPI_TalonSRX              m_IntakeArmMotor  {kCargoTalonRotate};
         WPI_TalonSRX              m_IntakeRoller    {kCargoTalonRoller};
-        frc::Relay                m_IntakeEject     {kCargoSpikeEjector};
+        frc::Servo                m_CargoEjector    {kCargoEjectServo};
 
         frc::PIDController        m_RotationPID     {1, 0, 0, m_IntakeRotation, m_IntakeArmMotor};
 

@@ -20,7 +20,7 @@ CargoIntake::CargoIntake(wpi::json &jsonConfig) : Subsystem("CargoIntake") {
     AddChild("Hatch Grip (Top)", &m_HatchGripTop);
     AddChild("Intake Arm Motor", &m_IntakeArmMotor);
     AddChild("Intake Rollers", &m_IntakeRoller);
-    AddChild("Intake Ejecter", &m_IntakeEject);
+    AddChild("Cargo Ejecter", &m_CargoEjector);
     AddChild("Cargo Sensor", &m_CargoSensor);
 
     m_IntakeArmMotor.SetInverted(true);
@@ -46,6 +46,14 @@ void CargoIntake::StopRoller() {
 
 bool CargoIntake::HasCargo() {
     return this->m_CargoSensor.Get();
+}
+
+void CargoIntake::ExtendEjector() {
+    m_CargoEjector.Set(0.7);
+}
+
+void CargoIntake::RetractEjector() {
+    m_CargoEjector.Set(0.3);
 }
 
 bool CargoIntake::IsRotationDone() {
