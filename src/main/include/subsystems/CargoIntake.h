@@ -31,6 +31,7 @@ class CargoIntake : public frc::Subsystem {
         void ReleaseHatchTop()    { m_HatchGripTop.Set(0); }
 
         bool IsRotationDone();
+        bool IsAtPosition(wpi::StringRef configName);
         void RotateToPosition(wpi::StringRef configName);
         void RotateToPosition(int position);
         void SetRotateSpeed(double speed);
@@ -64,4 +65,17 @@ class CargoIntake : public frc::Subsystem {
 #   endif
 
     // Add variables for servo positions
+
+        /**
+        * Machine angles are those reported by machine sensors and subject to drift
+        * and defects in assembly.
+        *
+        * World angles are ideal values pertaining to actual orientation in the world
+        * with respect to a zero reference.
+        *
+        * config.json stores world angles with a zero-point used to convert between
+        * world and machine angles.
+        */
+        double machineAngleToWorld(double);
+        double worldAngleToMachine(double);
 };

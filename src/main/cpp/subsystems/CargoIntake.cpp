@@ -4,6 +4,9 @@
 #include <iostream>
 #include <string>
 
+#define ANGLE_TOLERANCE 2       // Degrees
+
+
 CargoIntake::CargoIntake(wpi::json &jsonConfig) : Subsystem("CargoIntake") {
     double p = jsonConfig["intake"]["PID"]["P"];
     double i = jsonConfig["intake"]["PID"]["I"];
@@ -54,6 +57,13 @@ bool CargoIntake::IsRotationDone() {
     return false;
 }
 
+bool CargoIntake::IsAtPosition(wpi::StringRef configName) {
+    double desiredAngle = Robot::m_JsonConfig["intake"]["rotation"]["angles"][configName];
+    double actualAngle = GetIntakeRotation();
+
+    return (ANGLE_TOLERANCE >= std::fabs(actualAngle - desiredAngle));
+}
+
 void CargoIntake::GoHome() {
     GripHatchBottom();
     GripHatchTop();
@@ -61,18 +71,16 @@ void CargoIntake::GoHome() {
     TurnOffIntakeRoller();
 
     double ang = Robot::m_JsonConfig["intake"]["rotation"]["home"];
-    ang += (double)Robot::m_JsonConfig["intake"]["rotation"]["zero-point"];
     RotateToPosition(ang);
 }
 
 void CargoIntake::RotateToPosition(wpi::StringRef configName) {
     double ang = Robot::m_JsonConfig["intake"]["rotation"]["angles"][configName];
-    ang += (double)Robot::m_JsonConfig["intake"]["rotation"]["zero-point"];
     RotateToPosition(ang);
 }
 
-void CargoIntake::RotateToPosition(int angle) {
-    m_RotationPID.SetSetpoint(angle);
+void CargoIntake::RotateToPosition(int worldAngle) {
+    m_RotationPID.SetSetpoint(worldAngleToMachine(worldAngle));
     m_RotationPID.Enable();
 }
 
@@ -85,5 +93,15 @@ void CargoIntake::StopRotation() {
 }
 
 double CargoIntake::GetIntakeRotation() {
-    return m_IntakeRotation.Get() - (double)Robot::m_JsonConfig["intake"]["rotation"]["zero-point"];
+    return machineAngleToWorld(m_IntakeRotation.Get());
+}
+
+// HELPER FUNCTIONS
+
+double CargoIntake::machineAngleToWorld(double machine) {
+    return machine - (double)Robot::m_JsonConfig["intake"]["rotation"]["zero-point"];
+}
+
+double CargoIntake::worldAngleToMachine(double world) {
+    return world + (double)Robot::m_JsonConfig["intake"]["rotation"]["zero-point"];
 }
