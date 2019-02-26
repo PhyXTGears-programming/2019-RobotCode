@@ -92,6 +92,42 @@ void Robot::TeleopPeriodic() {
 
 void Robot::TestPeriodic() {}
 
+void Robot::JoystickDemoCreeperClimb() {
+    frc::XboxController& driver = m_OI.GetDriverJoystick();
+
+    // Y = ready creeper arm.
+    // A = start climb sequence.
+    //
+    // X = extend piston.
+    // B = retract piston.
+    //
+    // Back = rotate creeper arm to home position.
+    // Start (hold) = engage creeper arm wheels.
+
+    if (driver.GetYButtonPressed()) {
+        m_ReadyCreeperArm->Start();
+    } else if (driver.GetAButtonPressed()) {
+        m_ClimbStep->Start();
+    }
+
+    if (driver.GetXButtonPressed()) {
+        Robot::GetCreeperClimb().PistonExtend();
+    } else if (driver.GetBButtonPressed()) {
+        Robot::GetCreeperClimb().PistonRetract();
+    } else if (driver.GetBackButtonPressed()) {
+        Robot::GetCreeperClimb().RotateArmToPosition("home");
+    }
+
+    if (driver.GetStartButton()) {
+        Robot::GetCreeperClimb().SetArmWheels(true); // wheels need to be SLOWED!!
+        std::cout << "start" << std::endl;
+    } else if (driver.GetStartButtonReleased()) {
+        Robot::GetCreeperClimb().StopArmWheels();
+    }
+}
+
+
+
 #ifndef RUNNING_FRC_TESTS
 int main() { return frc::StartRobot<Robot>(); }
 #endif
