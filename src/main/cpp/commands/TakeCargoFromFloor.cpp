@@ -37,7 +37,7 @@ void TakeCargoFromFloor::Initialize() {
 void TakeCargoFromFloor::Execute() {
 
 #ifndef PROTOBOT
-    Robot::GetCargoIntake().TurnOnIntakeRoller();
+    Robot::GetCargoIntake().SetRollerSpeed("intake");
 #endif
 
 }
@@ -50,9 +50,11 @@ bool TakeCargoFromFloor::IsFinished() {
 void TakeCargoFromFloor::End() { 
 
 #ifndef PROTOBOT
-    Robot::GetCargoIntake().TurnOffIntakeRoller();
+    Robot::GetCargoIntake().StopRoller();
 #endif
 
 }
 
-void TakeCargoFromFloor::Interrupted() {}
+void TakeCargoFromFloor::Interrupted() {
+    Robot::GetCargoIntake().StopRoller();
+}

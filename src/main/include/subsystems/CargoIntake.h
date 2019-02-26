@@ -47,8 +47,9 @@ class CargoIntake : public frc::Subsystem {
 #   ifndef PROTOBOT
 
     public:
-        void TurnOffIntakeRoller();
-        void TurnOnIntakeRoller();
+        void SetRollerSpeed(wpi::StringRef configName);
+        void SetRollerSpeed(double speed);
+        void StopRoller();
 
     private:
         frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 236.8, -111.3};

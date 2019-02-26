@@ -15,6 +15,10 @@
                 "hatch-dispenser-pickup": 0,
                 "hatch-floor-pickup": -97
             }
+        },
+        "roller-speed": {
+            "intake": 0.000000,
+            "cargo-ship": 0.000000
         }
     },
     "drive": {},

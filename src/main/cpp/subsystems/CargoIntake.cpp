@@ -30,12 +30,17 @@ void CargoIntake::InitDefaultCommand() {
 }
 
 #ifndef PROTOBOT
-void CargoIntake::TurnOffIntakeRoller() {
-    this->m_IntakeRoller.Set(frc::Relay::Value::kOff);
+void CargoIntake::SetRollerSpeed(wpi::StringRef configName) {
+    double speed = Robot::m_JsonConfig["intake"]["roller-speed"][configName];
+    SetRollerSpeed(speed);
 }
 
-void CargoIntake::TurnOnIntakeRoller() {
-    this->m_IntakeRoller.Set(frc::Relay::Value::kForward);
+void CargoIntake::SetRollerSpeed(double speed) {
+    this->m_IntakeRoller.Set(speed);
+}
+
+void CargoIntake::StopRoller() {
+    this->m_IntakeRoller.Set(0.0);
 }
 #endif
 
@@ -68,7 +73,7 @@ void CargoIntake::GoHome() {
     GripHatchBottom();
     GripHatchTop();
 
-    TurnOffIntakeRoller();
+    StopRoller();
 
     double ang = Robot::m_JsonConfig["intake"]["rotation"]["home"];
     RotateToPosition(ang);
