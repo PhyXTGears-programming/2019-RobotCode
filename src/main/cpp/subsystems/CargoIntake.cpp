@@ -76,6 +76,10 @@ void CargoIntake::RotateToPosition(int angle) {
     m_RotationPID.Enable();
 }
 
+void CargoIntake::SetRotateSpeed(double speed) {
+    m_IntakeArmMotor.Set(speed);
+}
+
 void CargoIntake::StopRotation() {
     m_RotationPID.Disable();
 }

@@ -33,6 +33,7 @@ class CargoIntake : public frc::Subsystem {
         bool IsRotationDone();
         void RotateToPosition(wpi::StringRef configName);
         void RotateToPosition(int position);
+        void SetRotateSpeed(double speed);
         void StopRotation();
 
         void GoHome();
