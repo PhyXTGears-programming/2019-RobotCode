@@ -21,6 +21,8 @@ RotateHatchForDispenser*        Robot::m_RotateHatchForDispenser;
 
 ShootCargoForCargoShip*         Robot::m_ShootCargoForCargoShip;
 
+TakeCargoFromFloor*             Robot::m_TakeCargoFromFloor;
+
 // Initialize Commands - Climb
 ReadyCreeperArm* Robot::m_ReadyCreeperArm;
 ClimbStep*       Robot::m_ClimbStep;

@@ -35,9 +35,17 @@ void TakeCargoFromFloor::Initialize() {
 }
 
 void TakeCargoFromFloor::Execute() {
+    if (IsFinished()) {
+        // Prevent command from running rollers if cargo already captured.
+        return;
+    }
+
+    CargoIntake& intake = Robot::GetCargoIntake();
+
+    intake.RotateToPosition("cargo-floor-pickup");
 
 #ifndef PROTOBOT
-    Robot::GetCargoIntake().SetRollerSpeed("intake");
+    intake.SetRollerSpeed("intake");
 #endif
 
 }
@@ -48,7 +56,7 @@ bool TakeCargoFromFloor::IsFinished() {
 
 // Make sure the motors stop moving when they aren't being controlled.
 void TakeCargoFromFloor::End() { 
-
+    // Leave cargo intake arm under PID control to hold position.
 #ifndef PROTOBOT
     Robot::GetCargoIntake().StopRoller();
 #endif
