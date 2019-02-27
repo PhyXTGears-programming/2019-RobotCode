@@ -32,7 +32,7 @@ wpi::json Robot::m_JsonConfig;
 
 Robot::Robot() {
     // get the json config deployed onto the roborio
-    std::ifstream jsonStream("/home/lvuser/deploy/config.json");
+    std::ifstream jsonStream(CONFIGPATH);
     std::string jsonString;
 
     // preallocate memory for string
@@ -71,11 +71,14 @@ void Robot::RobotInit() {
 
 void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("intake rotation", GetCargoIntake().GetIntakeRotation());
+    frc::SmartDashboard::PutNumber("climb arm rotation", GetCreeperClimb().GetCurrentArmPosition());
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
     frc::Scheduler::GetInstance()->Run();
 }
 
-void Robot::DisabledInit() {}
+void Robot::DisabledInit() {
+    m_ClimbStep->Cancel();
+}
 
 void Robot::DisabledPeriodic() {}
 
@@ -87,8 +90,7 @@ void Robot::TeleopInit() {
     GetDriveTrain().RunReset();
 }
 
-void Robot::TeleopPeriodic() {
-}
+void Robot::TeleopPeriodic() {}
 
 void Robot::TestPeriodic() {}
 

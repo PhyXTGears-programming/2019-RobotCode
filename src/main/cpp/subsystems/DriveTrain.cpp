@@ -26,11 +26,11 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {
     m_EncoderLeft.SetDistancePerPulse(kEncoderDistPerPulse);
     m_EncoderRight.SetDistancePerPulse(kEncoderDistPerPulse);
 
-    SetMaxOutput(1.0);
-    SetDeadband(0.05);
-
-    Subsystem::AddChild("Left Drive PID", &m_LeftPID);
-    Subsystem::AddChild("Right Drive PID", &m_RightPID);
+    #ifdef USE_DRIVETRAIN_PID
+        Subsystem::AddChild("Left Drive PID", &m_LeftPID);
+        Subsystem::AddChild("Right Drive PID", &m_RightPID);
+    #endif
+    
     Subsystem::AddChild("Left Drive Encoder", &m_EncoderLeft);
     Subsystem::AddChild("Right Drive Encoder", &m_EncoderRight);
 
@@ -55,7 +55,11 @@ void DriveTrain::Drive(frc::XboxController& driver) {
     double hidX = -driver.GetX(frc::XboxController::kRightHand);
     double hidY = driver.GetY(frc::XboxController::kLeftHand);
 
-    ArcadeDrive(hidY, hidX);
+    if (ENABLE_DRIVETRAIN_CONTROL) {
+        ArcadeDrive(hidY, hidX, true);
+    } else {
+        // m_Drive.ArcadeDrive(hidY, hidX, true);
+    }
 }
 
 void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs) {
@@ -103,17 +107,26 @@ void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs)
         }
     }
 
-    m_LeftPID.SetSetpoint(Limit(leftMotorOutput) * m_maxOutput * 140.0);
-    m_RightPID.SetSetpoint(Limit(rightMotorOutput) * m_maxOutput * 140.0);
-    m_LeftPID.Enable();
-    m_RightPID.Enable();
+    #ifdef USE_DRIVETRAIN_PID
+        m_LeftPID.SetSetpoint(Limit(leftMotorOutput) * m_maxOutput * 140.0);
+        m_RightPID.SetSetpoint(Limit(rightMotorOutput) * m_maxOutput * 140.0);
+        m_LeftPID.Enable();
+        m_RightPID.Enable();
+    #else
+        m_LeftMotors.Set(Limit(leftMotorOutput) * m_maxOutput);
+        m_RightMotors.Set(Limit(rightMotorOutput) * m_maxOutput);
+    #endif
 
     Feed();
 }
 
 void DriveTrain::StopMotor() {
-    m_LeftPID.Disable();
-    m_RightPID.Disable();
+    #ifdef USE_DRIVETRAIN_PID
+        m_LeftPID.Disable();
+        m_RightPID.Disable();
+    #else
+        ArcadeDrive(0, 0);
+    #endif
 
     Feed();
 }
@@ -126,21 +139,26 @@ void DriveTrain::InitSendable(frc::SendableBuilder& builder) {
     builder.SetSmartDashboardType("DifferentialDrive");
     builder.SetActuator(true);
     builder.SetSafeState([=] { StopMotor(); });
-    builder.AddDoubleProperty(
-        "Left Motor Speed",
-        [=]() { return m_LeftPID.Get(); },
-        [=](double value) { return m_LeftPID.SetSetpoint(value); }
-    );
-    builder.AddDoubleProperty(
-        "Right Motor Speed",
-        [=]() { return m_RightPID.Get(); },
-        [=](double value) { return m_RightPID.SetSetpoint(value); }
-    );
+    // builder.AddDoubleProperty(
+    //     "Left Motor Speed",
+    //     [=]() { return m_LeftPID.Get(); },
+    //     [=](double value) { return m_LeftPID.SetSetpoint(value); }
+    // );
+    // builder.AddDoubleProperty(
+    //     "Right Motor Speed",
+    //     [=]() { return m_RightPID.Get(); },
+    //     [=](double value) { return m_RightPID.SetSetpoint(value); }
+    // );
 }
 
 void DriveTrain::RunReset() {
-    m_RightPID.Reset();
-    m_LeftPID.Reset();
-    m_RightPID.Enable();
-    m_LeftPID.Enable();
+    // m_Drive.ArcadeDrive(0.0, 0.0, false);
+    #ifdef USE_DRIVETRAIN_PID
+        m_RightPID.Reset();
+        m_LeftPID.Reset();
+        m_RightPID.Enable();
+        m_LeftPID.Enable();
+    #else
+        ArcadeDrive(0, 0);
+    #endif
 }

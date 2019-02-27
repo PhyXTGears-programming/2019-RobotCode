@@ -50,23 +50,26 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
         // Group the motors into their sides and then combine them into the drivetrain
         frc::SpeedControllerGroup m_RightMotors {m_MotorRightFront, m_MotorRightBack};
         frc::SpeedControllerGroup m_LeftMotors {m_MotorLeftFront, m_MotorLeftBack};
+        // frc::DifferentialDrive m_Drive {m_LeftMotors, m_RightMotors};
         // Encoders (reverse the right encoder)
         frc::Encoder m_EncoderRight {kRightEncoderPin0, kRightEncoderPin1, false};
         frc::Encoder m_EncoderLeft  {kLeftEncoderPin0, kLeftEncoderPin1, true};
         //frc::ADXRS450_Gyro m_Gyro {}; // onboard RoboRIO gyro
 
-        VelocitySource m_EncoderRightPID {m_EncoderRight};
-        VelocitySource m_EncoderLeftPID  {m_EncoderLeft};
+        #ifdef USE_DRIVETRAIN_PID
+            VelocitySource m_EncoderRightPID {m_EncoderRight};
+            VelocitySource m_EncoderLeftPID  {m_EncoderLeft};
 
-        frc::PIDController m_RightPID {
-            kRightP, kRightI, kRightD,
-            m_EncoderRightPID,
-            m_RightMotors
-        };
+            frc::PIDController m_RightPID {
+                kRightP, kRightI, kRightD,
+                m_EncoderRightPID,
+                m_RightMotors
+            };
 
-        frc::PIDController m_LeftPID {
-            kLeftP,  kLeftI,  kLeftD,
-            m_EncoderLeftPID,
-            m_LeftMotors
-        };
+            frc::PIDController m_LeftPID {
+                kLeftP,  kLeftI,  kLeftD,
+                m_EncoderLeftPID,
+                m_LeftMotors
+            };
+        #endif
 };

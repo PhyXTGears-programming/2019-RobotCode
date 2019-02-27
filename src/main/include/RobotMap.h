@@ -16,9 +16,16 @@
 // Only define this macro if you're testing on the 1721 bot.
 //#define PROTOBOT
 
+// Bottype is either "compbot" or "testbot"
+#define BOTTYPE "testbot"
+#define CONFIGPATH "/home/lvuser/deploy/" BOTTYPE "-config.json"
+
 
 // Set to 0 to disable joystick control of the drivetrain for testing.
 #define ENABLE_DRIVETRAIN_CONTROL 1
+
+// Use PID on drivetrain?
+// #define USE_DRIVETRAIN_PID
 
 
 // ROBORIO PINS
