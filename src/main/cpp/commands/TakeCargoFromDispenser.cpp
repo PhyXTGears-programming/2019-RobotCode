@@ -36,7 +36,7 @@ void TakeCargoFromDispenser::Initialize() {
 void TakeCargoFromDispenser::Execute() {
 
 #ifndef PROTOBOT
-    Robot::GetCargoIntake().TurnOnIntakeRoller();
+    Robot::GetCargoIntake().SetRollerSpeed("intake");
 #endif
 
 }
@@ -49,9 +49,11 @@ bool TakeCargoFromDispenser::IsFinished() {
 void TakeCargoFromDispenser::End() { 
 
 #ifndef PROTOBOT
-    Robot::GetCargoIntake().TurnOffIntakeRoller();
+    Robot::GetCargoIntake().StopRoller();
 #endif
 
 }
 
-void TakeCargoFromDispenser::Interrupted() {}
+void TakeCargoFromDispenser::Interrupted() {
+    Robot::GetCargoIntake().StopRoller();
+}

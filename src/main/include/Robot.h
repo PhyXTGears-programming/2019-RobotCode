@@ -28,6 +28,8 @@
 #include "commands/RotateHatchForDispenser.h"
 #include "commands/RotateCargoForCargoShip.h"
 #include "commands/RotateCargoForLevelOneRocket.h"
+#include "commands/ShootCargoForCargoShip.h"
+#include "commands/TakeCargoFromFloor.h"
 
 #include "OI.h"
 #include "RobotMap.h"
@@ -47,6 +49,10 @@ class Robot : public frc::TimedRobot {
         static RotateHatchForDispenser* m_RotateHatchForDispenser;
         static RotateCargoForCargoShip* m_RotateCargoForCargoShip;
         static RotateCargoForLevelOneRocket* m_RotateCargoForLevelOneRocket;
+
+        static ShootCargoForCargoShip*      m_ShootCargoForCargoShip;
+
+        static TakeCargoFromFloor*      m_TakeCargoFromFloor;
 
         // Commands - Climb
         static ReadyCreeperArm* m_ReadyCreeperArm;
@@ -77,4 +83,8 @@ class Robot : public frc::TimedRobot {
 #       ifndef PROTOBOT
             frc::PowerDistributionPanel m_PDP{0};
 #       endif
+
+        // Control functions for testing subsystems.
+        void JoystickDemoCargo();
+        void JoystickDemoCreeperClimb();
 };

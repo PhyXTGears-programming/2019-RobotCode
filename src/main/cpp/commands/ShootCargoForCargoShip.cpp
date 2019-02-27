@@ -26,19 +26,69 @@
  *  - None.
  */
 
-ShootCargoForCargoShip::ShootCargoForCargoShip() {
+ShootCargoForCargoShip::ShootCargoForCargoShip()
+    : m_HasPrerequisites(false)
+    , m_Action(Action::End)
+{
     // This command needs the drivetrain subsystem to be available while running.
     Requires(&Robot::GetCargoIntake());
 }
 
-void ShootCargoForCargoShip::Initialize() {}
+void ShootCargoForCargoShip::Initialize() {
+    CargoIntake& intake = Robot::GetCargoIntake();
 
-void ShootCargoForCargoShip::Execute() {}
+    m_HasPrerequisites = intake.HasCargo() && intake.IsAtPosition("cargo-ship-shoot");
 
-bool ShootCargoForCargoShip::IsFinished() {}
-
-void ShootCargoForCargoShip::End() {
-    // Make sure the motors stop moving when they aren't being controlled.
+    m_Action = Action::TurnOnRollers;
 }
 
-void ShootCargoForCargoShip::Interrupted() {}
+void ShootCargoForCargoShip::Execute() {
+    if (IsFinished()) {
+        // Prevent shot sequence from beginning if IsFinished conditions aren't met.
+        return;
+    }
+
+    switch (m_Action) {
+        case Action::TurnOnRollers:
+            Robot::GetCargoIntake().SetRollerSpeed("cargo-ship");
+            m_WaitForRollers.Start();
+            m_Action = Action::WaitForSpeed;
+            break;
+
+        case Action::WaitForSpeed:
+            if (m_WaitForRollers.IsDone()) {
+                m_WaitForRollers.Stop();
+
+                Robot::GetCargoIntake().ExtendEjector();
+                m_WaitForEjector.Start();
+
+                m_Action = Action::WaitForEjector;
+            }
+            break;
+
+        case Action::WaitForEjector:
+            if (m_WaitForEjector.IsDone()) {
+                m_WaitForEjector.Stop();
+
+                Robot::GetCargoIntake().RetractEjector();
+
+                m_Action = Action::End;
+            }
+            break;
+
+        default:
+            break;
+    }
+}
+
+bool ShootCargoForCargoShip::IsFinished() {
+    return !m_HasPrerequisites || Action::End == m_Action;
+}
+
+void ShootCargoForCargoShip::End() {
+    Robot::GetCargoIntake().StopRoller();
+}
+
+void ShootCargoForCargoShip::Interrupted() {
+    Robot::GetCargoIntake().StopRoller();
+}
