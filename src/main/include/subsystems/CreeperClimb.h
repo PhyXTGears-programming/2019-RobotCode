@@ -41,6 +41,7 @@ class CreeperClimb : public frc::Subsystem {
         void PistonHold();      // Pressurize both sides of piston to hold its position.
 
         // get solenoid reed switch state
+        void ResetPistonLimitLatch();
         bool IsPistonAtLimit();
 
         void SetRotatePIDOutputRange(double minimumOutput, double maximumOutput);
@@ -62,6 +63,8 @@ class CreeperClimb : public frc::Subsystem {
         frc::PIDController m_RotationPID {0, 0, 0, m_ArmPosition, m_ArmRotate};
 
         int m_InRangeCount = 0;
+
+        bool m_IsPistonAtLimitLatch;
 
 
         /**

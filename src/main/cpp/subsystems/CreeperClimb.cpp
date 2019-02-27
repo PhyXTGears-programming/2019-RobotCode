@@ -31,6 +31,15 @@ CreeperClimb::CreeperClimb(wpi::json &jsonConfig) : Subsystem("CreeperClimb") {
 
     m_ArmRotate.SetInverted(true);
 
+    // Configure interrupt on limit switch.  Since input is normally high,
+    // watch for falling edge.
+    m_SolSwitch.RequestInterrupts(
+        [](uint32_t mask, void* obj) { static_cast<CreeperClimb*>(obj)->m_IsPistonAtLimitLatch = true; },
+        static_cast<void*>(this)
+    );
+    m_SolSwitch.SetUpSourceEdge(false /* rising */, true /* falling */);
+    m_SolSwitch.EnableInterrupts();
+
     AddChild("Climb Arm PID", m_RotationPID);
     AddChild("Climb Arm Angle", m_ArmPosition);
     AddChild("Climb Arm Motor", m_ArmRotate);
@@ -110,7 +119,13 @@ void CreeperClimb::PistonHold() {
     SetSolenoidDescend(true);
 }
 
-bool CreeperClimb::IsPistonAtLimit() { return !m_SolSwitch.Get(); }
+void CreeperClimb::ResetPistonLimitLatch() {
+    m_IsPistonAtLimitLatch = false;
+}
+
+bool CreeperClimb::IsPistonAtLimit() {
+    return m_IsPistonAtLimitLatch;
+}
 
 bool CreeperClimb::IsArmRotationDone() {
     // Rotation is done when PID error is near zero.
