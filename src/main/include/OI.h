@@ -1,5 +1,6 @@
 #pragma once
 
+#include "OperatorHID.h"
 #include <frc/XboxController.h>
 
 class OI {
@@ -7,9 +8,9 @@ class OI {
         OI();
 
         frc::XboxController& GetDriverJoystick();
-        frc::XboxController& GetOperatorJoystick();
+        OperatorHID& GetOperatorJoystick();
         
     private:
         frc::XboxController m_HidDriver   {0};
-        frc::XboxController m_HidOperator {1};
+        OperatorHID m_HidOperator {};
 };

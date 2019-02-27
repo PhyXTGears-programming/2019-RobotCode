@@ -70,6 +70,7 @@ void Robot::RobotInit() {
 }
 
 void Robot::RobotPeriodic() {
+    frc::SmartDashboard::PutNumber("flight throttle", m_OI.GetOperatorJoystick().GetThrottle());
     frc::SmartDashboard::PutNumber("intake rotation", GetCargoIntake().GetIntakeRotation());
     frc::SmartDashboard::PutNumber("climb arm rotation", GetCreeperClimb().GetCurrentArmPosition());
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
@@ -118,15 +119,50 @@ void Robot::JoystickDemoCargo() {
         GetCargoIntake().SetRotateSpeed(0.0);
     }
 
-    if (driver.GetYButtonPressed()) {
-        m_RotateCargoForCargoShip->Start();
-    }
-    if (driver.GetAButtonPressed()) {
-        m_ShootCargoForCargoShip->Start();
-    }
-    if (driver.GetBButtonPressed()) {
-        m_TakeCargoFromFloor->Start();
-    }
+void Robot::TeleopPeriodic() {
+    // Controls will go here.
+
+    /* DRIVE CONTROLS
+    
+
+    */
+
+    /* OPERATOR CONTROLS
+
+    // Change rotation of cargo intake
+    if m_OI::GetOperator().GetFloorHatchPickupPressed() then
+        RotateHatchForFloor.Start()
+    elif GetFloorCargoPickupPressed() then
+        RotateCargoForFloor.Start()
+    elif GetHatchFeederScorePressed() then
+        RotateHatchForDispenser.Start()
+    elif GetRocketShotPressed() then
+        RotateCargoForLevelOneRocket.Start()
+    elif GetCargoShotPressed() then
+        RotateCargoForCargoShip.Start()
+    elif GetGoHomePressed() then
+        RotateIntakeToHome.Start()
+    end
+
+    // action command buttons, stuff happens
+    if m_OI::GetOperator().GetCargoCloseShotPressed() then
+        ShootCargo.Start() ??
+    elif GetCargoHighShotPressed() then
+        ShootCargoForLevelOneRocket.Start()
+    elif GetHatchGrabPressed() then
+        GrabHatchFromDispenser.start()
+    elif GetHatchReleasePressed() then
+        ReleaseHatch.Start()
+    end
+
+    // manual controls
+    if m_OI::GetOperator().GetThrottle() >= 0.75 then
+        Flightstick controls creeper arms
+    else if m_OI::GetOperator().GetThrottle() <= -0.75 then
+        Flightstick controls cargo intake
+    end
+
+    */
 }
 
 void Robot::JoystickDemoCreeperClimb() {
