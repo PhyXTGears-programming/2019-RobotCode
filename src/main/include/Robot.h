@@ -84,6 +84,9 @@ class Robot : public frc::TimedRobot {
             frc::PowerDistributionPanel m_PDP{0};
 #       endif
 
+        // Control function for competition.
+        void CompetitionJoytickInput();
+
         // Control functions for testing subsystems.
         void JoystickDemoCargo();
         void JoystickDemoCreeperClimb();
