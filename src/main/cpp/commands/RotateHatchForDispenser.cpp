@@ -28,7 +28,7 @@ RotateHatchForDispenser::RotateHatchForDispenser() {
 void RotateHatchForDispenser::Initialize() {
     Robot::GetCargoIntake().ReleaseHatchBottom();
     Robot::GetCargoIntake().ReleaseHatchTop();
-    Robot::GetCargoIntake().RotateToPosition("hatch-feeder-pickup-angle");
+    Robot::GetCargoIntake().RotateToPosition("hatch-dispenser-pickup");
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -43,7 +43,7 @@ bool RotateHatchForDispenser::IsFinished() {
 
 // Called once after isFinished returns true
 void RotateHatchForDispenser::End() {
-    Robot::GetCargoIntake().StopRotation();
+    // Leave arm PID at sestpoint.
 }
 
 // Called when another command which requires one or more of the same

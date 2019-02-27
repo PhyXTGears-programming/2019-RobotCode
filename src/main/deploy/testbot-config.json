@@ -1,0 +1,41 @@
+{
+    "intake": {
+        "PID": {
+            "P": 0.04,
+            "I": 0.0,
+            "D": -0.02
+        },
+        "rotation": {
+            "zero-point": 0.0,
+            "angles": {
+                "home": 100.0,
+                "cargo-ship-shoot": 25,
+                "rocket-1-shoot": 10,
+                "rocket-2-shoot": 30,
+                "cargo-floor-pickup": -45,
+                "hatch-dispenser-pickup": 0,
+                "hatch-floor-pickup": -92
+            }
+        },
+        "roller-speed": {
+            "intake": 0.000000,
+            "cargo-ship": 0.000000
+        }
+    },
+    "drive": {},
+    "climb": {
+        "PID": {
+            "P": 0.07,
+            "I": 0.0,
+            "D": 0.0
+        },
+        "rotation": {
+            "zero-point": -27.0,
+            "angles": {
+                "home": 82,
+                "arm-ready": 165,
+                "arm-climb": 210
+            }
+        }
+    }
+}

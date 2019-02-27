@@ -32,7 +32,7 @@ wpi::json Robot::m_JsonConfig;
 
 Robot::Robot() {
     // get the json config deployed onto the roborio
-    std::ifstream jsonStream("/home/lvuser/deploy/config.json");
+    std::ifstream jsonStream(CONFIGPATH);
     std::string jsonString;
 
     // preallocate memory for string
@@ -71,11 +71,14 @@ void Robot::RobotInit() {
 
 void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("intake rotation", GetCargoIntake().GetIntakeRotation());
+    frc::SmartDashboard::PutNumber("climb arm rotation", GetCreeperClimb().GetCurrentArmPosition());
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
     frc::Scheduler::GetInstance()->Run();
 }
 
-void Robot::DisabledInit() {}
+void Robot::DisabledInit() {
+    m_ClimbStep->Cancel();
+}
 
 void Robot::DisabledPeriodic() {}
 
@@ -88,17 +91,7 @@ void Robot::TeleopInit() {
 }
 
 void Robot::TeleopPeriodic() {
-    if (m_OI.GetDriverJoystick().GetXButtonPressed()) {
-        m_RotateHatchForFloor->Start();
-    } else if (m_OI.GetDriverJoystick().GetAButtonPressed()) {
-        m_RotateCargoForCargoShip->Start();
-    } else if (m_OI.GetDriverJoystick().GetBButtonPressed()) {
-        m_RotateCargoForLevelOneRocket->Start();
-    } else if (m_OI.GetDriverJoystick().GetYButtonPressed()) {
-        m_RotateHatchForDispenser->Start();
-    } else if (m_OI.GetDriverJoystick().GetBackButtonPressed()) {
-        GetCargoIntake().GoHome();
-    }
+    Robot::JoystickDemoCreeperClimb();
 }
 
 void Robot::TestPeriodic() {}
