@@ -34,7 +34,7 @@
             "angles": {
                 "home": 82,
                 "arm-ready": 165,
-                "arm-climb": 210
+                "arm-climb": 230
             }
         }
     }

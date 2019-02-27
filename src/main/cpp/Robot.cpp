@@ -91,33 +91,7 @@ void Robot::TeleopInit() {
     GetDriveTrain().RunReset();
 }
 
-void Robot::TeleopPeriodic() {}
-
 void Robot::TestPeriodic() {}
-
-void Robot::JoystickDemoCargo() {
-    frc::XboxController& driver = m_OI.GetDriverJoystick();
-
-    // X + trigger = rotate cargo intake.
-    // Y = rotate cargo intake to cargo ship.
-    // A = shoot cargo at cargo ship.
-    // B = take cargo from floor.
-    // R Bumper = take cargo from loading station.
-
-    if (driver.GetXButton()) {
-        double leftTrigger = driver.GetTriggerAxis(frc::XboxController::kLeftHand);
-        double rightTrigger = driver.GetTriggerAxis(frc::XboxController::kRightHand);
-
-        if (0.1 < leftTrigger) {
-            GetCargoIntake().SetRotateSpeed(leftTrigger * -1.0);
-        } else if (0.1 < rightTrigger) {
-            GetCargoIntake().SetRotateSpeed(rightTrigger * -1.0);
-        } else {
-            GetCargoIntake().SetRotateSpeed(0.0);
-        }
-    } else if (driver.GetYButtonReleased()) {
-        GetCargoIntake().SetRotateSpeed(0.0);
-    }
 
 void Robot::TeleopPeriodic() {
     // Controls will go here.
@@ -163,6 +137,44 @@ void Robot::TeleopPeriodic() {
     end
 
     */
+   ButtonBoardDemo();   // DO NOT COMMIT THIS LINE!
+}
+
+void Robot::ButtonBoardDemo() {
+    if (m_OI.GetOperatorJoystick().GetCreeperReadyArmPressed()) {
+        m_ReadyCreeperArm->Start();
+    } else if (m_OI.GetOperatorJoystick().GetClimbSequencePressed()) {
+        m_ClimbStep->Start();
+    } else if (m_OI.GetOperatorJoystick().GetRetractArm()) {
+        Robot::GetCreeperClimb().RotateArmToPosition("home");
+    } else if (m_OI.GetOperatorJoystick().GetRetractCylinder()) {
+        Robot::GetCreeperClimb().PistonRetract();
+    }
+}
+
+void Robot::JoystickDemoCargo() {
+    frc::XboxController& driver = m_OI.GetDriverJoystick();
+
+    // X + trigger = rotate cargo intake.
+    // Y = rotate cargo intake to cargo ship.
+    // A = shoot cargo at cargo ship.
+    // B = take cargo from floor.
+    // R Bumper = take cargo from loading station.
+
+    if (driver.GetXButton()) {
+        double leftTrigger = driver.GetTriggerAxis(frc::XboxController::kLeftHand);
+        double rightTrigger = driver.GetTriggerAxis(frc::XboxController::kRightHand);
+
+        if (0.1 < leftTrigger) {
+            GetCargoIntake().SetRotateSpeed(leftTrigger * -1.0);
+        } else if (0.1 < rightTrigger) {
+            GetCargoIntake().SetRotateSpeed(rightTrigger * -1.0);
+        } else {
+            GetCargoIntake().SetRotateSpeed(0.0);
+        }
+    } else if (driver.GetYButtonReleased()) {
+        GetCargoIntake().SetRotateSpeed(0.0);
+    }
 }
 
 void Robot::JoystickDemoCreeperClimb() {
