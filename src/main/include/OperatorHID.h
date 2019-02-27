@@ -4,19 +4,22 @@
 #include <frc/Joystick.h>
 
 // We don't know which button will be what number ID yet, CHANGE LATER!
-#define sClimbSequence   0
 
-#define bRotateFloorHatchPickup 0
-#define bRotateFloorCargoPickup 0
-#define bRotateHatchFeederScore 0
-#define bRotateRocketShot       0
-#define bRotateCargoShot        0
-#define bRotateGoHome           0
+#define bRotateFloorHatchPickup 1
+#define bRotateFloorCargoPickup 2
+#define bRotateHatchFeederScore 3
+#define bRotateRocketShot       4
+#define bRotateCargoShot        5
+#define bRotateStowed           6
 
-#define bCargoCloseShot 0
-#define bCargoHighShot  0
-#define bHatchGrab      0
-#define bHatchRelease   0
+#define bHatchGrab       1
+#define bHatchFloor      2
+#define bHatchRelease    3
+#define bCargoHighShot   4
+#define bCargoIntake     5
+#define bCargoCloseShot  6
+#define sClimbSequence   7
+#define bCreeperReadyArm 8
 
 // Generic in-line Button Board class.
 // We use an `am-3753` Button Board controller.
@@ -44,24 +47,25 @@ class OperatorHID {
         OperatorHID();
 
         // Only triggers once after the switch is thrown.
-        bool GetClimbSequenceStart() { return m_ButtonPad.GetButtonPressed(sClimbSequence); };
+        bool GetClimbSequenceStart() { return m_ActionPad.GetButtonPressed(sClimbSequence); };
 
         // Rotation position buttons.
-        bool GetFloorHatchPickupPressed() { return m_ButtonPad.GetButtonPressed(bRotateFloorHatchPickup); };
-        bool GetFloorCargoPickupPressed() { return m_ButtonPad.GetButtonPressed(bRotateFloorCargoPickup); };
-        bool GetHatchFeederScorePressed() { return m_ButtonPad.GetButtonPressed(bRotateHatchFeederScore); };
-        bool GetRocketShotPressed()       { return m_ButtonPad.GetButtonPressed(bRotateRocketShot); };
-        bool GetCargoShotPressed()        { return m_ButtonPad.GetButtonPressed(bRotateCargoShot); };
-        bool GetGoHomePressed()           { return m_ButtonPad.GetButtonPressed(bRotateGoHome); };
+        bool GetFloorHatchPickupPressed() { return m_RotationPad.GetButtonPressed(bRotateFloorHatchPickup); };
+        bool GetFloorCargoPickupPressed() { return m_RotationPad.GetButtonPressed(bRotateFloorCargoPickup); };
+        bool GetHatchFeederScorePressed() { return m_RotationPad.GetButtonPressed(bRotateHatchFeederScore); };
+        bool GetRocketShotPressed()       { return m_RotationPad.GetButtonPressed(bRotateRocketShot); };
+        bool GetCargoShotPressed()        { return m_RotationPad.GetButtonPressed(bRotateCargoShot); };
+        bool GetStowedPressed()           { return m_RotationPad.GetButtonPressed(bRotateStowed); };
 
         // Action buttons.
-        bool GetCargoCloseShotPressed() { return m_ButtonPad.GetButtonPressed(bCargoCloseShot); };
-        bool GetCargoHighShotPressed()  { return m_ButtonPad.GetButtonPressed(bCargoHighShot); };
-        bool GetHatchGrabPressed()      { return m_ButtonPad.GetButtonPressed(bHatchGrab); };
-        bool GetHatchReleasePressed()   { return m_ButtonPad.GetButtonPressed(bHatchRelease); };
+        bool GetCargoCloseShotPressed() { return m_ActionPad.GetButtonPressed(bCargoCloseShot); };
+        bool GetCargoHighShotPressed()  { return m_ActionPad.GetButtonPressed(bCargoHighShot); };
+        bool GetHatchGrabPressed()      { return m_ActionPad.GetButtonPressed(bHatchGrab); };
+        bool GetHatchReleasePressed()   { return m_ActionPad.GetButtonPressed(bHatchRelease); };
 
         double GetThrottle() { return m_FlightStick.GetThrottle(); }; // Throttle is the switch on the base of the stick
     private:
-        ButtonBoard m_ButtonPad{1};     // To control the intake and creeper arms *with commands*.
-        frc::Joystick m_FlightStick{2}; // To control the intake and creeper arms *manually*.
+        ButtonBoard m_ActionPad{1};     // To control the intake and creeper arms actions.
+        ButtonBoard m_RotationPad{2};   // To control the intake angle.
+        frc::Joystick m_FlightStick{3}; // To control the intake and creeper arms *manually*.
 };
