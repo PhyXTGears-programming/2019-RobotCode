@@ -63,11 +63,11 @@ void DriveTrain::Drive(frc::XboxController& driver) {
 }
 
 void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs) {
-    // xSpeed = Limit(xSpeed);
-    // xSpeed = ApplyDeadband(xSpeed, m_deadband);
+    xSpeed = Limit(xSpeed);
+    xSpeed = ApplyDeadband(xSpeed, m_deadband);
 
-    // zRotation = Limit(zRotation);
-    // zRotation = ApplyDeadband(zRotation, m_deadband);
+    zRotation = Limit(zRotation);
+    zRotation = ApplyDeadband(zRotation, m_deadband);
 
     // Square the inputs (while preserving the sign) to increase fine control
     // while permitting full power.

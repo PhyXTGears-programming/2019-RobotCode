@@ -90,9 +90,7 @@ void Robot::TeleopInit() {
     GetDriveTrain().RunReset();
 }
 
-void Robot::TeleopPeriodic() {
-    Robot::JoystickDemoCreeperClimb();
-}
+void Robot::TeleopPeriodic() {}
 
 void Robot::TestPeriodic() {}
 
