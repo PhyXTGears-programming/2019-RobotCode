@@ -37,7 +37,7 @@ ShootCargoForCargoShip::ShootCargoForCargoShip()
 void ShootCargoForCargoShip::Initialize() {
     CargoIntake& intake = Robot::GetCargoIntake();
 
-    m_HasPrerequisites = intake.HasCargo() && intake.IsAtPosition("cargo-ship-shoot");
+    m_HasPrerequisites = intake.HasCargo();
 
     m_Action = Action::TurnOnRollers;
 }
