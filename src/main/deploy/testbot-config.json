@@ -23,7 +23,9 @@
             "rocket-1": 0.60
         }
     },
-    "drive": {},
+    "drive": {
+        "max-acceleration": 2.6
+    },
     "climb": {
         "PID": {
             "P": 0.07,

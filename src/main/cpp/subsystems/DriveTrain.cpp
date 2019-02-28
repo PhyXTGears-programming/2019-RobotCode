@@ -29,8 +29,10 @@ DriveTrain::DriveTrain(wpi::json &jsonConfig) : frc::Subsystem("DriveTrain") {
     #ifdef USE_DRIVETRAIN_PID
         Subsystem::AddChild("Left Drive PID", &m_LeftPID);
         Subsystem::AddChild("Right Drive PID", &m_RightPID);
+    #else
+        m_MaxAcceleration = jsonConfig["drive"]["max-acceleration"];
     #endif
-    
+
     Subsystem::AddChild("Left Drive Encoder", &m_EncoderLeft);
     Subsystem::AddChild("Right Drive Encoder", &m_EncoderRight);
 
@@ -113,8 +115,44 @@ void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs)
         m_LeftPID.Enable();
         m_RightPID.Enable();
     #else
-        m_LeftMotors.Set(Limit(leftMotorOutput) * m_maxOutput);
-        m_RightMotors.Set(Limit(rightMotorOutput) * m_maxOutput);
+
+        // Now that we have the desired left and right speeds, limit the
+        // acceleration while maintaining the ratio between left and right
+        // velocities.
+        double desiredLeft = leftMotorOutput;
+        double desiredRight = rightMotorOutput;
+
+        double currentLeft = m_LeftMotors.Get() / m_maxOutput;
+        double currentRight = m_RightMotors.Get() / m_maxOutput;
+
+        double maxLeftAccel = m_MaxAcceleration, maxRightAccel = m_MaxAcceleration;
+
+        double timeDelta = m_TimeDelta.Split();
+
+        // Basic formula behind this is:
+        //
+        //  v_{i+1} = v_i + min(abs(v_{i+1} - v_i), a * dt) * sign(v_{i+1} - v_i)
+        //
+        // where v_i is the current velocity (aka motor output [-1, 1]),
+        //       v_{i+1} is the next velocity to send to the motors,
+        //       a is the max acceleration, and
+        //       dt is the time delta in seconds since the velocity step.
+        double allowedLeft = ComputeNextOutputDelta(
+            currentLeft,
+            desiredLeft,
+            maxLeftAccel,
+            timeDelta
+        );
+
+        double allowedRight = ComputeNextOutputDelta(
+            currentRight,
+            desiredRight,
+            maxRightAccel,
+            timeDelta
+        );
+
+        m_LeftMotors.Set(Limit(allowedLeft) * m_maxOutput);
+        m_RightMotors.Set(Limit(allowedRight) * m_maxOutput);
     #endif
 
     Feed();
@@ -161,4 +199,9 @@ void DriveTrain::RunReset() {
     #else
         ArcadeDrive(0, 0);
     #endif
+}
+
+double DriveTrain::ComputeNextOutputDelta(double iVel, double fVel, double maxAccel, double timeDelta) {
+    double deltaVel = fVel - iVel;
+    return iVel + std::copysign(std::min(std::abs(deltaVel), maxAccel * timeDelta), deltaVel);
 }

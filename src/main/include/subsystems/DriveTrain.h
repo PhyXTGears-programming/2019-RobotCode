@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RobotMap.h"
+#include "util/StopWatch.h"
 #include "VelocitySource.h"
 
 #include <frc/ADXRS450_Gyro.h>
@@ -72,5 +73,11 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
                 m_EncoderLeftPID,
                 m_LeftMotors
             };
+        #else
+            // Limit acceleration.
+            double m_MaxAcceleration;
+            StopWatch m_TimeDelta;
+
+            double ComputeNextOutputDelta(double iVel, double fVel, double maxAccel, double timeDelta);
         #endif
 };
