@@ -59,6 +59,10 @@ Robot::Robot() {
     m_RotateCargoForLevelOneRocket = new RotateCargoForLevelOneRocket();
     m_RotateHatchForFloor = new RotateHatchForFloor();
     m_RotateHatchForDispenser = new RotateHatchForDispenser();
+
+    m_ShootCargoForCargoShip = new ShootCargoForCargoShip();
+
+    m_TakeCargoFromFloor = new TakeCargoFromFloor();
     
     // Allocate and initialize commands - 
     m_ReadyCreeperArm = new ReadyCreeperArm();
