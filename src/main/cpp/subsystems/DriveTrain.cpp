@@ -127,6 +127,26 @@ void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs)
 
         double maxLeftAccel = m_MaxAcceleration, maxRightAccel = m_MaxAcceleration;
 
+        /* *
+        // Descrease the max velocity step size for the slower drive side so
+        // turning takes effect sooner.
+        //
+        // WARNING: Doesn't really work from initial testing.  Robot drives more straight.
+        if (0.01 < std::abs(desiredLeft) - std::abs(desiredRight)) {
+            // Left speed is faster than right.
+            maxLeftAccel = m_MaxAcceleration;
+            maxRightAccel = m_MaxAcceleration * desiredRight / desiredLeft;
+        } else if (0.01 < std::abs(desiredRight) - std::abs(desiredLeft)) {
+            // Right speed is faster than left.
+            maxLeftAccel = m_MaxAcceleration * desiredLeft / desiredRight;
+            maxRightAccel = m_MaxAcceleration;
+        } else {
+            // Both speeds are effectively same.
+            maxLeftAccel = m_MaxAcceleration;
+            maxRightAccel = m_MaxAcceleration;
+        }
+        /* */
+
         double timeDelta = m_TimeDelta.Split();
 
         // Basic formula behind this is:
