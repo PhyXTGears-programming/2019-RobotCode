@@ -166,7 +166,7 @@ void Robot::JoystickDemoCargo() {
         double rightTrigger = driver.GetTriggerAxis(frc::XboxController::kRightHand);
 
         if (0.1 < leftTrigger) {
-            GetCargoIntake().SetRotateSpeed(leftTrigger * -1.0);
+            GetCargoIntake().SetRotateSpeed(leftTrigger * 1.0);
         } else if (0.1 < rightTrigger) {
             GetCargoIntake().SetRotateSpeed(rightTrigger * -1.0);
         } else {
