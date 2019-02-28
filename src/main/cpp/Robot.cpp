@@ -172,7 +172,7 @@ void Robot::JoystickDemoCargo() {
         } else {
             GetCargoIntake().SetRotateSpeed(0.0);
         }
-    } else if (driver.GetYButtonReleased()) {
+    } else if (driver.GetXButtonReleased()) {
         GetCargoIntake().SetRotateSpeed(0.0);
     }
 }
