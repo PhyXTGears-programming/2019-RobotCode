@@ -21,6 +21,7 @@ RotateHatchForDispenser*        Robot::m_RotateHatchForDispenser;
 
 ShootCargoForCargoShip*         Robot::m_ShootCargoForCargoShip;
 
+TakeCargo*                      Robot::m_TakeCargo;
 TakeCargoFromFloor*             Robot::m_TakeCargoFromFloor;
 
 // Initialize Commands - Climb
@@ -62,6 +63,7 @@ Robot::Robot() {
 
     m_ShootCargoForCargoShip = new ShootCargoForCargoShip();
 
+    m_TakeCargo = new TakeCargo();
     m_TakeCargoFromFloor = new TakeCargoFromFloor();
     
     // Allocate and initialize commands - 
@@ -190,6 +192,10 @@ void Robot::JoystickDemoCargo() {
 
     if (driver.GetBButtonPressed()) {
         m_TakeCargoFromFloor->Start();
+    }
+
+    if (driver.GetBumperPressed(frc::XboxController::kRightHand)) {
+        m_TakeCargo->Start();
     }
 }
 
