@@ -12,6 +12,7 @@
 #include <frc/drive/DifferentialDrive.h>
 #include <frc/drive/RobotDriveBase.h>
 
+#include <wpi/json.h>
 #include <wpi/raw_ostream.h>
 
 #ifdef PROTOBOT
@@ -28,7 +29,7 @@
 
 class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
     public:
-        DriveTrain();
+        DriveTrain(wpi::json&);
         void InitDefaultCommand() override;
         void Drive(double left, double right);
         void Drive(frc::XboxController& driver);

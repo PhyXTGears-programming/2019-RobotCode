@@ -6,7 +6,7 @@
 
 #include <cmath>
 
-DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {
+DriveTrain::DriveTrain(wpi::json &jsonConfig) : frc::Subsystem("DriveTrain") {
 #   ifndef PROTOBOT
         // Set up TalonSRXs.
         m_MotorRightFront.ConfigFactoryDefault();

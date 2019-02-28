@@ -7,7 +7,7 @@
 // Initialize Operator Interface
 OI            Robot::m_OI;
 // Initialize Subsystems
-DriveTrain    Robot::m_DriveTrain;
+DriveTrain*   Robot::m_DriveTrain;
 CargoIntake*  Robot::m_CargoIntake;
 CreeperClimb* Robot::m_CreeperClimb;
 
@@ -52,6 +52,7 @@ Robot::Robot() {
 
     m_CargoIntake = new CargoIntake(m_JsonConfig);
     m_CreeperClimb = new CreeperClimb(m_JsonConfig);
+    m_DriveTrain = new DriveTrain(m_JsonConfig);
 
     // Allocate and initialize commands - Intake
     m_GrabHatchFromDispenser = new GrabHatchFromDispenser();
