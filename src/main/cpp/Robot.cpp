@@ -179,6 +179,18 @@ void Robot::JoystickDemoCargo() {
     } else if (driver.GetXButtonReleased()) {
         GetCargoIntake().SetRotateSpeed(0.0);
     }
+
+    if (driver.GetYButtonPressed()) {
+        m_RotateCargoForCargoShip->Start();
+    }
+
+    if (driver.GetAButtonPressed()) {
+        m_ShootCargoForCargoShip->Start();
+    }
+
+    if (driver.GetBButtonPressed()) {
+        m_TakeCargoFromFloor->Start();
+    }
 }
 
 void Robot::JoystickDemoCreeperClimb() {
