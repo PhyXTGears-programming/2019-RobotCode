@@ -24,7 +24,9 @@
         }
     },
     "drive": {
-        "max-acceleration": 2.6
+        "max-acceleration": 2.6,
+        "max-normal-speed": 0.6,
+        "turn-factor": 0.95
     },
     "climb": {
         "PID": {

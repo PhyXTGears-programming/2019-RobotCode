@@ -32,6 +32,9 @@ DriveTrain::DriveTrain(wpi::json &jsonConfig) : frc::Subsystem("DriveTrain") {
     #else
         m_MaxAcceleration = jsonConfig["drive"]["max-acceleration"];
 
+        m_MaxNormalSpeed = jsonConfig["drive"]["max-normal-speed"];
+        m_TurnFactor = jsonConfig["drive"]["turn-factor"];
+
         m_DashboardLeftOutput = 0.0;
         m_DashboardRightOutput = 0.0;
         m_DashboardTimeDelta = 0.0;
@@ -62,7 +65,7 @@ void DriveTrain::Drive(frc::XboxController& driver) {
     double hidY = driver.GetY(frc::XboxController::kLeftHand);
 
     if (ENABLE_DRIVETRAIN_CONTROL) {
-        ArcadeDrive(hidY, hidX, true);
+        ArcadeDrive(hidY, hidX * m_TurnFactor, true);
     } else {
         // m_Drive.ArcadeDrive(hidY, hidX, true);
     }
@@ -251,6 +254,13 @@ void DriveTrain::RunReset() {
         m_LeftPID.Enable();
     #else
         ArcadeDrive(0, 0);
+    #endif
+}
+
+void DriveTrain::UseNormalSpeedLimit() {
+    #ifdef USE_DRIVETRAIN_PID
+    #else
+        SetMaxOutput(m_MaxNormalSpeed);
     #endif
 }
 

@@ -11,6 +11,7 @@ void TeleOpDrive::Initialize() {}
 
 void TeleOpDrive::Execute() {
     if (ENABLE_DRIVETRAIN_CONTROL) {
+        Robot::GetDriveTrain().UseNormalSpeedLimit();
         Robot::GetDriveTrain().Drive(Robot::m_OI.GetDriverJoystick());
     }
 }

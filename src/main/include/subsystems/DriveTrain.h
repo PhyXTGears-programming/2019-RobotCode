@@ -42,6 +42,8 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
 
         void RunReset();
 
+        void UseNormalSpeedLimit();
+
     private:
         // Motors
         MOTORTYPE m_MotorRightFront {kRightFrontMotor};
@@ -79,6 +81,10 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
             StopWatch m_TimeDelta;
 
             double ComputeNextOutputDelta(double iVel, double fVel, double maxAccel, double timeDelta);
+
+            // Config setpoints.
+            double m_MaxNormalSpeed;
+            double m_TurnFactor;
 
             // Member variables used for dashboard reporting.
             double m_DashboardLeftOutput;
