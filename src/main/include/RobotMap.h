@@ -147,5 +147,7 @@
 #   define kCargoTalonRoller CAN_8
 // Potentiometer for rotation position
 #   define kCargoRotationSensor AIO_0
+// Cargo hatch cheesecake
+#   define kCargoHatchCheesecakeMotor PWM_3
 
 #endif

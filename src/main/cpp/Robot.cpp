@@ -234,6 +234,25 @@ void Robot::JoystickDemoCreeperClimb() {
     }
 }
 
+void Robot::JoystickDemoHatchCheesecake() {
+    frc::XboxController& driver = m_OI.GetDriverJoystick();
+
+    if (driver.GetXButton()) {
+        double leftTrigger = driver.GetTriggerAxis(frc::XboxController::kLeftHand);
+        double rightTrigger = driver.GetTriggerAxis(frc::XboxController::kRightHand);
+
+        if (0.01 < leftTrigger) {
+            GetCargoIntake().SetHatchRotateSpeed(leftTrigger * 0.5);
+        } else if (0.01 < rightTrigger) {
+            GetCargoIntake().SetHatchRotateSpeed(rightTrigger * -0.5);
+        } else {
+            GetCargoIntake().SetHatchRotateSpeed(0.0);
+        }
+    } else if (driver.GetXButtonReleased()) {
+        GetCargoIntake().SetHatchRotateSpeed(0.0);
+    }
+}
+
 
 
 #ifndef RUNNING_FRC_TESTS
