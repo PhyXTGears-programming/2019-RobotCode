@@ -79,5 +79,10 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
             StopWatch m_TimeDelta;
 
             double ComputeNextOutputDelta(double iVel, double fVel, double maxAccel, double timeDelta);
+
+            // Member variables used for dashboard reporting.
+            double m_DashboardLeftOutput;
+            double m_DashboardRightOutput;
+            double m_DashboardTimeDelta;
         #endif
 };

@@ -31,6 +31,10 @@ DriveTrain::DriveTrain(wpi::json &jsonConfig) : frc::Subsystem("DriveTrain") {
         Subsystem::AddChild("Right Drive PID", &m_RightPID);
     #else
         m_MaxAcceleration = jsonConfig["drive"]["max-acceleration"];
+
+        m_DashboardLeftOutput = 0.0;
+        m_DashboardRightOutput = 0.0;
+        m_DashboardTimeDelta = 0.0;
     #endif
 
     Subsystem::AddChild("Left Drive Encoder", &m_EncoderLeft);
@@ -171,8 +175,18 @@ void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs)
             timeDelta
         );
 
-        m_LeftMotors.Set(Limit(allowedLeft) * m_maxOutput);
-        m_RightMotors.Set(Limit(allowedRight) * m_maxOutput);
+        // Limit and scale the the motor output.
+        allowedLeft = Limit(allowedLeft) * m_maxOutput;
+        allowedRight = Limit(allowedRight) * m_maxOutput;
+
+        // Update the motors.
+        m_LeftMotors.Set(allowedLeft);
+        m_RightMotors.Set(allowedRight);
+
+        // Update dashboard vars.
+        m_DashboardLeftOutput = allowedLeft;
+        m_DashboardRightOutput = allowedRight;
+        m_DashboardTimeDelta = timeDelta;
     #endif
 
     Feed();
@@ -197,16 +211,35 @@ void DriveTrain::InitSendable(frc::SendableBuilder& builder) {
     builder.SetSmartDashboardType("DifferentialDrive");
     builder.SetActuator(true);
     builder.SetSafeState([=] { StopMotor(); });
-    // builder.AddDoubleProperty(
-    //     "Left Motor Speed",
-    //     [=]() { return m_LeftPID.Get(); },
-    //     [=](double value) { return m_LeftPID.SetSetpoint(value); }
-    // );
-    // builder.AddDoubleProperty(
-    //     "Right Motor Speed",
-    //     [=]() { return m_RightPID.Get(); },
-    //     [=](double value) { return m_RightPID.SetSetpoint(value); }
-    // );
+
+    #ifdef USE_DRIVETRAIN_PID
+        builder.AddDoubleProperty(
+            "Left Motor Speed",
+            [=]() { return m_LeftPID.Get(); },
+            nullptr
+        );
+        builder.AddDoubleProperty(
+            "Right Motor Speed",
+            [=]() { return m_RightPID.Get(); },
+            nullptr
+        );
+    #else
+        builder.AddDoubleProperty(
+            "Left Motor Output (Limited)",
+            [=]() { return m_DashboardLeftOutput; },
+            nullptr
+        );
+        builder.AddDoubleProperty(
+            "Right Motor Output (Limited)",
+            [=]() { return m_DashboardRightOutput; },
+            nullptr
+        );
+        builder.AddDoubleProperty(
+            "Time Delta (s)",
+            [=]() { return m_DashboardTimeDelta; },
+            nullptr
+        );
+    #endif
 }
 
 void DriveTrain::RunReset() {
