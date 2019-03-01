@@ -8,7 +8,7 @@
 // Initialize Operator Interface
 OI            Robot::m_OI;
 // Initialize Subsystems
-DriveTrain    Robot::m_DriveTrain;
+DriveTrain*   Robot::m_DriveTrain;
 CargoIntake*  Robot::m_CargoIntake;
 CreeperClimb* Robot::m_CreeperClimb;
 
@@ -22,6 +22,7 @@ RotateHatchForDispenser*        Robot::m_RotateHatchForDispenser;
 
 ShootCargoForCargoShip*         Robot::m_ShootCargoForCargoShip;
 
+TakeCargo*                      Robot::m_TakeCargo;
 TakeCargoFromFloor*             Robot::m_TakeCargoFromFloor;
 
 // Initialize Commands - Climb
@@ -52,6 +53,7 @@ Robot::Robot() {
 
     m_CargoIntake = new CargoIntake(m_JsonConfig);
     m_CreeperClimb = new CreeperClimb(m_JsonConfig);
+    m_DriveTrain = new DriveTrain(m_JsonConfig);
 
     // Allocate and initialize commands - Intake
     m_GrabHatchFromDispenser = new GrabHatchFromDispenser();
@@ -60,6 +62,11 @@ Robot::Robot() {
     m_RotateCargoForLevelOneRocket = new RotateCargoForLevelOneRocket();
     m_RotateHatchForFloor = new RotateHatchForFloor();
     m_RotateHatchForDispenser = new RotateHatchForDispenser();
+
+    m_ShootCargoForCargoShip = new ShootCargoForCargoShip();
+
+    m_TakeCargo = new TakeCargo();
+    m_TakeCargoFromFloor = new TakeCargoFromFloor();
     
     // Allocate and initialize commands - 
     m_ReadyCreeperArm = new ReadyCreeperArm();
@@ -92,14 +99,24 @@ void Robot::TeleopInit() {
     GetDriveTrain().RunReset();
 }
 
-void Robot::TestPeriodic() {}
-
 void Robot::TeleopPeriodic() {
+    // No control code goes here.  Put control code for testing in a new
+    // JoystickDemo method, or control code for competition in
+    // CompetitionJoytickInput().
+    //
+    // TestPeriodic() will only invoke CompetitionJoytickInput(), and we can
+    // swap out a JoystickDemo method for testing, but that modification to
+    // TeleopPeriodic() had better not be committed to the develop branch, or
+    // so help me, more words will ensue.
+    //
+    // (╯°Д°）╯︵┻━┻
     CompetitionJoystickInput();
 }
 
+void Robot::TestPeriodic() {}
+
 void Robot::CompetitionJoystickInput() {
-    // Controls will go here.
+    // Competition Controls will go here.
 
     /* DRIVE CONTROLS
     
@@ -178,14 +195,30 @@ void Robot::JoystickDemoCargo() {
         double rightTrigger = driver.GetTriggerAxis(frc::XboxController::kRightHand);
 
         if (0.1 < leftTrigger) {
-            GetCargoIntake().SetRotateSpeed(leftTrigger * -1.0);
+            GetCargoIntake().SetRotateSpeed(leftTrigger * 1.0);
         } else if (0.1 < rightTrigger) {
             GetCargoIntake().SetRotateSpeed(rightTrigger * -1.0);
         } else {
             GetCargoIntake().SetRotateSpeed(0.0);
         }
-    } else if (driver.GetYButtonReleased()) {
+    } else if (driver.GetXButtonReleased()) {
         GetCargoIntake().SetRotateSpeed(0.0);
+    }
+
+    if (driver.GetYButtonPressed()) {
+        m_RotateCargoForCargoShip->Start();
+    }
+
+    if (driver.GetAButtonPressed()) {
+        m_ShootCargoForCargoShip->Start();
+    }
+
+    if (driver.GetBButtonPressed()) {
+        m_TakeCargoFromFloor->Start();
+    }
+
+    if (driver.GetBumperPressed(frc::XboxController::kRightHand)) {
+        m_TakeCargo->Start();
     }
 }
 

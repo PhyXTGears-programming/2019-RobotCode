@@ -4,7 +4,7 @@
 #include <iostream>
 #include <string>
 
-#define ANGLE_TOLERANCE 2       // Degrees
+#define ANGLE_TOLERANCE 4       // Degrees
 
 
 CargoIntake::CargoIntake(wpi::json &jsonConfig) : Subsystem("CargoIntake") {
@@ -45,15 +45,15 @@ void CargoIntake::StopRoller() {
 #endif
 
 bool CargoIntake::HasCargo() {
-    return this->m_CargoSensor.Get();
+    return !m_CargoSensor.Get();
 }
 
 void CargoIntake::ExtendEjector() {
-    m_CargoEjector.Set(0.7);
+    m_CargoEjector.Set(0.3);
 }
 
 void CargoIntake::RetractEjector() {
-    m_CargoEjector.Set(0.3);
+    m_CargoEjector.Set(0.5);
 }
 
 bool CargoIntake::IsRotationDone() {

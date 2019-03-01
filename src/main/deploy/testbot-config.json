@@ -9,20 +9,25 @@
             "zero-point": 0.0,
             "angles": {
                 "home": 100.0,
-                "cargo-ship-shoot": 25,
-                "rocket-1-shoot": 10,
+                "cargo-ship-shoot": 65,
+                "rocket-1-shoot": 50,
                 "rocket-2-shoot": 30,
-                "cargo-floor-pickup": -45,
+                "cargo-floor-pickup": -65,
                 "hatch-dispenser-pickup": 0,
                 "hatch-floor-pickup": -92
             }
         },
         "roller-speed": {
-            "intake": 0.000000,
-            "cargo-ship": 0.000000
+            "intake": -0.75,
+            "cargo-ship": 0.90,
+            "rocket-1": 0.60
         }
     },
-    "drive": {},
+    "drive": {
+        "max-acceleration": 2.6,
+        "max-normal-speed": 0.6,
+        "turn-factor": 0.95
+    },
     "climb": {
         "PID": {
             "P": 0.07,

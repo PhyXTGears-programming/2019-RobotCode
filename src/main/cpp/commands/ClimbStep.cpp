@@ -28,7 +28,7 @@ using std::endl;
  */
 
 ClimbStep::ClimbStep() {
-    Requires(&Robot::m_DriveTrain);
+    Requires(&Robot::GetDriveTrain());
     Requires(&Robot::GetCreeperClimb());
 }
 
