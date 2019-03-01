@@ -1,6 +1,7 @@
 #pragma once
 
 #include "RobotMap.h"
+#include "util/StopWatch.h"
 #include "VelocitySource.h"
 
 #include <frc/ADXRS450_Gyro.h>
@@ -12,6 +13,7 @@
 #include <frc/drive/DifferentialDrive.h>
 #include <frc/drive/RobotDriveBase.h>
 
+#include <wpi/json.h>
 #include <wpi/raw_ostream.h>
 
 #ifdef PROTOBOT
@@ -28,7 +30,7 @@
 
 class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
     public:
-        DriveTrain();
+        DriveTrain(wpi::json&);
         void InitDefaultCommand() override;
         void Drive(double left, double right);
         void Drive(frc::XboxController& driver);
@@ -39,6 +41,8 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
         void InitSendable(frc::SendableBuilder& builder) override;
 
         void RunReset();
+
+        void UseNormalSpeedLimit();
 
     private:
         // Motors
@@ -71,5 +75,20 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
                 m_EncoderLeftPID,
                 m_LeftMotors
             };
+        #else
+            // Limit acceleration.
+            double m_MaxAcceleration;
+            StopWatch m_TimeDelta;
+
+            double ComputeNextOutputDelta(double iVel, double fVel, double maxAccel, double timeDelta);
+
+            // Config setpoints.
+            double m_MaxNormalSpeed;
+            double m_TurnFactor;
+
+            // Member variables used for dashboard reporting.
+            double m_DashboardLeftOutput;
+            double m_DashboardRightOutput;
+            double m_DashboardTimeDelta;
         #endif
 };

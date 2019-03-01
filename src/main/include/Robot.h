@@ -40,7 +40,7 @@ class Robot : public frc::TimedRobot {
         // Operator Interface
         static OI m_OI;
         // Subsystems
-        static DriveTrain    m_DriveTrain;
+        static DriveTrain*   m_DriveTrain;
         static CreeperClimb* m_CreeperClimb;
         static CargoIntake*  m_CargoIntake;
         // Commands
@@ -76,7 +76,7 @@ class Robot : public frc::TimedRobot {
 
         static CargoIntake & GetCargoIntake() { return *Robot::m_CargoIntake; };
         static CreeperClimb & GetCreeperClimb() { return *Robot::m_CreeperClimb; };
-        static DriveTrain & GetDriveTrain() { return Robot::m_DriveTrain; };
+        static DriveTrain & GetDriveTrain() { return *Robot::m_DriveTrain; };
 
     private:
         frc::SendableChooser<frc::Command*> m_Chooser;

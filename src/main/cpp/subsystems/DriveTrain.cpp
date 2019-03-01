@@ -6,7 +6,7 @@
 
 #include <cmath>
 
-DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {
+DriveTrain::DriveTrain(wpi::json &jsonConfig) : frc::Subsystem("DriveTrain") {
 #   ifndef PROTOBOT
         // Set up TalonSRXs.
         m_MotorRightFront.ConfigFactoryDefault();
@@ -29,8 +29,17 @@ DriveTrain::DriveTrain() : frc::Subsystem("DriveTrain") {
     #ifdef USE_DRIVETRAIN_PID
         Subsystem::AddChild("Left Drive PID", &m_LeftPID);
         Subsystem::AddChild("Right Drive PID", &m_RightPID);
+    #else
+        m_MaxAcceleration = jsonConfig["drive"]["max-acceleration"];
+
+        m_MaxNormalSpeed = jsonConfig["drive"]["max-normal-speed"];
+        m_TurnFactor = jsonConfig["drive"]["turn-factor"];
+
+        m_DashboardLeftOutput = 0.0;
+        m_DashboardRightOutput = 0.0;
+        m_DashboardTimeDelta = 0.0;
     #endif
-    
+
     Subsystem::AddChild("Left Drive Encoder", &m_EncoderLeft);
     Subsystem::AddChild("Right Drive Encoder", &m_EncoderRight);
 
@@ -56,7 +65,7 @@ void DriveTrain::Drive(frc::XboxController& driver) {
     double hidY = driver.GetY(frc::XboxController::kLeftHand);
 
     if (ENABLE_DRIVETRAIN_CONTROL) {
-        ArcadeDrive(hidY, hidX, true);
+        ArcadeDrive(hidY, hidX * m_TurnFactor, true);
     } else {
         // m_Drive.ArcadeDrive(hidY, hidX, true);
     }
@@ -113,8 +122,74 @@ void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs)
         m_LeftPID.Enable();
         m_RightPID.Enable();
     #else
-        m_LeftMotors.Set(Limit(leftMotorOutput) * m_maxOutput);
-        m_RightMotors.Set(Limit(rightMotorOutput) * m_maxOutput);
+
+        // Now that we have the desired left and right speeds, limit the
+        // acceleration while maintaining the ratio between left and right
+        // velocities.
+        double desiredLeft = leftMotorOutput;
+        double desiredRight = rightMotorOutput;
+
+        double currentLeft = m_LeftMotors.Get() / m_maxOutput;
+        double currentRight = m_RightMotors.Get() / m_maxOutput;
+
+        double maxLeftAccel = m_MaxAcceleration, maxRightAccel = m_MaxAcceleration;
+
+        /* *
+        // Descrease the max velocity step size for the slower drive side so
+        // turning takes effect sooner.
+        //
+        // WARNING: Doesn't really work from initial testing.  Robot drives more straight.
+        if (0.01 < std::abs(desiredLeft) - std::abs(desiredRight)) {
+            // Left speed is faster than right.
+            maxLeftAccel = m_MaxAcceleration;
+            maxRightAccel = m_MaxAcceleration * desiredRight / desiredLeft;
+        } else if (0.01 < std::abs(desiredRight) - std::abs(desiredLeft)) {
+            // Right speed is faster than left.
+            maxLeftAccel = m_MaxAcceleration * desiredLeft / desiredRight;
+            maxRightAccel = m_MaxAcceleration;
+        } else {
+            // Both speeds are effectively same.
+            maxLeftAccel = m_MaxAcceleration;
+            maxRightAccel = m_MaxAcceleration;
+        }
+        /* */
+
+        double timeDelta = m_TimeDelta.Split();
+
+        // Basic formula behind this is:
+        //
+        //  v_{i+1} = v_i + min(abs(v_{i+1} - v_i), a * dt) * sign(v_{i+1} - v_i)
+        //
+        // where v_i is the current velocity (aka motor output [-1, 1]),
+        //       v_{i+1} is the next velocity to send to the motors,
+        //       a is the max acceleration, and
+        //       dt is the time delta in seconds since the velocity step.
+        double allowedLeft = ComputeNextOutputDelta(
+            currentLeft,
+            desiredLeft,
+            maxLeftAccel,
+            timeDelta
+        );
+
+        double allowedRight = ComputeNextOutputDelta(
+            currentRight,
+            desiredRight,
+            maxRightAccel,
+            timeDelta
+        );
+
+        // Limit and scale the the motor output.
+        allowedLeft = Limit(allowedLeft) * m_maxOutput;
+        allowedRight = Limit(allowedRight) * m_maxOutput;
+
+        // Update the motors.
+        m_LeftMotors.Set(allowedLeft);
+        m_RightMotors.Set(allowedRight);
+
+        // Update dashboard vars.
+        m_DashboardLeftOutput = allowedLeft;
+        m_DashboardRightOutput = allowedRight;
+        m_DashboardTimeDelta = timeDelta;
     #endif
 
     Feed();
@@ -139,16 +214,35 @@ void DriveTrain::InitSendable(frc::SendableBuilder& builder) {
     builder.SetSmartDashboardType("DifferentialDrive");
     builder.SetActuator(true);
     builder.SetSafeState([=] { StopMotor(); });
-    // builder.AddDoubleProperty(
-    //     "Left Motor Speed",
-    //     [=]() { return m_LeftPID.Get(); },
-    //     [=](double value) { return m_LeftPID.SetSetpoint(value); }
-    // );
-    // builder.AddDoubleProperty(
-    //     "Right Motor Speed",
-    //     [=]() { return m_RightPID.Get(); },
-    //     [=](double value) { return m_RightPID.SetSetpoint(value); }
-    // );
+
+    #ifdef USE_DRIVETRAIN_PID
+        builder.AddDoubleProperty(
+            "Left Motor Speed",
+            [=]() { return m_LeftPID.Get(); },
+            nullptr
+        );
+        builder.AddDoubleProperty(
+            "Right Motor Speed",
+            [=]() { return m_RightPID.Get(); },
+            nullptr
+        );
+    #else
+        builder.AddDoubleProperty(
+            "Left Motor Output (Limited)",
+            [=]() { return m_DashboardLeftOutput; },
+            nullptr
+        );
+        builder.AddDoubleProperty(
+            "Right Motor Output (Limited)",
+            [=]() { return m_DashboardRightOutput; },
+            nullptr
+        );
+        builder.AddDoubleProperty(
+            "Time Delta (s)",
+            [=]() { return m_DashboardTimeDelta; },
+            nullptr
+        );
+    #endif
 }
 
 void DriveTrain::RunReset() {
@@ -161,4 +255,16 @@ void DriveTrain::RunReset() {
     #else
         ArcadeDrive(0, 0);
     #endif
+}
+
+void DriveTrain::UseNormalSpeedLimit() {
+    #ifdef USE_DRIVETRAIN_PID
+    #else
+        SetMaxOutput(m_MaxNormalSpeed);
+    #endif
+}
+
+double DriveTrain::ComputeNextOutputDelta(double iVel, double fVel, double maxAccel, double timeDelta) {
+    double deltaVel = fVel - iVel;
+    return iVel + std::copysign(std::min(std::abs(deltaVel), maxAccel * timeDelta), deltaVel);
 }
