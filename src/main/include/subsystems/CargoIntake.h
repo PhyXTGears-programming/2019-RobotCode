@@ -12,6 +12,7 @@
 #   include <frc/PIDController.h>
 #   include <frc/Relay.h>
 #   include <frc/Servo.h>
+#   include <frc/Spark.h>
 #endif
 
 class CargoIntake : public frc::Subsystem {
@@ -43,6 +44,8 @@ class CargoIntake : public frc::Subsystem {
         void GoHome();
         double GetIntakeRotation();
 
+        void SetHatchRotateSpeed(double);
+
     private:
         frc::DigitalInput m_CargoSensor {kCargoSensor};
     
@@ -62,6 +65,8 @@ class CargoIntake : public frc::Subsystem {
         WPI_TalonSRX              m_IntakeArmMotor  {kCargoTalonRotate};
         WPI_TalonSRX              m_IntakeRoller    {kCargoTalonRoller};
         frc::Servo                m_CargoEjector    {kCargoEjectServo};
+
+        frc::Spark                m_HatchCheesecakeMotor {kCargoHatchCheesecakeMotor};
 
         frc::PIDController        m_RotationPID     {1, 0, 0, m_IntakeRotation, m_IntakeArmMotor};
 

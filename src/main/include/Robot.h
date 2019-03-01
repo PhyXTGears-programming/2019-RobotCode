@@ -92,4 +92,5 @@ class Robot : public frc::TimedRobot {
         // Control functions for testing subsystems.
         void JoystickDemoCargo();
         void JoystickDemoCreeperClimb();
+        void JoystickDemoHatchCheesecake();
 };
