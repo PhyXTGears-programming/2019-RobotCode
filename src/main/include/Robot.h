@@ -85,6 +85,7 @@ class Robot : public frc::TimedRobot {
 #       endif
 
         // Control functions for testing subsystems.
+        void CompetitionJoystickInput();
         void ButtonBoardDemo();
         void JoystickDemoCargo();
         void JoystickDemoCreeperClimb();

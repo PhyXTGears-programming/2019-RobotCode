@@ -30,9 +30,9 @@
             "D": 0.0
         },
         "rotation": {
-            "zero-point": -27.0,
+            "zero-point": -31.0,
             "angles": {
-                "home": 82,
+                "home": 110,
                 "arm-ready": 165,
                 "arm-climb": 230
             }

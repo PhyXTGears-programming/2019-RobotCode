@@ -2,6 +2,7 @@
 
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <wpi/StringRef.h>
 #include <wpi/json.h>
 
 // Initialize Operator Interface
@@ -70,7 +71,7 @@ void Robot::RobotInit() {
 }
 
 void Robot::RobotPeriodic() {
-    frc::SmartDashboard::PutNumber("flight throttle", m_OI.GetOperatorJoystick().GetThrottle());
+    frc::SmartDashboard::PutNumber("flight throttle", m_OI.GetOperatorConsole().GetThrottle());
     frc::SmartDashboard::PutNumber("intake rotation", GetCargoIntake().GetIntakeRotation());
     frc::SmartDashboard::PutNumber("climb arm rotation", GetCreeperClimb().GetCurrentArmPosition());
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
@@ -94,6 +95,10 @@ void Robot::TeleopInit() {
 void Robot::TestPeriodic() {}
 
 void Robot::TeleopPeriodic() {
+    CompetitionJoystickInput();
+}
+
+void Robot::CompetitionJoystickInput() {
     // Controls will go here.
 
     /* DRIVE CONTROLS
@@ -101,53 +106,60 @@ void Robot::TeleopPeriodic() {
 
     */
 
-    /* OPERATOR CONTROLS
+    // OPERATOR CONTROLS
 
     // Change rotation of cargo intake
-    if m_OI::GetOperator().GetFloorHatchPickupPressed() then
-        RotateHatchForFloor.Start()
-    elif GetFloorCargoPickupPressed() then
-        RotateCargoForFloor.Start()
-    elif GetHatchFeederScorePressed() then
-        RotateHatchForDispenser.Start()
-    elif GetRocketShotPressed() then
-        RotateCargoForLevelOneRocket.Start()
-    elif GetCargoShotPressed() then
-        RotateCargoForCargoShip.Start()
-    elif GetGoHomePressed() then
-        RotateIntakeToHome.Start()
-    end
+    if (m_OI.GetOperatorConsole().GetFloorHatchPickupPressed()) {
+        m_RotateHatchForFloor->Start();
+    } else if (m_OI.GetOperatorConsole().GetFloorCargoPickupPressed()) {
+        m_RotateHatchForFloor->Start();
+    } else if (m_OI.GetOperatorConsole().GetHatchFeederScorePressed()) {
+        m_RotateHatchForDispenser->Start();
+    } else if (m_OI.GetOperatorConsole().GetRocketShotPressed()) {
+        m_RotateCargoForLevelOneRocket->Start();
+    } else if (m_OI.GetOperatorConsole() .GetCargoShotPressed()) {
+        m_RotateCargoForCargoShip->Start();
+    } else if (m_OI.GetOperatorConsole().GetGoHomePressed()) {
+        GetCargoIntake().GoHome();
+    }
 
-    // action command buttons, stuff happens
-    if m_OI::GetOperator().GetCargoCloseShotPressed() then
-        ShootCargo.Start() ??
-    elif GetCargoHighShotPressed() then
-        ShootCargoForLevelOneRocket.Start()
-    elif GetHatchGrabPressed() then
-        GrabHatchFromDispenser.start()
-    elif GetHatchReleasePressed() then
-        ReleaseHatch.Start()
-    end
+    // // action command buttons, stuff happens
+    // if (m_OI.GetOperatorConsole().GetCargoCloseShotPressed()) {
+    //     m_ShootCargo->Start();
+    // } else if (m_OI.GetOperatorConsole().GetCargoHighShotPressed()) {
+    //     m_ShootCargoForLevelOneRocket->Start();
+    // } else 
+    if (m_OI.GetOperatorConsole().GetHatchGrabPressed()) {
+        m_GrabHatchFromDispenser->Start();
+    } else if (m_OI.GetOperatorConsole().GetHatchReleasePressed()) {
+        m_ReleaseHatch->Start();
+    } else if (m_OI.GetOperatorConsole().GetCreeperReadyArmPressed()) {
+        m_ReadyCreeperArm->Start();
+    } else if (m_OI.GetOperatorConsole().GetClimbSequencePressed()) {
+        m_ClimbStep->Start();
+    }
 
     // manual controls
-    if m_OI::GetOperator().GetThrottle() >= 0.75 then
-        Flightstick controls creeper arms
-    else if m_OI::GetOperator().GetThrottle() <= -0.75 then
-        Flightstick controls cargo intake
-    end
-
-    */
-   ButtonBoardDemo();   // DO NOT COMMIT THIS LINE!
+    if (m_OI.GetOperatorConsole().GetRetractArm()) {
+        Robot::GetCreeperClimb().RotateArmToPosition("home");
+    } else if (m_OI.GetOperatorConsole().GetRetractCylinder()) {
+        Robot::GetCreeperClimb().PistonRetract();
+    }
+    // if (m_OI.GetOperatorConsole().GetThrottle() >= 0.75) {
+    //     Flightstick controls creeper arms;
+    // } else if (m_OI.GetOperatorConsole().GetThrottle() <= -0.75) {
+    //     Flightstick controls cargo intake;
+    // }
 }
 
 void Robot::ButtonBoardDemo() {
-    if (m_OI.GetOperatorJoystick().GetCreeperReadyArmPressed()) {
+    if (m_OI.GetOperatorConsole().GetCreeperReadyArmPressed()) {
         m_ReadyCreeperArm->Start();
-    } else if (m_OI.GetOperatorJoystick().GetClimbSequencePressed()) {
+    } else if (m_OI.GetOperatorConsole().GetClimbSequencePressed()) {
         m_ClimbStep->Start();
-    } else if (m_OI.GetOperatorJoystick().GetRetractArm()) {
+    } else if (m_OI.GetOperatorConsole().GetRetractArm()) {
         Robot::GetCreeperClimb().RotateArmToPosition("home");
-    } else if (m_OI.GetOperatorJoystick().GetRetractCylinder()) {
+    } else if (m_OI.GetOperatorConsole().GetRetractCylinder()) {
         Robot::GetCreeperClimb().PistonRetract();
     }
 }

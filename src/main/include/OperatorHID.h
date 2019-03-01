@@ -58,7 +58,7 @@ class OperatorHID {
         bool GetHatchFeederScorePressed() { return m_RotationPad.GetButtonPressed(bRotateHatchFeederScore); };
         bool GetRocketShotPressed()       { return m_RotationPad.GetButtonPressed(bRotateRocketShot); };
         bool GetCargoShotPressed()        { return m_RotationPad.GetButtonPressed(bRotateCargoShot); };
-        bool GetStowedPressed()           { return m_RotationPad.GetButtonPressed(bRotateStowed); };
+        bool GetGoHomePressed()           { return m_RotationPad.GetButtonPressed(bRotateStowed); };
 
         // Action buttons.
         bool GetHatchGrabPressed()       { return m_ActionPad.GetButtonPressed(bHatchGrab); };
@@ -76,7 +76,7 @@ class OperatorHID {
 
         double GetThrottle() { return m_FlightStick.GetThrottle(); }; // Throttle is the switch on the base of the stick
     private:
-        ButtonBoard m_ActionPad{1};     // To control the intake and creeper arms actions.
-        ButtonBoard m_RotationPad{2};   // To control the intake angle.
+        ButtonBoard m_ActionPad{2};     // To control the intake and creeper arms actions.
+        ButtonBoard m_RotationPad{1};   // To control the intake angle.
         frc::Joystick m_FlightStick{3}; // To control the intake and creeper arms *manually*.
 };
