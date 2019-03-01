@@ -21,6 +21,7 @@ RotateHatchForDispenser*        Robot::m_RotateHatchForDispenser;
 
 ShootCargoForCargoShip*         Robot::m_ShootCargoForCargoShip;
 
+TakeCargo*                      Robot::m_TakeCargo;
 TakeCargoFromFloor*             Robot::m_TakeCargoFromFloor;
 
 // Initialize Commands - Climb
@@ -59,6 +60,11 @@ Robot::Robot() {
     m_RotateCargoForLevelOneRocket = new RotateCargoForLevelOneRocket();
     m_RotateHatchForFloor = new RotateHatchForFloor();
     m_RotateHatchForDispenser = new RotateHatchForDispenser();
+
+    m_ShootCargoForCargoShip = new ShootCargoForCargoShip();
+
+    m_TakeCargo = new TakeCargo();
+    m_TakeCargoFromFloor = new TakeCargoFromFloor();
     
     // Allocate and initialize commands - 
     m_ReadyCreeperArm = new ReadyCreeperArm();
@@ -166,14 +172,30 @@ void Robot::JoystickDemoCargo() {
         double rightTrigger = driver.GetTriggerAxis(frc::XboxController::kRightHand);
 
         if (0.1 < leftTrigger) {
-            GetCargoIntake().SetRotateSpeed(leftTrigger * -1.0);
+            GetCargoIntake().SetRotateSpeed(leftTrigger * 1.0);
         } else if (0.1 < rightTrigger) {
             GetCargoIntake().SetRotateSpeed(rightTrigger * -1.0);
         } else {
             GetCargoIntake().SetRotateSpeed(0.0);
         }
-    } else if (driver.GetYButtonReleased()) {
+    } else if (driver.GetXButtonReleased()) {
         GetCargoIntake().SetRotateSpeed(0.0);
+    }
+
+    if (driver.GetYButtonPressed()) {
+        m_RotateCargoForCargoShip->Start();
+    }
+
+    if (driver.GetAButtonPressed()) {
+        m_ShootCargoForCargoShip->Start();
+    }
+
+    if (driver.GetBButtonPressed()) {
+        m_TakeCargoFromFloor->Start();
+    }
+
+    if (driver.GetBumperPressed(frc::XboxController::kRightHand)) {
+        m_TakeCargo->Start();
     }
 }
 
