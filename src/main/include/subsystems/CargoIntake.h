@@ -25,11 +25,11 @@ class CargoIntake : public frc::Subsystem {
         // HATCH functions
 
         // parallel w/ cargo-intake
-        void GripHatchBottom() { m_HatchGripBottom.Set(0.3); }
-        void GripHatchTop()    { m_HatchGripTop.Set(0.7); }
+        void GripHatchBottom() { m_HatchGripBottom.Set(0.7); }
+        void GripHatchTop()    { m_HatchGripTop.Set(0.3); }
         // perpendicular (bottom goes down, top goes up)
-        void ReleaseHatchBottom() { m_HatchGripBottom.Set(0.7); }
-        void ReleaseHatchTop()    { m_HatchGripTop.Set(0.3); }
+        void ReleaseHatchBottom() { m_HatchGripBottom.Set(0.3); }
+        void ReleaseHatchTop()    { m_HatchGripTop.Set(0.7); }
 
         void ExtendEjector();
         void RetractEjector();

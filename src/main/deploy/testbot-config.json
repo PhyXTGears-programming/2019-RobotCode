@@ -24,18 +24,18 @@
         }
     },
     "drive": {
-        "max-acceleration": 2.6,
-        "max-normal-speed": 0.6,
+        "max-acceleration": 12.0,
+        "max-normal-speed": 0.8,
         "turn-factor": 0.95
     },
     "climb": {
         "PID": {
-            "P": 0.07,
-            "I": 0.0,
-            "D": 0.0
+            "P": 0.09,
+            "I": 0.00,
+            "D": -0.0003
         },
         "rotation": {
-            "zero-point": -27.0,
+            "zero-point": 0,
             "angles": {
                 "home": 82,
                 "arm-ready": 165,
