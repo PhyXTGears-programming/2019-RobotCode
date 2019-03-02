@@ -26,9 +26,11 @@ RotateHatchForDispenser::RotateHatchForDispenser() {
 
 // Called just before this Command runs the first time
 void RotateHatchForDispenser::Initialize() {
-    Robot::GetCargoIntake().ReleaseHatchBottom();
-    Robot::GetCargoIntake().ReleaseHatchTop();
-    Robot::GetCargoIntake().RotateToPosition("hatch-dispenser-pickup");
+    CargoIntake& intake = Robot::GetCargoIntake();
+
+    intake.SetBottomHookPosition("loading-station-receive");
+    intake.SetTopHookPosition("loading-station-receive");
+    intake.RotateToPosition("hatch-dispenser-pickup");
 }
 
 // Called repeatedly when this Command is scheduled to run

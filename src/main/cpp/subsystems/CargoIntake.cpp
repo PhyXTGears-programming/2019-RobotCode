@@ -49,10 +49,20 @@ bool CargoIntake::HasCargo() {
     return !m_CargoSensor.Get();
 }
 
+void CargoIntake::SetBottomHookPosition(wpi::StringRef configName) {
+    double position = Robot::m_JsonConfig["intake"]["hooks"]["bottom"][configName];
+    SetBottomHookPosition(position);
+}
+
 void CargoIntake::SetBottomHookPosition(double position) {
     // Don't adjust limits, otherwise the servo will spin, screw up its
     // positioning, and throw all setpoints out the window.
     m_HatchGripBottom.Set(util::clamp(position, 0.2, 0.8));
+}
+
+void CargoIntake::SetTopHookPosition(wpi::StringRef configName) {
+    double position = Robot::m_JsonConfig["intake"]["hooks"]["top"][configName];
+    SetTopHookPosition(position);
 }
 
 void CargoIntake::SetTopHookPosition(double position) {
@@ -91,8 +101,8 @@ bool CargoIntake::IsAtPosition(wpi::StringRef configName) {
 }
 
 void CargoIntake::GoHome() {
-    GripHatchBottom();
-    GripHatchTop();
+    SetBottomHookPosition("docked");
+    SetTopHookPosition("docked");
 
     StopRoller();
 

@@ -31,8 +31,10 @@ class CargoIntake : public frc::Subsystem {
         void ReleaseHatchBottom() { m_HatchGripBottom.Set(0.3); }
         void ReleaseHatchTop()    { m_HatchGripTop.Set(0.7); }
 
+        void SetBottomHookPosition(wpi::StringRef configName);
         void SetBottomHookPosition(double);
 
+        void SetTopHookPosition(wpi::StringRef configName);
         void SetTopHookPosition(double);
 
         void ExtendEjector();

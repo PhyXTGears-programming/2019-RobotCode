@@ -31,8 +31,8 @@ GrabHatchFromDispenser::GrabHatchFromDispenser() {
 void GrabHatchFromDispenser::Initialize() {}
 
 void GrabHatchFromDispenser::Execute() {
-    Robot::GetCargoIntake().GripHatchBottom();
-    Robot::GetCargoIntake().GripHatchTop();
+    Robot::GetCargoIntake().SetBottomHookPosition("hp-captured");
+    Robot::GetCargoIntake().SetTopHookPosition("hp-captured");
 }
 
 bool GrabHatchFromDispenser::IsFinished() {

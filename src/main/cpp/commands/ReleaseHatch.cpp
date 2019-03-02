@@ -31,8 +31,10 @@ ReleaseHatch::ReleaseHatch() {
 void ReleaseHatch::Initialize() {}
 
 void ReleaseHatch::Execute() {
-    Robot::GetCargoIntake().ReleaseHatchBottom();
-    Robot::GetCargoIntake().ReleaseHatchTop();
+    CargoIntake& intake = Robot::GetCargoIntake();
+
+    intake.SetBottomHookPosition("kick-out");
+    intake.SetTopHookPosition("kick-out");
 }
 
 bool ReleaseHatch::IsFinished() { return true; }
