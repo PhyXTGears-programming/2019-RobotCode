@@ -1,4 +1,5 @@
 #include "Robot.h"
+#include "util.h"
 
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -271,6 +272,44 @@ void Robot::JoystickDemoHatchCheesecake() {
     } else if (driver.GetXButtonReleased()) {
         GetCargoIntake().SetHatchRotateSpeed(0.0);
     }
+}
+
+void Robot::JoystickDemoIntakeHatch() {
+    frc::XboxController& driver = m_OI.GetDriverJoystick();
+
+    static double bottom = 0.0;
+    static double top = 0.0;
+
+    // POV Up + Y = Increase top hatch servo position up to 1.0.
+    // POV Up + X = Decrease top hatch servo position down to 0.0.
+    //
+    // POV Down + Y = Increase bottom hatch servo position up to 1.0.
+    // POV Down + X = Decrease bottom hatch servo position down to 0.0.
+
+
+    int pov = driver.GetPOV();
+
+    switch (pov) {
+        case 0:   // Up
+            if (driver.GetYButtonPressed()) {
+                top = util::clamp(top + 0.01, 0.2, 0.8);
+            } else if (driver.GetXButtonPressed()) {
+                top = util::clamp(top - 0.01, 0.2, 0.8);
+            }
+            GetCargoIntake().SetTopHookPosition(top);
+            break;
+
+        case 180:    // Down
+            if (driver.GetYButtonPressed()) {
+                bottom = util::clamp(bottom + 0.01, 0.2, 0.8);
+            } else if (driver.GetXButtonPressed()) {
+                bottom = util::clamp(bottom - 0.01, 0.2, 0.8);
+            }
+            GetCargoIntake().SetBottomHookPosition(bottom);
+            break;
+    }
+
+    std::cout << "hook: b(" << bottom << ") t(" << top << ")" << std::endl;
 }
 
 

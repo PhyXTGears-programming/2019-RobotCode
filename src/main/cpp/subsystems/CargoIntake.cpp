@@ -1,5 +1,6 @@
 #include "subsystems/CargoIntake.h"
 #include "Robot.h"
+#include "util.h"
 
 #include <iostream>
 #include <string>
@@ -46,6 +47,18 @@ void CargoIntake::StopRoller() {
 
 bool CargoIntake::HasCargo() {
     return !m_CargoSensor.Get();
+}
+
+void CargoIntake::SetBottomHookPosition(double position) {
+    // Don't adjust limits, otherwise the servo will spin, screw up its
+    // positioning, and throw all setpoints out the window.
+    m_HatchGripBottom.Set(util::clamp(position, 0.2, 0.8));
+}
+
+void CargoIntake::SetTopHookPosition(double position) {
+    // Don't adjust limits, otherwise the servo will spin, screw up its
+    // positioning, and throw all setpoints out the window.
+    m_HatchGripTop.Set(util::clamp(position, 0.2, 0.8));
 }
 
 void CargoIntake::ExtendEjector() {
