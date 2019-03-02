@@ -203,11 +203,13 @@ void Robot::JoystickDemoCargo() {
 void Robot::JoystickDemoCreeperClimb() {
     frc::XboxController& driver = m_OI.GetDriverJoystick();
 
-    // Y = ready creeper arm.
-    // A = start climb sequence.
+    // Y = Ready creeper arm.
+    // A = Start climb sequence.
     //
-    // X = extend piston.
-    // B = retract piston.
+    // X + Trigger = Rotate creeper arm.
+    //
+    // POV Down = extend piston.
+    // POV Up = retract piston.
     //
     // Back = rotate creeper arm to home position.
     // Start (hold) = engage creeper arm wheels.
@@ -218,11 +220,29 @@ void Robot::JoystickDemoCreeperClimb() {
         m_ClimbStep->Start();
     }
 
-    if (driver.GetXButtonPressed()) {
+    if (driver.GetXButton()) {
+        double leftTrigger = driver.GetTriggerAxis(frc::XboxController::kLeftHand);
+        double rightTrigger = driver.GetTriggerAxis(frc::XboxController::kRightHand);
+
+        if (0.1 < leftTrigger) {
+            GetCreeperClimb().SetArmRotateSpeed(leftTrigger * -1.0);
+        } else if (0.1 < rightTrigger) {
+            GetCreeperClimb().SetArmRotateSpeed(rightTrigger * 1.0);
+        } else {
+            GetCreeperClimb().SetArmRotateSpeed(0.0);
+        }
+    } else if (driver.GetXButtonReleased()) {
+        GetCreeperClimb().SetArmRotateSpeed(0.0);
+    }
+
+    int pov = driver.GetPOV();
+    if (180 == pov) {
         Robot::GetCreeperClimb().PistonExtend();
-    } else if (driver.GetBButtonPressed()) {
+    } else if (0 == pov) {
         Robot::GetCreeperClimb().PistonRetract();
-    } else if (driver.GetBackButtonPressed()) {
+    }
+    
+    if (driver.GetBackButtonPressed()) {
         Robot::GetCreeperClimb().RotateArmToPosition("home");
     }
 
