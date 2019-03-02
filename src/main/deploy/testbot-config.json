@@ -1,5 +1,21 @@
 {
     "intake": {
+        "hooks": {
+            "top": {
+                "docked": 0.23,
+                "hp-captured": 0.51,
+                "floor-receive": 0.65,
+                "loading-station-receive": 0.65,
+                "kick-out": 0.79
+            },
+            "bottom": {
+                "docked": 0.57,
+                "hp-captured": 0.51,
+                "floor-receive": 0.51,
+                "loading-station-receive": 0.35,
+                "kick-out": 0.22
+            }
+        },
         "PID": {
             "P": 0.04,
             "I": 0.0,
