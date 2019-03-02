@@ -26,19 +26,74 @@
  *  - None.
  */
 
-ShootCargoForLevelOneRocket::ShootCargoForLevelOneRocket() {
-    // This command needs the drivetrain subsystem to be available while running.
+ShootCargoForLevelOneRocket::ShootCargoForLevelOneRocket()
+    : m_HasPrerequisites(false)
+    , m_Action(Action::End)
+{
+    // This command needs the drivetrain subsystem to be available while
+    // running.
     Requires(&Robot::GetCargoIntake());
 }
 
-void ShootCargoForLevelOneRocket::Initialize() {}
+void ShootCargoForLevelOneRocket::Initialize() {
+    CargoIntake& intake = Robot::GetCargoIntake();
 
-void ShootCargoForLevelOneRocket::Execute() {}
+    m_HasPrerequisites = intake.HasCargo();
 
-bool ShootCargoForLevelOneRocket::IsFinished() {}
-
-void ShootCargoForLevelOneRocket::End() {
-    // Make sure the motors stop moving when they aren't being controlled.
+    m_Action = Action::TurnOnRollers;
 }
 
-void ShootCargoForLevelOneRocket::Interrupted() {}
+void ShootCargoForLevelOneRocket::Execute() {
+    if (IsFinished()) {
+        // Prevent shot sequence from beginning if IsFinished conditions aren't
+        // met.
+        return;
+    }
+
+    CargoIntake& intake = Robot::GetCargoIntake();
+
+    switch (m_Action) {
+        case Action::TurnOnRollers:
+            intake.SetRollerSpeed("rocket-1");
+            m_WaitForRollers.Start();
+
+            m_Action = Action::WaitForSpeed;
+            break;
+
+        case Action::WaitForSpeed:
+            if (m_WaitForRollers.IsDone()) {
+                m_WaitForRollers.Stop();
+
+                intake.ExtendEjector();
+                m_WaitForEjector.Start();
+
+                m_Action = Action::WaitForEjector;
+            }
+            break;
+
+        case Action::WaitForEjector:
+            if (m_WaitForEjector.IsDone()) {
+                m_WaitForEjector.Stop();
+
+                intake.RetractEjector();
+
+                m_Action = Action::End;
+            }
+            break;
+
+        default:
+            break;
+    }
+}
+
+bool ShootCargoForLevelOneRocket::IsFinished() {
+    return !m_HasPrerequisites || Action::End == m_Action;
+}
+
+void ShootCargoForLevelOneRocket::End() {
+    Robot::GetCargoIntake().StopRoller();
+}
+
+void ShootCargoForLevelOneRocket::Interrupted() {
+    Robot::GetCargoIntake().StopRoller();
+}
