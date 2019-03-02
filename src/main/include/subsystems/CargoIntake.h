@@ -31,6 +31,10 @@ class CargoIntake : public frc::Subsystem {
         void ReleaseHatchBottom() { m_HatchGripBottom.Set(0.3); }
         void ReleaseHatchTop()    { m_HatchGripTop.Set(0.7); }
 
+        void SetBottomHookPosition(double);
+
+        void SetTopHookPosition(double);
+
         void ExtendEjector();
         void RetractEjector();
 

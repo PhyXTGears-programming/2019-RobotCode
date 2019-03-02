@@ -93,4 +93,5 @@ class Robot : public frc::TimedRobot {
         void JoystickDemoCargo();
         void JoystickDemoCreeperClimb();
         void JoystickDemoHatchCheesecake();
+        void JoystickDemoIntakeHatch();
 };
