@@ -12,6 +12,7 @@
 #   include <frc/PIDController.h>
 #   include <frc/Relay.h>
 #   include <frc/Servo.h>
+#   include <frc/Spark.h>
 #endif
 
 class CargoIntake : public frc::Subsystem {
@@ -24,11 +25,17 @@ class CargoIntake : public frc::Subsystem {
         // HATCH functions
 
         // parallel w/ cargo-intake
-        void GripHatchBottom() { m_HatchGripBottom.Set(0.3); }
-        void GripHatchTop()    { m_HatchGripTop.Set(0.7); }
+        void GripHatchBottom() { m_HatchGripBottom.Set(0.7); }
+        void GripHatchTop()    { m_HatchGripTop.Set(0.3); }
         // perpendicular (bottom goes down, top goes up)
-        void ReleaseHatchBottom() { m_HatchGripBottom.Set(0.7); }
-        void ReleaseHatchTop()    { m_HatchGripTop.Set(0.3); }
+        void ReleaseHatchBottom() { m_HatchGripBottom.Set(0.3); }
+        void ReleaseHatchTop()    { m_HatchGripTop.Set(0.7); }
+
+        void SetBottomHookPosition(wpi::StringRef configName);
+        void SetBottomHookPosition(double);
+
+        void SetTopHookPosition(wpi::StringRef configName);
+        void SetTopHookPosition(double);
 
         void ExtendEjector();
         void RetractEjector();
@@ -42,6 +49,8 @@ class CargoIntake : public frc::Subsystem {
 
         void GoHome();
         double GetIntakeRotation();
+
+        void SetHatchRotateSpeed(double);
 
     private:
         frc::DigitalInput m_CargoSensor {kCargoSensor};
@@ -62,6 +71,8 @@ class CargoIntake : public frc::Subsystem {
         WPI_TalonSRX              m_IntakeArmMotor  {kCargoTalonRotate};
         WPI_TalonSRX              m_IntakeRoller    {kCargoTalonRoller};
         frc::Servo                m_CargoEjector    {kCargoEjectServo};
+
+        frc::Spark                m_HatchCheesecakeMotor {kCargoHatchCheesecakeMotor};
 
         frc::PIDController        m_RotationPID     {1, 0, 0, m_IntakeRotation, m_IntakeArmMotor};
 

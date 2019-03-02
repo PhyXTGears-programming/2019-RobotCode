@@ -1,6 +1,5 @@
 #include "commands/ShootCargoForCargoShip.h"
 #include "Robot.h"
-#include "RobotMap.h"
 
 /* GOAL:
  *
@@ -30,7 +29,8 @@ ShootCargoForCargoShip::ShootCargoForCargoShip()
     : m_HasPrerequisites(false)
     , m_Action(Action::End)
 {
-    // This command needs the drivetrain subsystem to be available while running.
+    // This command needs the drivetrain subsystem to be available while
+    // running.
     Requires(&Robot::GetCargoIntake());
 }
 
@@ -44,13 +44,16 @@ void ShootCargoForCargoShip::Initialize() {
 
 void ShootCargoForCargoShip::Execute() {
     if (IsFinished()) {
-        // Prevent shot sequence from beginning if IsFinished conditions aren't met.
+        // Prevent shot sequence from beginning if IsFinished conditions aren't
+        // met.
         return;
     }
 
+    CargoIntake& intake = Robot::GetCargoIntake();
+
     switch (m_Action) {
         case Action::TurnOnRollers:
-            Robot::GetCargoIntake().SetRollerSpeed("cargo-ship");
+            intake.SetRollerSpeed("cargo-ship");
             m_WaitForRollers.Start();
             m_Action = Action::WaitForSpeed;
             break;
@@ -59,7 +62,7 @@ void ShootCargoForCargoShip::Execute() {
             if (m_WaitForRollers.IsDone()) {
                 m_WaitForRollers.Stop();
 
-                Robot::GetCargoIntake().ExtendEjector();
+                intake.ExtendEjector();
                 m_WaitForEjector.Start();
 
                 m_Action = Action::WaitForEjector;
@@ -70,7 +73,7 @@ void ShootCargoForCargoShip::Execute() {
             if (m_WaitForEjector.IsDone()) {
                 m_WaitForEjector.Stop();
 
-                Robot::GetCargoIntake().RetractEjector();
+                intake.RetractEjector();
 
                 m_Action = Action::End;
             }

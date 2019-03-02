@@ -1,5 +1,6 @@
 #include "subsystems/CargoIntake.h"
 #include "Robot.h"
+#include "util.h"
 
 #include <iostream>
 #include <string>
@@ -48,6 +49,28 @@ bool CargoIntake::HasCargo() {
     return !m_CargoSensor.Get();
 }
 
+void CargoIntake::SetBottomHookPosition(wpi::StringRef configName) {
+    double position = Robot::m_JsonConfig["intake"]["hooks"]["bottom"][configName];
+    SetBottomHookPosition(position);
+}
+
+void CargoIntake::SetBottomHookPosition(double position) {
+    // Don't adjust limits, otherwise the servo will spin, screw up its
+    // positioning, and throw all setpoints out the window.
+    m_HatchGripBottom.Set(util::clamp(position, 0.2, 0.8));
+}
+
+void CargoIntake::SetTopHookPosition(wpi::StringRef configName) {
+    double position = Robot::m_JsonConfig["intake"]["hooks"]["top"][configName];
+    SetTopHookPosition(position);
+}
+
+void CargoIntake::SetTopHookPosition(double position) {
+    // Don't adjust limits, otherwise the servo will spin, screw up its
+    // positioning, and throw all setpoints out the window.
+    m_HatchGripTop.Set(util::clamp(position, 0.2, 0.8));
+}
+
 void CargoIntake::ExtendEjector() {
     m_CargoEjector.Set(0.3);
 }
@@ -78,8 +101,8 @@ bool CargoIntake::IsAtPosition(wpi::StringRef configName) {
 }
 
 void CargoIntake::GoHome() {
-    GripHatchBottom();
-    GripHatchTop();
+    SetBottomHookPosition("docked");
+    SetTopHookPosition("docked");
 
     StopRoller();
 
@@ -107,6 +130,10 @@ void CargoIntake::StopRotation() {
 
 double CargoIntake::GetIntakeRotation() {
     return machineAngleToWorld(m_IntakeRotation.Get());
+}
+
+void CargoIntake::SetHatchRotateSpeed(double speed) {
+    m_HatchCheesecakeMotor.Set(speed);
 }
 
 // HELPER FUNCTIONS

@@ -1,4 +1,5 @@
 #include "Robot.h"
+#include "util.h"
 
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
@@ -225,11 +226,13 @@ void Robot::JoystickDemoCargo() {
 void Robot::JoystickDemoCreeperClimb() {
     frc::XboxController& driver = m_OI.GetDriverJoystick();
 
-    // Y = ready creeper arm.
-    // A = start climb sequence.
+    // Y = Ready creeper arm.
+    // A = Start climb sequence.
     //
-    // X = extend piston.
-    // B = retract piston.
+    // X + Trigger = Rotate creeper arm.
+    //
+    // POV Down = extend piston.
+    // POV Up = retract piston.
     //
     // Back = rotate creeper arm to home position.
     // Start (hold) = engage creeper arm wheels.
@@ -240,11 +243,29 @@ void Robot::JoystickDemoCreeperClimb() {
         m_ClimbStep->Start();
     }
 
-    if (driver.GetXButtonPressed()) {
+    if (driver.GetXButton()) {
+        double leftTrigger = driver.GetTriggerAxis(frc::XboxController::kLeftHand);
+        double rightTrigger = driver.GetTriggerAxis(frc::XboxController::kRightHand);
+
+        if (0.1 < leftTrigger) {
+            GetCreeperClimb().SetArmRotateSpeed(leftTrigger * -1.0);
+        } else if (0.1 < rightTrigger) {
+            GetCreeperClimb().SetArmRotateSpeed(rightTrigger * 1.0);
+        } else {
+            GetCreeperClimb().SetArmRotateSpeed(0.0);
+        }
+    } else if (driver.GetXButtonReleased()) {
+        GetCreeperClimb().SetArmRotateSpeed(0.0);
+    }
+
+    int pov = driver.GetPOV();
+    if (180 == pov) {
         Robot::GetCreeperClimb().PistonExtend();
-    } else if (driver.GetBButtonPressed()) {
+    } else if (0 == pov) {
         Robot::GetCreeperClimb().PistonRetract();
-    } else if (driver.GetBackButtonPressed()) {
+    }
+    
+    if (driver.GetBackButtonPressed()) {
         Robot::GetCreeperClimb().RotateArmToPosition("home");
     }
 
@@ -254,6 +275,63 @@ void Robot::JoystickDemoCreeperClimb() {
     } else if (driver.GetStartButtonReleased()) {
         Robot::GetCreeperClimb().StopArmWheels();
     }
+}
+
+void Robot::JoystickDemoHatchCheesecake() {
+    frc::XboxController& driver = m_OI.GetDriverJoystick();
+
+    if (driver.GetXButton()) {
+        double leftTrigger = driver.GetTriggerAxis(frc::XboxController::kLeftHand);
+        double rightTrigger = driver.GetTriggerAxis(frc::XboxController::kRightHand);
+
+        if (0.01 < leftTrigger) {
+            GetCargoIntake().SetHatchRotateSpeed(leftTrigger * 0.5);
+        } else if (0.01 < rightTrigger) {
+            GetCargoIntake().SetHatchRotateSpeed(rightTrigger * -0.5);
+        } else {
+            GetCargoIntake().SetHatchRotateSpeed(0.0);
+        }
+    } else if (driver.GetXButtonReleased()) {
+        GetCargoIntake().SetHatchRotateSpeed(0.0);
+    }
+}
+
+void Robot::JoystickDemoIntakeHatch() {
+    frc::XboxController& driver = m_OI.GetDriverJoystick();
+
+    static double bottom = 0.0;
+    static double top = 0.0;
+
+    // POV Up + Y = Increase top hatch servo position up to 1.0.
+    // POV Up + X = Decrease top hatch servo position down to 0.0.
+    //
+    // POV Down + Y = Increase bottom hatch servo position up to 1.0.
+    // POV Down + X = Decrease bottom hatch servo position down to 0.0.
+
+
+    int pov = driver.GetPOV();
+
+    switch (pov) {
+        case 0:   // Up
+            if (driver.GetYButtonPressed()) {
+                top = util::clamp(top + 0.01, 0.2, 0.8);
+            } else if (driver.GetXButtonPressed()) {
+                top = util::clamp(top - 0.01, 0.2, 0.8);
+            }
+            GetCargoIntake().SetTopHookPosition(top);
+            break;
+
+        case 180:    // Down
+            if (driver.GetYButtonPressed()) {
+                bottom = util::clamp(bottom + 0.01, 0.2, 0.8);
+            } else if (driver.GetXButtonPressed()) {
+                bottom = util::clamp(bottom - 0.01, 0.2, 0.8);
+            }
+            GetCargoIntake().SetBottomHookPosition(bottom);
+            break;
+    }
+
+    std::cout << "hook: b(" << bottom << ") t(" << top << ")" << std::endl;
 }
 
 
