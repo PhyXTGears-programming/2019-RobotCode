@@ -106,8 +106,7 @@ void CargoIntake::GoHome() {
 
     StopRoller();
 
-    double ang = Robot::m_JsonConfig["intake"]["rotation"]["home"];
-    RotateToPosition(ang);
+    RotateToPosition("home");
 }
 
 void CargoIntake::RotateToPosition(wpi::StringRef configName) {
