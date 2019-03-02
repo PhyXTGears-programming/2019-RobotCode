@@ -49,9 +49,11 @@ void ShootCargoForCargoShip::Execute() {
         return;
     }
 
+    CargoIntake& intake = Robot::GetCargoIntake();
+
     switch (m_Action) {
         case Action::TurnOnRollers:
-            Robot::GetCargoIntake().SetRollerSpeed("cargo-ship");
+            intake.SetRollerSpeed("cargo-ship");
             m_WaitForRollers.Start();
             m_Action = Action::WaitForSpeed;
             break;
@@ -60,7 +62,7 @@ void ShootCargoForCargoShip::Execute() {
             if (m_WaitForRollers.IsDone()) {
                 m_WaitForRollers.Stop();
 
-                Robot::GetCargoIntake().ExtendEjector();
+                intake.ExtendEjector();
                 m_WaitForEjector.Start();
 
                 m_Action = Action::WaitForEjector;
@@ -71,7 +73,7 @@ void ShootCargoForCargoShip::Execute() {
             if (m_WaitForEjector.IsDone()) {
                 m_WaitForEjector.Stop();
 
-                Robot::GetCargoIntake().RetractEjector();
+                intake.RetractEjector();
 
                 m_Action = Action::End;
             }
