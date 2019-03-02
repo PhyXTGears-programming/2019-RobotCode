@@ -1,6 +1,5 @@
 #include "commands/ShootCargoForCargoShip.h"
 #include "Robot.h"
-#include "RobotMap.h"
 
 /* GOAL:
  *
@@ -30,7 +29,8 @@ ShootCargoForCargoShip::ShootCargoForCargoShip()
     : m_HasPrerequisites(false)
     , m_Action(Action::End)
 {
-    // This command needs the drivetrain subsystem to be available while running.
+    // This command needs the drivetrain subsystem to be available while
+    // running.
     Requires(&Robot::GetCargoIntake());
 }
 
@@ -44,7 +44,8 @@ void ShootCargoForCargoShip::Initialize() {
 
 void ShootCargoForCargoShip::Execute() {
     if (IsFinished()) {
-        // Prevent shot sequence from beginning if IsFinished conditions aren't met.
+        // Prevent shot sequence from beginning if IsFinished conditions aren't
+        // met.
         return;
     }
 

@@ -1,10 +1,6 @@
 #include "commands/ReleaseHatch.h"
 #include "Robot.h"
 
-#include <iostream>
-using std::cout;
-using std::endl;
-
 /* GOAL:
  *
  * Rotate cargo-intake grabbers into neutral position.
