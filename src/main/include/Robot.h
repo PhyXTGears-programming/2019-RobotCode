@@ -21,6 +21,7 @@
 // Commands
 #include "commands/ClimbStep.h"
 #include "commands/TeleOpDrive.h"
+#include "commands/SandstormPlatformDrive.h"
 #include "commands/GrabHatchFromDispenser.h"
 #include "commands/ReadyCreeperArm.h"
 #include "commands/ReleaseHatch.h"
@@ -47,6 +48,7 @@ class Robot : public frc::TimedRobot {
         static CreeperClimb* m_CreeperClimb;
         static CargoIntake*  m_CargoIntake;
         // Commands
+        static SandstormPlatformDrive* m_SandstormPlatformDrive;
         static GrabHatchFromDispenser* m_GrabHatchFromDispenser;
         static ReleaseHatch* m_ReleaseHatch;
         static RotateHatchForFloor* m_RotateHatchForFloor;

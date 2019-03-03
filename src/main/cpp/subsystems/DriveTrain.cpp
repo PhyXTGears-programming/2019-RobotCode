@@ -33,6 +33,7 @@ DriveTrain::DriveTrain(wpi::json &jsonConfig) : frc::Subsystem("DriveTrain") {
         m_MaxAcceleration = jsonConfig["drive"]["max-acceleration"];
 
         m_MaxNormalSpeed = jsonConfig["drive"]["max-normal-speed"];
+        m_SandstormStepSpeed = jsonConfig["drive"]["sandstorm-step-speed"];
         m_TurnFactor = jsonConfig["drive"]["turn-factor"];
 
         m_DashboardLeftOutput = 0.0;
@@ -261,6 +262,13 @@ void DriveTrain::UseNormalSpeedLimit() {
     #ifdef USE_DRIVETRAIN_PID
     #else
         SetMaxOutput(m_MaxNormalSpeed);
+    #endif
+}
+
+void DriveTrain::UseDukesSpeedLimit() {
+    #ifdef USE_DRIVETRAIN_PID
+    #else
+        SetMaxOutput(m_SandstormStepSpeed);
     #endif
 }
 

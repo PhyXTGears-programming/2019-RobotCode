@@ -43,6 +43,7 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
         void RunReset();
 
         void UseNormalSpeedLimit();
+        void UseDukesSpeedLimit();
 
     private:
         // Motors
@@ -84,6 +85,7 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
 
             // Config setpoints.
             double m_MaxNormalSpeed;
+            double m_SandstormStepSpeed;
             double m_TurnFactor;
 
             // Member variables used for dashboard reporting.
