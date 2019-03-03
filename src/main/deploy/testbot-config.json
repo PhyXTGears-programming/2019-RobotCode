@@ -5,7 +5,7 @@
                 "docked": 0.23,
                 "hp-captured": 0.51,
                 "floor-receive": 0.65,
-                "loading-station-receive": 0.65,
+                "loading-station-receive": 0.65, 
                 "kick-out": 0.79
             },
             "bottom": {
@@ -26,9 +26,9 @@
             "angles": {
                 "home": 100.0,
                 "cargo-ship-shoot": 65,
-                "rocket-1-shoot": 50,
+                "rocket-1-shoot": 45,
                 "rocket-2-shoot": 30,
-                "cargo-floor-pickup": -65,
+                "cargo-floor-pickup": -53,
                 "hatch-dispenser-pickup": 0,
                 "hatch-floor-pickup": -92
             }
@@ -53,9 +53,9 @@
         "rotation": {
             "zero-point": 0,
             "angles": {
-                "home": 82,
-                "arm-ready": 165,
-                "arm-climb": 210
+                "home": 65,
+                "arm-ready": 162,
+                "arm-climb": 215
             }
         }
     }
