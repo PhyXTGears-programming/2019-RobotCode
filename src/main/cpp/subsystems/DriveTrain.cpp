@@ -64,9 +64,14 @@ void DriveTrain::Drive(frc::XboxController& driver) {
     // Get left stick axes values.
     double hidX = -driver.GetX(frc::XboxController::kRightHand);
     double hidY = driver.GetY(frc::XboxController::kLeftHand);
+    double sprintFactor = 0.75;
+    sprintFactor += driver.GetTriggerAxis(frc::XboxController::kRightHand) * 0.25;
+    sprintFactor -= driver.GetTriggerAxis(frc::XboxController::kLeftHand) * 0.25;
+
+    double turnFactor = 1 - (driver.GetTriggerAxis(frc::XboxController::kLeftHand) * 0.3);
 
     if (ENABLE_DRIVETRAIN_CONTROL) {
-        ArcadeDrive(hidY, hidX * m_TurnFactor, true);
+        ArcadeDrive(hidY * sprintFactor, hidX * turnFactor, true);
     } else {
         // m_Drive.ArcadeDrive(hidY, hidX, true);
     }

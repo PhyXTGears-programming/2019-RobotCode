@@ -41,9 +41,9 @@
     },
     "drive": {
         "max-acceleration": 12.0,
-        "max-normal-speed": 0.8,
-        "turn-factor": 0.95
+        "max-normal-speed": 1,
         "sandstorm-step-speed": 0.45,
+        "turn-factor": 1
     },
     "climb": {
         "PID": {
