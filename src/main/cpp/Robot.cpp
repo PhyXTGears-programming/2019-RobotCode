@@ -98,17 +98,25 @@ void Robot::RobotPeriodic() {
 
 void Robot::DisabledInit() {
     m_ClimbStep->Cancel();
+
+    GetCreeperClimb().Disable();
+    GetCargoIntake().Disable();
 }
 
 void Robot::DisabledPeriodic() {}
 
-void Robot::AutonomousInit() {}
 
-void Robot::AutonomousPeriodic() {}
-
-void Robot::TeleopInit() {
+void Robot::AutonomousInit() {
     GetDriveTrain().RunReset();
+    GetCreeperClimb().RunReset();
+    GetCargoIntake().RunReset();
 }
+
+void Robot::AutonomousPeriodic() {
+    TeleopPeriodic();
+}
+
+void Robot::TeleopInit() {}
 
 void Robot::TeleopPeriodic() {
     // No control code goes here.  Put control code for testing in a new

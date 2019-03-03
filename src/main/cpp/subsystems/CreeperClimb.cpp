@@ -175,3 +175,11 @@ double CreeperClimb::machineAngleToWorld(double machine) {
 double CreeperClimb::worldAngleToMachine(double world) {
     return world + (double)Robot::m_JsonConfig["climb"]["rotation"]["zero-point"];
 }
+
+void CreeperClimb::RunReset() {
+    RotateArmToPosition(GetCurrentArmPosition());
+}
+
+void CreeperClimb::Disable() {
+    m_RotationPID.Disable();
+}
