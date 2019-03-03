@@ -21,6 +21,7 @@
 // Commands
 #include "commands/ClimbStep.h"
 #include "commands/TeleOpDrive.h"
+#include "commands/SandstormPlatformDrive.h"
 #include "commands/GrabHatchFromDispenser.h"
 #include "commands/ReadyCreeperArm.h"
 #include "commands/ReleaseHatch.h"
@@ -29,7 +30,10 @@
 #include "commands/RotateCargoForCargoShip.h"
 #include "commands/RotateCargoForLevelOneRocket.h"
 #include "commands/ShootCargoForCargoShip.h"
+#include "commands/ShootCargoForLevelOneRocket.h"
+#include "commands/StopCargoRoller.h"
 #include "commands/TakeCargo.h"
+#include "commands/TakeCargoFromDispenser.h"
 #include "commands/TakeCargoFromFloor.h"
 
 #include "OI.h"
@@ -44,6 +48,9 @@ class Robot : public frc::TimedRobot {
         static CreeperClimb* m_CreeperClimb;
         static CargoIntake*  m_CargoIntake;
         // Commands
+        static TeleOpDrive*            m_TeleOpDrive;
+        static SandstormPlatformDrive* m_SandstormPlatformDrive;
+
         static GrabHatchFromDispenser* m_GrabHatchFromDispenser;
         static ReleaseHatch* m_ReleaseHatch;
         static RotateHatchForFloor* m_RotateHatchForFloor;
@@ -52,8 +59,11 @@ class Robot : public frc::TimedRobot {
         static RotateCargoForLevelOneRocket* m_RotateCargoForLevelOneRocket;
 
         static ShootCargoForCargoShip*      m_ShootCargoForCargoShip;
+        static ShootCargoForLevelOneRocket* m_ShootCargoForLevelOneRocket;
 
+        static StopCargoRoller*         m_StopCargoRoller;
         static TakeCargo*               m_TakeCargo;
+        static TakeCargoFromDispenser*  m_TakeCargoFromDispenser;
         static TakeCargoFromFloor*      m_TakeCargoFromFloor;
 
         // Commands - Climb

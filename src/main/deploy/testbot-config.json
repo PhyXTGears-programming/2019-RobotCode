@@ -5,7 +5,7 @@
                 "docked": 0.23,
                 "hp-captured": 0.51,
                 "floor-receive": 0.65,
-                "loading-station-receive": 0.65,
+                "loading-station-receive": 0.65, 
                 "kick-out": 0.79
             },
             "bottom": {
@@ -22,13 +22,13 @@
             "D": -0.02
         },
         "rotation": {
-            "zero-point": -31.2,
+            "zero-point": 0.0,
             "angles": {
                 "home": 81.0,
                 "cargo-ship-shoot": 65,
-                "rocket-1-shoot": 50,
+                "rocket-1-shoot": 45,
                 "rocket-2-shoot": 30,
-                "cargo-floor-pickup": -65,
+                "cargo-floor-pickup": -53,
                 "hatch-dispenser-pickup": 0,
                 "hatch-floor-pickup": -92
             }
@@ -41,8 +41,9 @@
     },
     "drive": {
         "max-acceleration": 12.0,
-        "max-normal-speed": 0.8,
-        "turn-factor": 0.95
+        "max-normal-speed": 1,
+        "sandstorm-step-speed": 0.45,
+        "turn-factor": 1
     },
     "climb": {
         "PID": {
@@ -53,9 +54,9 @@
         "rotation": {
             "zero-point": 0,
             "angles": {
-                "home": 82,
-                "arm-ready": 165,
-                "arm-climb": 210
+                "home": 65,
+                "arm-ready": 162,
+                "arm-climb": 215
             }
         }
     }

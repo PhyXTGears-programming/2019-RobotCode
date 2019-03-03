@@ -1,9 +1,13 @@
 #include "commands/ClimbStep.h"
 #include "Robot.h"
 
+#include "util/StopWatch.h"
+
 #include <iostream>
 using std::cout;
 using std::endl;
+
+static StopWatch logTimer;
 
 /* GOAL:
  *
@@ -38,13 +42,49 @@ void ClimbStep::Initialize() {
     m_HasPrerequisites = Robot::GetCreeperClimb().IsArmAtPosition("arm-ready");
     m_Segment = Segment::Initialize;
 
-    Robot::GetCreeperClimb().SetRotatePIDOutputRange(-0.7, 0.7);
+    logTimer.Reset();
+
+    // Slow climb arm to match piston lift speed.
+    Robot::GetCreeperClimb().SetRotatePIDOutputRange(-0.65, 0.65);
 }
 
 void ClimbStep::Execute() {
     if (IsFinished()) {
         // Prevent climb sequence from beginning if IsFinished conditions aren't met.
+        std::cout << logTimer.Split() << "ClimbStep.Execute: Pre-empted by IsFinished" << std::endl;
         return;
+    }
+
+    static Segment lastSegment = Segment::Initialize;
+
+    if (lastSegment != m_Segment) {
+        switch (m_Segment) {
+            case Segment::Initialize:
+                std::cout << logTimer.Split() << "ClimbStep.Execute: Segment: Initialize" << std::endl;
+                break;
+
+            case Segment::CheckSwitch:
+                std::cout << logTimer.Split() << "ClimbStep.Execute: Segment: Check Piston Limit" << std::endl;
+                break;
+            
+            case Segment::CheckArm:
+                std::cout << logTimer.Split() << "ClimbStep.Execute: Segment: Check Arm" << std::endl;
+                break;
+
+            case Segment::RollCreeper:
+                std::cout << logTimer.Split() << "ClimbStep.Execute: Segment: Roll Creeper" << std::endl;
+                break;
+                
+            case Segment::StopCreeper:
+                std::cout << logTimer.Split() << "ClimbStep.Execute: Segment: Stop Creeper" << std::endl;
+                break;
+
+            case Segment::RaiseSolenoids:
+                std::cout << logTimer.Split() << "ClimbStep.Execute: Segment: Raise Piston" << std::endl;
+                break;
+            
+        }
+        lastSegment = m_Segment;
     }
 
     switch (m_Segment) {
@@ -52,6 +92,12 @@ void ClimbStep::Execute() {
             Robot::GetCreeperClimb().ResetPistonLimitLatch();
             Robot::GetCreeperClimb().RotateArmToPosition("arm-climb");
             Robot::GetCreeperClimb().PistonExtend();
+
+            std::cout
+                << logTimer.Split()
+                << "ClimbStep::Execute: Expect PistonLimitSwitch to be false.  Limit switch is "
+                << Robot::GetCreeperClimb().IsPistonAtLimit()
+                << std::endl;
 
             m_Segment = Segment::CheckSwitch;
             break;
@@ -66,6 +112,7 @@ void ClimbStep::Execute() {
             if (Robot::GetCreeperClimb().IsArmAtPosition("arm-climb")) {
                 m_Segment = Segment::RollCreeper;
             }
+            break;
         case Segment::RollCreeper:
             Robot::GetCreeperClimb().SetArmWheels(true);
             m_Delay.Start();
@@ -76,6 +123,7 @@ void ClimbStep::Execute() {
             if (m_Delay.IsDone()) {
                 m_Delay.Stop();
                 Robot::GetCreeperClimb().SetArmWheels(false);
+                Robot::GetCreeperClimb().SetRotatePIDOutputRange(-1, 1);
                 m_Segment = Segment::RaiseSolenoids;
             }
             break;
@@ -86,11 +134,11 @@ void ClimbStep::Execute() {
             break;
         case Segment::End:
             break;
+
         default:
-            cout << "Unknown segment in ClimbStep! (segment:" << m_Segment << ")" << endl;
+            cout << logTimer.Split() << "ClimbStep.Execute: Unknown segment in ClimbStep! (segment:" << m_Segment << ")" << endl;
     }
 
-    cout << "segment: " << m_Segment << endl;
     Robot::GetDriveTrain().ArcadeDrive(0, 0);
 }
 

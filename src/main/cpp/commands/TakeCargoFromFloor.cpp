@@ -32,6 +32,9 @@ TakeCargoFromFloor::TakeCargoFromFloor() {
 }
 
 void TakeCargoFromFloor::Initialize() {
+    Robot::GetCargoIntake().RetractEjector();
+    Robot::GetCargoIntake().SetTopHookPosition("docked");
+    Robot::GetCargoIntake().SetBottomHookPosition("docked");
 }
 
 void TakeCargoFromFloor::Execute() {

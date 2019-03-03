@@ -22,13 +22,19 @@ RotateHatchForFloor*            Robot::m_RotateHatchForFloor;
 RotateHatchForDispenser*        Robot::m_RotateHatchForDispenser;
 
 ShootCargoForCargoShip*         Robot::m_ShootCargoForCargoShip;
+ShootCargoForLevelOneRocket*    Robot::m_ShootCargoForLevelOneRocket;
 
+StopCargoRoller*                Robot::m_StopCargoRoller;
 TakeCargo*                      Robot::m_TakeCargo;
+TakeCargoFromDispenser*         Robot::m_TakeCargoFromDispenser;
 TakeCargoFromFloor*             Robot::m_TakeCargoFromFloor;
 
 // Initialize Commands - Climb
 ReadyCreeperArm* Robot::m_ReadyCreeperArm;
 ClimbStep*       Robot::m_ClimbStep;
+
+// Initialize Commands - Drive
+SandstormPlatformDrive* Robot::m_SandstormPlatformDrive;
 
 // Initialize JSON reader
 wpi::json Robot::m_JsonConfig;
@@ -56,6 +62,9 @@ Robot::Robot() {
     m_CreeperClimb = new CreeperClimb(m_JsonConfig);
     m_DriveTrain = new DriveTrain(m_JsonConfig);
 
+    // Allocate and initialize commands - Teleop
+    m_SandstormPlatformDrive = new SandstormPlatformDrive();
+
     // Allocate and initialize commands - Intake
     m_GrabHatchFromDispenser = new GrabHatchFromDispenser();
     m_ReleaseHatch = new ReleaseHatch();
@@ -65,8 +74,11 @@ Robot::Robot() {
     m_RotateHatchForDispenser = new RotateHatchForDispenser();
 
     m_ShootCargoForCargoShip = new ShootCargoForCargoShip();
+    m_ShootCargoForLevelOneRocket = new ShootCargoForLevelOneRocket();
 
+    m_StopCargoRoller = new StopCargoRoller();
     m_TakeCargo = new TakeCargo();
+    m_TakeCargoFromDispenser = new TakeCargoFromDispenser();
     m_TakeCargoFromFloor = new TakeCargoFromFloor();
     
     // Allocate and initialize commands - 
@@ -75,7 +87,8 @@ Robot::Robot() {
 }
 
 void Robot::RobotInit() {
-    frc::CameraServer::GetInstance()->StartAutomaticCapture();
+    frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
+    frc::CameraServer::GetInstance()->StartAutomaticCapture(1);
 }
 
 void Robot::RobotPeriodic() {
@@ -88,16 +101,28 @@ void Robot::RobotPeriodic() {
 
 void Robot::DisabledInit() {
     m_ClimbStep->Cancel();
+
+    GetCreeperClimb().Disable();
+    GetCargoIntake().Disable();
 }
 
 void Robot::DisabledPeriodic() {}
 
-void Robot::AutonomousInit() {}
+static bool canSandstormDrive = true;
 
-void Robot::AutonomousPeriodic() {}
+void Robot::AutonomousInit() {
+    GetDriveTrain().RunReset();
+    GetCreeperClimb().RunReset();
+    GetCargoIntake().RunReset();
+    canSandstormDrive = true;
+}
+
+void Robot::AutonomousPeriodic() {
+    TeleopPeriodic();
+}
 
 void Robot::TeleopInit() {
-    GetDriveTrain().RunReset();
+
 }
 
 void Robot::TeleopPeriodic() {
@@ -112,62 +137,70 @@ void Robot::TeleopPeriodic() {
     //
     // (╯°Д°）╯︵┻━┻
     CompetitionJoystickInput();
+    JoystickDemoHatchCheesecake();
 }
 
 void Robot::TestPeriodic() {}
 
 void Robot::CompetitionJoystickInput() {
-    // Competition Controls will go here.
-
-    /* DRIVE CONTROLS
-    
-
-    */
-
-    // OPERATOR CONTROLS
-
-    // Change rotation of cargo intake
-    if (m_OI.GetOperatorConsole().GetFloorHatchPickupPressed()) {
-        m_RotateHatchForFloor->Start();
-    } else if (m_OI.GetOperatorConsole().GetFloorCargoPickupPressed()) {
-        m_RotateHatchForFloor->Start();
-    } else if (m_OI.GetOperatorConsole().GetHatchFeederScorePressed()) {
-        m_RotateHatchForDispenser->Start();
-    } else if (m_OI.GetOperatorConsole().GetRocketShotPressed()) {
-        m_RotateCargoForLevelOneRocket->Start();
-    } else if (m_OI.GetOperatorConsole() .GetCargoShotPressed()) {
-        m_RotateCargoForCargoShip->Start();
-    } else if (m_OI.GetOperatorConsole().GetGoHomePressed()) {
-        GetCargoIntake().GoHome();
+    // DRIVER CONTROLS
+    if (m_OI.GetDriverJoystick().GetBButton() && canSandstormDrive) {
+        m_SandstormPlatformDrive->Start();
+        canSandstormDrive = false;
+    // } else if (m_OI.GetDriverJoystick().GetBButtonReleased()) {
+    //     m_SandstormPlatformDrive->Cancel();
     }
 
-    // // action command buttons, stuff happens
-    // if (m_OI.GetOperatorConsole().GetCargoCloseShotPressed()) {
-    //     m_ShootCargo->Start();
-    // } else if (m_OI.GetOperatorConsole().GetCargoHighShotPressed()) {
-    //     m_ShootCargoForLevelOneRocket->Start();
-    // } else 
-    if (m_OI.GetOperatorConsole().GetHatchGrabPressed()) {
+    // OPERATOR CONTROLS
+    OperatorHID& console = m_OI.GetOperatorConsole();
+    // Change rotation of cargo intake
+    if (console.GetFloorHatchPickupPressed()) {
+        m_RotateHatchForFloor->Start();
+    } else if (console.GetFloorCargoPickupPressed()) {
+        m_TakeCargoFromFloor->Start();
+    } else if (console.GetHatchFeederScorePressed()) {
+        m_RotateHatchForDispenser->Start();
+    } else if (console.GetRocketShotPressed()) {
+        m_RotateCargoForLevelOneRocket->Start();
+    } else if (m_OI.GetOperatorConsole().GetCargoShotPressed()) {
+        m_RotateCargoForCargoShip->Start();
+    } else if (console.GetGoHomePressed()) {
+        GetCargoIntake().GoHome(); // CHANGE TO COMMAND
+    }
+
+    // action command buttons, stuff happens
+    if (console.GetCargoCloseShotPressed()) {
+        m_ShootCargoForLevelOneRocket->Start();
+    } else if (console.GetCargoHighShotPressed()) {
+        m_ShootCargoForCargoShip->Start();
+    } else if (console.GetCargoIntakePressed()) {
+        if (m_TakeCargo->IsRunning()) {
+            m_StopCargoRoller->Start();
+        } else {
+            m_TakeCargo->Start();
+        }
+    }
+    /* else if (console.GetHatchGrabPressed()) {
         m_GrabHatchFromDispenser->Start();
-    } else if (m_OI.GetOperatorConsole().GetHatchReleasePressed()) {
+    } else if (console.GetHatchReleasePressed()) {
         m_ReleaseHatch->Start();
-    } else if (m_OI.GetOperatorConsole().GetCreeperReadyArmPressed()) {
+    } */ else if (console.GetCreeperReadyArmPressed()) {
         m_ReadyCreeperArm->Start();
-    } else if (m_OI.GetOperatorConsole().GetClimbSequencePressed()) {
+    } else if (console.GetClimbSequencePressed()) {
         m_ClimbStep->Start();
     }
 
     // manual controls
-    if (m_OI.GetOperatorConsole().GetRetractArm()) {
+    if (console.GetRetractArm()) {
         Robot::GetCreeperClimb().RotateArmToPosition("home");
-    } else if (m_OI.GetOperatorConsole().GetRetractCylinder()) {
+    } else if (console.GetRetractCylinder()) {
         Robot::GetCreeperClimb().PistonRetract();
     }
-    // if (m_OI.GetOperatorConsole().GetThrottle() >= 0.75) {
-    //     Flightstick controls creeper arms;
-    // } else if (m_OI.GetOperatorConsole().GetThrottle() <= -0.75) {
-    //     Flightstick controls cargo intake;
-    // }
+    if (console.GetThrottle() >= 0.75) {
+        GetCargoIntake().SetRotateSpeed(console.GetJoystickY());
+    } else if (console.GetThrottle() <= -0.75) {
+        GetCreeperClimb().SetArmRotateSpeed(console.GetJoystickY());
+    }
 }
 
 void Robot::ButtonBoardDemo() {
@@ -254,7 +287,8 @@ void Robot::JoystickDemoCreeperClimb() {
         } else {
             GetCreeperClimb().SetArmRotateSpeed(0.0);
         }
-    } else if (driver.GetXButtonReleased()) {
+    }
+    if (driver.GetXButtonReleased()) {
         GetCreeperClimb().SetArmRotateSpeed(0.0);
     }
 
@@ -270,8 +304,7 @@ void Robot::JoystickDemoCreeperClimb() {
     }
 
     if (driver.GetStartButton()) {
-        Robot::GetCreeperClimb().SetArmWheels(true); // wheels need to be SLOWED!!
-        std::cout << "start" << std::endl;
+        Robot::GetCreeperClimb().SetArmWheels(true);
     } else if (driver.GetStartButtonReleased()) {
         Robot::GetCreeperClimb().StopArmWheels();
     }
@@ -280,19 +313,25 @@ void Robot::JoystickDemoCreeperClimb() {
 void Robot::JoystickDemoHatchCheesecake() {
     frc::XboxController& driver = m_OI.GetDriverJoystick();
 
-    if (driver.GetXButton()) {
-        double leftTrigger = driver.GetTriggerAxis(frc::XboxController::kLeftHand);
-        double rightTrigger = driver.GetTriggerAxis(frc::XboxController::kRightHand);
+    // if (driver.GetXButton()) {
+    //     double leftTrigger = driver.GetTriggerAxis(frc::XboxController::kLeftHand);
+    //     double rightTrigger = driver.GetTriggerAxis(frc::XboxController::kRightHand);
 
-        if (0.01 < leftTrigger) {
-            GetCargoIntake().SetHatchRotateSpeed(leftTrigger * 0.5);
-        } else if (0.01 < rightTrigger) {
-            GetCargoIntake().SetHatchRotateSpeed(rightTrigger * -0.5);
-        } else {
-            GetCargoIntake().SetHatchRotateSpeed(0.0);
-        }
-    } else if (driver.GetXButtonReleased()) {
-        GetCargoIntake().SetHatchRotateSpeed(0.0);
+    //     if (0.01 < leftTrigger) {
+    //         GetCargoIntake().SetHatchRotateSpeed(leftTrigger * 0.5);
+    //     } else if (0.01 < rightTrigger) {
+    //         GetCargoIntake().SetHatchRotateSpeed(rightTrigger * -0.5);
+    //     } else {
+    //         GetCargoIntake().SetHatchRotateSpeed(0.0);
+    //     }
+    // } else if (driver.GetXButtonReleased()) {
+    //     GetCargoIntake().SetHatchRotateSpeed(0.0);
+    // }
+
+    if (m_OI.GetOperatorConsole().IsHatchReleaseDown()) {
+        GetCargoIntake().SetHatchRotateSpeed(0.5);
+    } else if (m_OI.GetOperatorConsole().IsHatchGrabDown()) {
+        GetCargoIntake().SetHatchRotateSpeed(-0.5);
     }
 }
 

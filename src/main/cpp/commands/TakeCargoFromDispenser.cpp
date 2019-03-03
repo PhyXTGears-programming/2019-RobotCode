@@ -31,6 +31,9 @@ TakeCargoFromDispenser::TakeCargoFromDispenser() {
 }
 
 void TakeCargoFromDispenser::Initialize() {
+    Robot::GetCargoIntake().RetractEjector();
+    Robot::GetCargoIntake().SetTopHookPosition("docked");
+    Robot::GetCargoIntake().SetBottomHookPosition("docked");
 }
 
 void TakeCargoFromDispenser::Execute() {
