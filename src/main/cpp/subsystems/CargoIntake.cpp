@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <string>
+#include <cmath>
 
 #define ANGLE_TOLERANCE 4       // Degrees
 
@@ -120,7 +121,12 @@ void CargoIntake::RotateToPosition(int worldAngle) {
 }
 
 void CargoIntake::SetRotateSpeed(double speed) {
-    m_IntakeArmMotor.Set(speed);
+    if (std::abs(speed) > 0.1) {
+        m_RotationPID.Disable();
+        m_IntakeArmMotor.Set(speed);
+    } else if (!m_RotationPID.IsEnabled()) {
+        m_IntakeArmMotor.Set(speed);
+    }
 }
 
 void CargoIntake::StopRotation() {
