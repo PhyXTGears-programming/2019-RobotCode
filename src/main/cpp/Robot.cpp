@@ -147,7 +147,7 @@ void Robot::CompetitionJoystickInput() {
     } else if (m_OI.GetOperatorConsole().GetCargoShotPressed()) {
         m_RotateCargoForCargoShip->Start();
     } else if (console.GetGoHomePressed()) {
-        GetCargoIntake().GoHome();
+        GetCargoIntake().GoHome();  // CHANGE TO COMMAND
     }
 
     // action command buttons, stuff happens
@@ -293,8 +293,7 @@ void Robot::JoystickDemoCreeperClimb() {
     }
 
     if (driver.GetStartButton()) {
-        Robot::GetCreeperClimb().SetArmWheels(true); // wheels need to be SLOWED!!
-        std::cout << "start" << std::endl;
+        Robot::GetCreeperClimb().SetArmWheels(true);
     } else if (driver.GetStartButtonReleased()) {
         Robot::GetCreeperClimb().StopArmWheels();
     }
