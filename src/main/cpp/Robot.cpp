@@ -146,8 +146,6 @@ void Robot::CompetitionJoystickInput() {
     if (m_OI.GetDriverJoystick().GetBButton() && m_CanSandstormStepDrive) {
         m_SandstormPlatformDrive->Start();
         m_CanSandstormStepDrive = false;
-        // } else if (m_OI.GetDriverJoystick().GetBButtonReleased()) {
-        //     m_SandstormPlatformDrive->Cancel();
     }
 
     // OPERATOR CONTROLS
