@@ -36,7 +36,6 @@ bool RotateCargoForLevelOneRocket::IsFinished() {
 }
 
 void RotateCargoForLevelOneRocket::End() {
-    Robot::GetCargoIntake().StopRotation();
 }
 
 void RotateCargoForLevelOneRocket::Interrupted() {

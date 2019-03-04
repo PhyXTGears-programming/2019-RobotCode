@@ -103,6 +103,9 @@ void Robot::RobotPeriodic() {
 
 void Robot::DisabledInit() {
     m_ClimbStep->Cancel();
+
+    GetCreeperClimb().Disable();
+    GetCargoIntake().Disable();
 }
 
 void Robot::DisabledPeriodic() {}
@@ -110,13 +113,17 @@ void Robot::DisabledPeriodic() {}
 bool canSandstormDrive = true;
 
 void Robot::AutonomousInit() {
+    GetDriveTrain().RunReset();
+    GetCreeperClimb().RunReset();
+    GetCargoIntake().RunReset();
     canSandstormDrive = true;
 }
 
-void Robot::AutonomousPeriodic() {}
+void Robot::AutonomousPeriodic() {
+    TeleopPeriodic();
+}
 
 void Robot::TeleopInit() {
-    GetDriveTrain().RunReset();
     canSandstormDrive = false;
 }
 
