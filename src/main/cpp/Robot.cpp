@@ -163,10 +163,10 @@ void Robot::CompetitionJoystickInput() {
         }
     }
 
-    if (console.IsHatchGrabDown()) {
-        m_GrabHatchFromDispenser->Start();
-    } else if (console.IsHatchReleaseDown()) {
-        m_ReleaseHatch->Start();
+    if (console.IsHatchReleaseDown()) {
+        GetCargoIntake().SetHatchRotateSpeed(0.5);
+    } else if (console.IsHatchGrabDown()) {
+        GetCargoIntake().SetHatchRotateSpeed(-0.5);
     }
 
     if (console.GetCreeperReadyArmPressed()) {
