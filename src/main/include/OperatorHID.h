@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cmath>
+
 #include <frc/GenericHID.h>
 #include <frc/Joystick.h>
 
@@ -75,6 +77,15 @@ class OperatorHID {
         bool GetRetractArm()      { return m_FlightStick.GetRawButtonPressed(bRetractArm); };
 
         double GetThrottle() { return m_FlightStick.GetThrottle(); }; // Throttle is the switch on the base of the stick
+        double GetJoystickY() {
+            double posY = -m_FlightStick.GetY();
+            if (std::abs(posY) > 0.1) {
+                return posY;
+            } else {
+                return 0;
+            }
+        };
+
     private:
         ButtonBoard m_ActionPad{2};     // To control the intake and creeper arms actions.
         ButtonBoard m_RotationPad{1};   // To control the intake angle.

@@ -179,11 +179,12 @@ void Robot::CompetitionJoystickInput() {
     } else if (console.GetRetractCylinder()) {
         Robot::GetCreeperClimb().PistonRetract();
     }
-    // if (console.GetThrottle() >= 0.75) {
-    //     Flightstick controls creeper arms;
-    // } else if (console.GetThrottle() <= -0.75) {
-    //     Flightstick controls cargo intake;
-    // }
+
+    if (console.GetThrottle() >= 0.75) {
+        GetCargoIntake().SetRotateSpeed(console.GetJoystickY());
+    } else if (console.GetThrottle() <= -0.75) {
+        GetCreeperClimb().SetArmRotateSpeed(console.GetJoystickY());
+    }
 }
 
 void Robot::ButtonBoardDemo() {
