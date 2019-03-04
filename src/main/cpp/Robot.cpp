@@ -24,6 +24,7 @@ RotateHatchForDispenser*        Robot::m_RotateHatchForDispenser;
 ShootCargoForCargoShip*         Robot::m_ShootCargoForCargoShip;
 ShootCargoForLevelOneRocket*    Robot::m_ShootCargoForLevelOneRocket;
 
+StopCargoRoller*                Robot::m_StopCargoRoller;
 TakeCargo*                      Robot::m_TakeCargo;
 TakeCargoFromFloor*             Robot::m_TakeCargoFromFloor;
 
@@ -68,6 +69,7 @@ Robot::Robot() {
     m_ShootCargoForCargoShip = new ShootCargoForCargoShip();
     m_ShootCargoForLevelOneRocket = new ShootCargoForLevelOneRocket();
 
+    m_StopCargoRoller = new StopCargoRoller();
     m_TakeCargo = new TakeCargo();
     m_TakeCargoFromFloor = new TakeCargoFromFloor();
 
@@ -151,6 +153,12 @@ void Robot::CompetitionJoystickInput() {
         m_ShootCargoForLevelOneRocket->Start();
     } else if (console.GetCargoHighShotPressed()) {
         m_ShootCargoForCargoShip->Start();
+    } else if (console.GetCargoIntakePressed()) {
+        if (m_TakeCargo->IsRunning()) {
+            m_StopCargoRoller->Start();
+        } else {
+            m_TakeCargo->Start();
+        }
     }
 
     if (console.GetHatchGrabPressed()) {
