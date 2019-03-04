@@ -63,14 +63,15 @@ class OperatorHID {
         bool GetGoHomePressed()           { return m_RotationPad.GetButtonPressed(bRotateStowed); };
 
         // Action buttons.
-        bool GetHatchGrabPressed()       { return m_ActionPad.GetButtonPressed(bHatchGrab); };
         bool GetHatchFloorPressed()      { return m_ActionPad.GetButtonPressed(bHatchFloor); };
-        bool GetHatchReleasePressed()    { return m_ActionPad.GetButtonPressed(bHatchRelease); };
         bool GetCargoCloseShotPressed()  { return m_ActionPad.GetButtonPressed(bCargoCloseShot); };
         bool GetCargoIntakePressed()     { return m_ActionPad.GetButtonPressed(bCargoIntake); };
         bool GetCargoHighShotPressed()   { return m_ActionPad.GetButtonPressed(bCargoHighShot); };
         bool GetClimbSequencePressed()   { return m_ActionPad.GetButtonPressed(sClimbSequence); };
         bool GetCreeperReadyArmPressed() { return m_ActionPad.GetButtonPressed(bCreeperReadyArm); };
+
+        bool IsHatchGrabDown()       { return m_ActionPad.GetButton(bHatchGrab); };
+        bool IsHatchReleaseDown()    { return m_ActionPad.GetButton(bHatchRelease); };
 
         // Functions for testing, probably shouldn't keep these.
         bool GetRetractCylinder() { return m_FlightStick.GetRawButtonPressed(bRetractPiston); };
