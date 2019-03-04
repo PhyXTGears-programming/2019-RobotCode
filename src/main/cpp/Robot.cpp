@@ -81,7 +81,8 @@ Robot::Robot() {
 }
 
 void Robot::RobotInit() {
-    frc::CameraServer::GetInstance()->StartAutomaticCapture();
+    frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
+    frc::CameraServer::GetInstance()->StartAutomaticCapture(1);
 }
 
 void Robot::RobotPeriodic() {

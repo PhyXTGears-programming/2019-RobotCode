@@ -64,7 +64,8 @@ class CargoIntake : public frc::Subsystem {
         void StopRoller();
 
     private:
-        frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 211.8, -90.2}; // Testbot
+        frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 189, -108}; // Testbot
+        // frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 211.8, -90.2}; // Testbot
         // frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 236.8, -111.3}; // Compbot
         frc::Servo                m_HatchGripBottom {kCargoHatchServoBottom};
         frc::Servo                m_HatchGripTop    {kCargoHatchServoTop};

@@ -30,6 +30,8 @@ TakeCargo::TakeCargo() {
 
 void TakeCargo::Initialize() {
     Robot::GetCargoIntake().RetractEjector();
+    Robot::GetCargoIntake().SetTopHookPosition("docked");
+    Robot::GetCargoIntake().SetBottomHookPosition("docked");
 }
 
 void TakeCargo::Execute() {
