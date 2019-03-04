@@ -29,6 +29,7 @@
 #include "commands/RotateCargoForCargoShip.h"
 #include "commands/RotateCargoForLevelOneRocket.h"
 #include "commands/ShootCargoForCargoShip.h"
+#include "commands/ShootCargoForLevelOneRocket.h"
 #include "commands/TakeCargo.h"
 #include "commands/TakeCargoFromFloor.h"
 
@@ -52,6 +53,7 @@ class Robot : public frc::TimedRobot {
         static RotateCargoForLevelOneRocket* m_RotateCargoForLevelOneRocket;
 
         static ShootCargoForCargoShip*      m_ShootCargoForCargoShip;
+        static ShootCargoForLevelOneRocket* m_ShootCargoForLevelOneRocket;
 
         static TakeCargo*               m_TakeCargo;
         static TakeCargoFromFloor*      m_TakeCargoFromFloor;
