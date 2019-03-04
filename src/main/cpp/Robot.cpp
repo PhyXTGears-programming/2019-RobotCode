@@ -33,6 +33,8 @@ TakeCargoFromFloor*             Robot::m_TakeCargoFromFloor;
 ReadyCreeperArm*                Robot::m_ReadyCreeperArm;
 ClimbStep*                      Robot::m_ClimbStep;
 
+// Initialize Commands - Drive
+SandstormPlatformDrive*         Robot::m_SandstormPlatformDrive;
 
 // Initialize JSON reader
 wpi::json                       Robot::m_JsonConfig;
@@ -58,6 +60,9 @@ Robot::Robot() {
     m_CargoIntake = new CargoIntake(m_JsonConfig);
     m_CreeperClimb = new CreeperClimb(m_JsonConfig);
     m_DriveTrain = new DriveTrain(m_JsonConfig);
+
+    // Allocate and initialize commands - Teleop
+    m_SandstormPlatformDrive = new SandstormPlatformDrive();
 
     // Allocate and initialize commands - Intake
     m_GrabHatchFromDispenser = new GrabHatchFromDispenser();
@@ -105,18 +110,22 @@ void Robot::DisabledInit() {
 
 void Robot::DisabledPeriodic() {}
 
+bool canSandstormDrive = true;
 
 void Robot::AutonomousInit() {
     GetDriveTrain().RunReset();
     GetCreeperClimb().RunReset();
     GetCargoIntake().RunReset();
+    canSandstormDrive = true;
 }
 
 void Robot::AutonomousPeriodic() {
     TeleopPeriodic();
 }
 
-void Robot::TeleopInit() {}
+void Robot::TeleopInit() {
+    canSandstormDrive = false;
+}
 
 void Robot::TeleopPeriodic() {
     // No control code goes here.  Put control code for testing in a new
@@ -135,12 +144,13 @@ void Robot::TeleopPeriodic() {
 void Robot::TestPeriodic() {}
 
 void Robot::CompetitionJoystickInput() {
-    // Competition Controls will go here.
-
-    /* DRIVE CONTROLS
-    
-
-    */
+    // DRIVER CONTROLS
+    if (m_OI.GetDriverJoystick().GetBButton() && canSandstormDrive) {
+        m_SandstormPlatformDrive->Start();
+        canSandstormDrive = false;
+        // } else if (m_OI.GetDriverJoystick().GetBButtonReleased()) {
+        //     m_SandstormPlatformDrive->Cancel();
+    }
 
     // OPERATOR CONTROLS
     OperatorHID& console = m_OI.GetOperatorConsole();
