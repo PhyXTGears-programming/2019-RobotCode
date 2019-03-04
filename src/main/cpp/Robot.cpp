@@ -110,13 +110,11 @@ void Robot::DisabledInit() {
 
 void Robot::DisabledPeriodic() {}
 
-bool canSandstormDrive = true;
-
 void Robot::AutonomousInit() {
     GetDriveTrain().RunReset();
     GetCreeperClimb().RunReset();
     GetCargoIntake().RunReset();
-    canSandstormDrive = true;
+    m_CanSandstormStepDrive = true;
 }
 
 void Robot::AutonomousPeriodic() {
@@ -124,7 +122,7 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-    canSandstormDrive = false;
+    m_CanSandstormStepDrive = false;
 }
 
 void Robot::TeleopPeriodic() {
@@ -145,9 +143,9 @@ void Robot::TestPeriodic() {}
 
 void Robot::CompetitionJoystickInput() {
     // DRIVER CONTROLS
-    if (m_OI.GetDriverJoystick().GetBButton() && canSandstormDrive) {
+    if (m_OI.GetDriverJoystick().GetBButton() && m_CanSandstormStepDrive) {
         m_SandstormPlatformDrive->Start();
-        canSandstormDrive = false;
+        m_CanSandstormStepDrive = false;
         // } else if (m_OI.GetDriverJoystick().GetBButtonReleased()) {
         //     m_SandstormPlatformDrive->Cancel();
     }

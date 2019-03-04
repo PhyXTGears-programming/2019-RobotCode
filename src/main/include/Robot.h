@@ -93,6 +93,8 @@ class Robot : public frc::TimedRobot {
     private:
         frc::SendableChooser<frc::Command*> m_Chooser;
 
+        bool m_CanSandstormStepDrive;
+
         // Protobot doesn't have a CAN Bus to the PDP
 #       ifndef PROTOBOT
             frc::PowerDistributionPanel m_PDP{0};
