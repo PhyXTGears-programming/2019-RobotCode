@@ -26,6 +26,7 @@ ShootCargoForLevelOneRocket*    Robot::m_ShootCargoForLevelOneRocket;
 
 StopCargoRoller*                Robot::m_StopCargoRoller;
 TakeCargo*                      Robot::m_TakeCargo;
+TakeCargoFromDispenser*         Robot::m_TakeCargoFromDispenser;
 TakeCargoFromFloor*             Robot::m_TakeCargoFromFloor;
 
 // Initialize Commands - Climb
@@ -71,6 +72,7 @@ Robot::Robot() {
 
     m_StopCargoRoller = new StopCargoRoller();
     m_TakeCargo = new TakeCargo();
+    m_TakeCargoFromDispenser = new TakeCargoFromDispenser();
     m_TakeCargoFromFloor = new TakeCargoFromFloor();
 
     // Allocate and initialize commands -
