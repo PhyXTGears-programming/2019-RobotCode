@@ -7,8 +7,10 @@ class OI {
     public:
         OI();
 
-        frc::XboxController& GetDriverJoystick();
-        OperatorHID& GetOperatorJoystick();
+        // Return references to either the driver gamepad or operator joystick/button-board.
+        // E.g.: passing the joysticks to the drive subsystem.
+        frc::XboxController& GetDriverJoystick() { return m_HidDriver; };
+        OperatorHID& GetOperatorConsole() { return m_HidOperator; };
         
     private:
         frc::XboxController m_HidDriver   {0};

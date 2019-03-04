@@ -3,14 +3,15 @@
 
 #include <frc/commands/Scheduler.h>
 #include <frc/smartdashboard/SmartDashboard.h>
+#include <wpi/StringRef.h>
 #include <wpi/json.h>
 
 // Initialize Operator Interface
-OI            Robot::m_OI;
+OI Robot::m_OI;
 // Initialize Subsystems
-DriveTrain*   Robot::m_DriveTrain;
-CargoIntake*  Robot::m_CargoIntake;
-CreeperClimb* Robot::m_CreeperClimb;
+DriveTrain*                     Robot::m_DriveTrain;
+CargoIntake*                    Robot::m_CargoIntake;
+CreeperClimb*                   Robot::m_CreeperClimb;
 
 // Initialize Commands - Intake
 GrabHatchFromDispenser*         Robot::m_GrabHatchFromDispenser;
@@ -21,16 +22,20 @@ RotateHatchForFloor*            Robot::m_RotateHatchForFloor;
 RotateHatchForDispenser*        Robot::m_RotateHatchForDispenser;
 
 ShootCargoForCargoShip*         Robot::m_ShootCargoForCargoShip;
+ShootCargoForLevelOneRocket*    Robot::m_ShootCargoForLevelOneRocket;
 
+StopCargoRoller*                Robot::m_StopCargoRoller;
 TakeCargo*                      Robot::m_TakeCargo;
+TakeCargoFromDispenser*         Robot::m_TakeCargoFromDispenser;
 TakeCargoFromFloor*             Robot::m_TakeCargoFromFloor;
 
 // Initialize Commands - Climb
-ReadyCreeperArm* Robot::m_ReadyCreeperArm;
-ClimbStep*       Robot::m_ClimbStep;
+ReadyCreeperArm*                Robot::m_ReadyCreeperArm;
+ClimbStep*                      Robot::m_ClimbStep;
+
 
 // Initialize JSON reader
-wpi::json Robot::m_JsonConfig;
+wpi::json                       Robot::m_JsonConfig;
 
 Robot::Robot() {
     // get the json config deployed onto the roborio
@@ -44,12 +49,11 @@ Robot::Robot() {
 
     // pass the file data into the string
     jsonString.assign((std::istreambuf_iterator<char>(jsonStream)),
-        std::istreambuf_iterator<char>());
+                      std::istreambuf_iterator<char>());
 
-    //m_ConfigReader = new wpi::json(str);
     m_JsonConfig = wpi::json::parse(jsonString);
- 
-    // Allocate and initialize subsystems. 
+
+    // Allocate and initialize subsystems.
 
     m_CargoIntake = new CargoIntake(m_JsonConfig);
     m_CreeperClimb = new CreeperClimb(m_JsonConfig);
@@ -64,11 +68,14 @@ Robot::Robot() {
     m_RotateHatchForDispenser = new RotateHatchForDispenser();
 
     m_ShootCargoForCargoShip = new ShootCargoForCargoShip();
+    m_ShootCargoForLevelOneRocket = new ShootCargoForLevelOneRocket();
 
+    m_StopCargoRoller = new StopCargoRoller();
     m_TakeCargo = new TakeCargo();
+    m_TakeCargoFromDispenser = new TakeCargoFromDispenser();
     m_TakeCargoFromFloor = new TakeCargoFromFloor();
-    
-    // Allocate and initialize commands - 
+
+    // Allocate and initialize commands -
     m_ReadyCreeperArm = new ReadyCreeperArm();
     m_ClimbStep = new ClimbStep();
 }
@@ -78,9 +85,12 @@ void Robot::RobotInit() {
 }
 
 void Robot::RobotPeriodic() {
-    frc::SmartDashboard::PutNumber("flight throttle", m_OI.GetOperatorJoystick().GetThrottle());
-    frc::SmartDashboard::PutNumber("intake rotation", GetCargoIntake().GetIntakeRotation());
-    frc::SmartDashboard::PutNumber("climb arm rotation", GetCreeperClimb().GetCurrentArmPosition());
+    frc::SmartDashboard::PutNumber("flight throttle",
+                                   m_OI.GetOperatorConsole().GetThrottle());
+    frc::SmartDashboard::PutNumber("intake rotation",
+                                   GetCargoIntake().GetIntakeRotation());
+    frc::SmartDashboard::PutNumber("climb arm rotation",
+                                   GetCreeperClimb().GetCurrentArmPosition());
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
     frc::Scheduler::GetInstance()->Run();
 }
@@ -110,11 +120,12 @@ void Robot::TeleopPeriodic() {
     // so help me, more words will ensue.
     //
     // (╯°Д°）╯︵┻━┻
+    CompetitionJoystickInput();
 }
 
 void Robot::TestPeriodic() {}
 
-void Robot::CompetitionJoytickInput() {
+void Robot::CompetitionJoystickInput() {
     // Competition Controls will go here.
 
     /* DRIVE CONTROLS
@@ -122,42 +133,72 @@ void Robot::CompetitionJoytickInput() {
 
     */
 
-    /* OPERATOR CONTROLS
-
+    // OPERATOR CONTROLS
+    OperatorHID& console = m_OI.GetOperatorConsole();
     // Change rotation of cargo intake
-    if m_OI::GetOperator().GetFloorHatchPickupPressed() then
-        RotateHatchForFloor.Start()
-    elif GetFloorCargoPickupPressed() then
-        RotateCargoForFloor.Start()
-    elif GetHatchFeederScorePressed() then
-        RotateHatchForDispenser.Start()
-    elif GetRocketShotPressed() then
-        RotateCargoForLevelOneRocket.Start()
-    elif GetCargoShotPressed() then
-        RotateCargoForCargoShip.Start()
-    elif GetGoHomePressed() then
-        RotateIntakeToHome.Start()
-    end
+    if (console.GetFloorHatchPickupPressed()) {
+        m_RotateHatchForFloor->Start();
+    } else if (console.GetFloorCargoPickupPressed()) {
+        m_TakeCargoFromFloor->Start();
+    } else if (console.GetHatchFeederScorePressed()) {
+        m_RotateHatchForDispenser->Start();
+    } else if (console.GetRocketShotPressed()) {
+        m_RotateCargoForLevelOneRocket->Start();
+    } else if (m_OI.GetOperatorConsole().GetCargoShotPressed()) {
+        m_RotateCargoForCargoShip->Start();
+    } else if (console.GetGoHomePressed()) {
+        GetCargoIntake().GoHome();  // CHANGE TO COMMAND
+    }
 
     // action command buttons, stuff happens
-    if m_OI::GetOperator().GetCargoCloseShotPressed() then
-        ShootCargo.Start() ??
-    elif GetCargoHighShotPressed() then
-        ShootCargoForLevelOneRocket.Start()
-    elif GetHatchGrabPressed() then
-        GrabHatchFromDispenser.start()
-    elif GetHatchReleasePressed() then
-        ReleaseHatch.Start()
-    end
+    if (console.GetCargoCloseShotPressed()) {
+        m_ShootCargoForLevelOneRocket->Start();
+    } else if (console.GetCargoHighShotPressed()) {
+        m_ShootCargoForCargoShip->Start();
+    } else if (console.GetCargoIntakePressed()) {
+        if (m_TakeCargo->IsRunning()) {
+            m_StopCargoRoller->Start();
+        } else {
+            m_TakeCargo->Start();
+        }
+    }
+
+    if (console.IsHatchReleaseDown()) {
+        GetCargoIntake().SetHatchRotateSpeed(0.5);
+    } else if (console.IsHatchGrabDown()) {
+        GetCargoIntake().SetHatchRotateSpeed(-0.5);
+    }
+
+    if (console.GetCreeperReadyArmPressed()) {
+        m_ReadyCreeperArm->Start();
+    } else if (console.GetClimbSequencePressed()) {
+        m_ClimbStep->Start();
+    }
 
     // manual controls
-    if m_OI::GetOperator().GetThrottle() >= 0.75 then
-        Flightstick controls creeper arms
-    else if m_OI::GetOperator().GetThrottle() <= -0.75 then
-        Flightstick controls cargo intake
-    end
+    if (console.GetRetractArm()) {
+        Robot::GetCreeperClimb().RotateArmToPosition("home");
+    } else if (console.GetRetractCylinder()) {
+        Robot::GetCreeperClimb().PistonRetract();
+    }
 
-    */
+    if (console.GetThrottle() >= 0.75) {
+        GetCargoIntake().SetRotateSpeed(console.GetJoystickY());
+    } else if (console.GetThrottle() <= -0.75) {
+        GetCreeperClimb().SetArmRotateSpeed(console.GetJoystickY());
+    }
+}
+
+void Robot::ButtonBoardDemo() {
+    if (m_OI.GetOperatorConsole().GetCreeperReadyArmPressed()) {
+        m_ReadyCreeperArm->Start();
+    } else if (m_OI.GetOperatorConsole().GetClimbSequencePressed()) {
+        m_ClimbStep->Start();
+    } else if (m_OI.GetOperatorConsole().GetRetractArm()) {
+        Robot::GetCreeperClimb().RotateArmToPosition("home");
+    } else if (m_OI.GetOperatorConsole().GetRetractCylinder()) {
+        Robot::GetCreeperClimb().PistonRetract();
+    }
 }
 
 void Robot::JoystickDemoCargo() {
@@ -170,8 +211,10 @@ void Robot::JoystickDemoCargo() {
     // R Bumper = take cargo from loading station.
 
     if (driver.GetXButton()) {
-        double leftTrigger = driver.GetTriggerAxis(frc::XboxController::kLeftHand);
-        double rightTrigger = driver.GetTriggerAxis(frc::XboxController::kRightHand);
+        double leftTrigger =
+            driver.GetTriggerAxis(frc::XboxController::kLeftHand);
+        double rightTrigger =
+            driver.GetTriggerAxis(frc::XboxController::kRightHand);
 
         if (0.1 < leftTrigger) {
             GetCargoIntake().SetRotateSpeed(leftTrigger * 1.0);
@@ -222,8 +265,10 @@ void Robot::JoystickDemoCreeperClimb() {
     }
 
     if (driver.GetXButton()) {
-        double leftTrigger = driver.GetTriggerAxis(frc::XboxController::kLeftHand);
-        double rightTrigger = driver.GetTriggerAxis(frc::XboxController::kRightHand);
+        double leftTrigger =
+            driver.GetTriggerAxis(frc::XboxController::kLeftHand);
+        double rightTrigger =
+            driver.GetTriggerAxis(frc::XboxController::kRightHand);
 
         if (0.1 < leftTrigger) {
             GetCreeperClimb().SetArmRotateSpeed(leftTrigger * -1.0);
@@ -242,14 +287,13 @@ void Robot::JoystickDemoCreeperClimb() {
     } else if (0 == pov) {
         Robot::GetCreeperClimb().PistonRetract();
     }
-    
+
     if (driver.GetBackButtonPressed()) {
         Robot::GetCreeperClimb().RotateArmToPosition("home");
     }
 
     if (driver.GetStartButton()) {
-        Robot::GetCreeperClimb().SetArmWheels(true); // wheels need to be SLOWED!!
-        std::cout << "start" << std::endl;
+        Robot::GetCreeperClimb().SetArmWheels(true);
     } else if (driver.GetStartButtonReleased()) {
         Robot::GetCreeperClimb().StopArmWheels();
     }
@@ -286,11 +330,10 @@ void Robot::JoystickDemoIntakeHatch() {
     // POV Down + Y = Increase bottom hatch servo position up to 1.0.
     // POV Down + X = Decrease bottom hatch servo position down to 0.0.
 
-
     int pov = driver.GetPOV();
 
     switch (pov) {
-        case 0:   // Up
+        case 0:  // Up
             if (driver.GetYButtonPressed()) {
                 top = util::clamp(top + 0.01, 0.2, 0.8);
             } else if (driver.GetXButtonPressed()) {
@@ -299,7 +342,7 @@ void Robot::JoystickDemoIntakeHatch() {
             GetCargoIntake().SetTopHookPosition(top);
             break;
 
-        case 180:    // Down
+        case 180:  // Down
             if (driver.GetYButtonPressed()) {
                 bottom = util::clamp(bottom + 0.01, 0.2, 0.8);
             } else if (driver.GetXButtonPressed()) {
@@ -312,8 +355,8 @@ void Robot::JoystickDemoIntakeHatch() {
     std::cout << "hook: b(" << bottom << ") t(" << top << ")" << std::endl;
 }
 
-
-
 #ifndef RUNNING_FRC_TESTS
-int main() { return frc::StartRobot<Robot>(); }
+int main() {
+    return frc::StartRobot<Robot>();
+}
 #endif

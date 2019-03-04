@@ -2,6 +2,7 @@
 #include "Robot.h"
 
 #include <iostream>
+#include <cmath>
 
 #define PID_NEAR_ZERO_THRESHOLD 1
 #define PID_NEAR_ZERO_MAX_COUNT 6
@@ -65,7 +66,16 @@ double CreeperClimb::GetCurrentArmPosition() {
     return machineAngleToWorld(m_ArmPosition.Get());
 }
 
-void CreeperClimb::SetArmRotateSpeed(double spd) { m_ArmRotate.Set(spd); }
+void CreeperClimb::SetArmRotateSpeed(double spd) {
+    if (std::abs(spd) > 0.1) {
+        m_RotationPID.Disable();
+        m_ArmRotate.Set(spd);
+    } else if (!m_RotationPID.IsEnabled()) {
+        // Allow manual control deadband to stop motor, but don't interfere
+        // when PID is active.
+        m_ArmRotate.Set(spd);
+    }
+}
 
 void CreeperClimb::SetArmWheels(bool on) {
     m_ArmDrive.Set(on ? frc::Relay::kOn : frc::Relay::kOff);

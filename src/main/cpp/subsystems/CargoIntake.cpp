@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <string>
+#include <cmath>
 
 #define ANGLE_TOLERANCE 4       // Degrees
 
@@ -106,8 +107,7 @@ void CargoIntake::GoHome() {
 
     StopRoller();
 
-    double ang = Robot::m_JsonConfig["intake"]["rotation"]["home"];
-    RotateToPosition(ang);
+    RotateToPosition("home");
 }
 
 void CargoIntake::RotateToPosition(wpi::StringRef configName) {
@@ -121,7 +121,14 @@ void CargoIntake::RotateToPosition(int worldAngle) {
 }
 
 void CargoIntake::SetRotateSpeed(double speed) {
-    m_IntakeArmMotor.Set(speed);
+    if (std::abs(speed) > 0.1) {
+        m_RotationPID.Disable();
+        m_IntakeArmMotor.Set(speed);
+    } else if (!m_RotationPID.IsEnabled()) {
+        // Allow manual control deadband to stop motor, but don't interfere
+        // when PID is active.
+        m_IntakeArmMotor.Set(speed);
+    }
 }
 
 void CargoIntake::StopRotation() {
