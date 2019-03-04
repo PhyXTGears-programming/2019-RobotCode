@@ -157,7 +157,9 @@ void Robot::CompetitionJoystickInput() {
         m_GrabHatchFromDispenser->Start();
     } else if (console.GetHatchReleasePressed()) {
         m_ReleaseHatch->Start();
-    } else if (console.GetCreeperReadyArmPressed()) {
+    }
+
+    if (console.GetCreeperReadyArmPressed()) {
         m_ReadyCreeperArm->Start();
     } else if (console.GetClimbSequencePressed()) {
         m_ClimbStep->Start();
