@@ -133,7 +133,7 @@ void Robot::CompetitionJoystickInput() {
     if (m_OI.GetOperatorConsole().GetFloorHatchPickupPressed()) {
         m_RotateHatchForFloor->Start();
     } else if (m_OI.GetOperatorConsole().GetFloorCargoPickupPressed()) {
-        m_RotateHatchForFloor->Start();
+        m_TakeCargoFromFloor->Start();
     } else if (m_OI.GetOperatorConsole().GetHatchFeederScorePressed()) {
         m_RotateHatchForDispenser->Start();
     } else if (m_OI.GetOperatorConsole().GetRocketShotPressed()) {
