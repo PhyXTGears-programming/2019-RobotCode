@@ -52,6 +52,9 @@ class CargoIntake : public frc::Subsystem {
 
         void SetHatchRotateSpeed(double);
 
+        void RunReset();
+        void Disable();
+
     private:
         frc::DigitalInput m_CargoSensor {kCargoSensor};
     

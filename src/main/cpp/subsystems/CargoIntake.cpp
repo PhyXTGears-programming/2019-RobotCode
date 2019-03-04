@@ -152,3 +152,11 @@ double CargoIntake::machineAngleToWorld(double machine) {
 double CargoIntake::worldAngleToMachine(double world) {
     return world + (double)Robot::m_JsonConfig["intake"]["rotation"]["zero-point"];
 }
+
+void CargoIntake::RunReset() {
+    RotateToPosition(GetIntakeRotation());
+}
+
+void CargoIntake::Disable() {
+    m_RotationPID.Reset();
+}

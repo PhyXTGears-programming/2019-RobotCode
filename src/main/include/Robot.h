@@ -42,32 +42,34 @@ class Robot : public frc::TimedRobot {
     public:
         // Operator Interface
         static OI m_OI;
+
         // Subsystems
-        static DriveTrain*   m_DriveTrain;
-        static CreeperClimb* m_CreeperClimb;
-        static CargoIntake*  m_CargoIntake;
-        // Commands
-        static GrabHatchFromDispenser* m_GrabHatchFromDispenser;
-        static ReleaseHatch* m_ReleaseHatch;
-        static RotateHatchForFloor* m_RotateHatchForFloor;
-        static RotateHatchForDispenser* m_RotateHatchForDispenser;
-        static RotateCargoForCargoShip* m_RotateCargoForCargoShip;
-        static RotateCargoForLevelOneRocket* m_RotateCargoForLevelOneRocket;
+        static DriveTrain*                      m_DriveTrain;
+        static CreeperClimb*                    m_CreeperClimb;
+        static CargoIntake*                     m_CargoIntake;
 
-        static ShootCargoForCargoShip*      m_ShootCargoForCargoShip;
-        static ShootCargoForLevelOneRocket* m_ShootCargoForLevelOneRocket;
+        // Commands - Intake
+        static GrabHatchFromDispenser*          m_GrabHatchFromDispenser;
+        static ReleaseHatch*                    m_ReleaseHatch;
+        static RotateHatchForFloor*             m_RotateHatchForFloor;
+        static RotateHatchForDispenser*         m_RotateHatchForDispenser;
+        static RotateCargoForCargoShip*         m_RotateCargoForCargoShip;
+        static RotateCargoForLevelOneRocket*    m_RotateCargoForLevelOneRocket;
 
-        static StopCargoRoller*         m_StopCargoRoller;
-        static TakeCargo*               m_TakeCargo;
-        static TakeCargoFromDispenser*  m_TakeCargoFromDispenser;
-        static TakeCargoFromFloor*      m_TakeCargoFromFloor;
+        static ShootCargoForCargoShip*          m_ShootCargoForCargoShip;
+        static ShootCargoForLevelOneRocket*     m_ShootCargoForLevelOneRocket;
+
+        static StopCargoRoller*                 m_StopCargoRoller;
+        static TakeCargo*                       m_TakeCargo;
+        static TakeCargoFromDispenser*          m_TakeCargoFromDispenser;
+        static TakeCargoFromFloor*              m_TakeCargoFromFloor;
 
         // Commands - Climb
-        static ReadyCreeperArm* m_ReadyCreeperArm;
-        static ClimbStep* m_ClimbStep;
+        static ReadyCreeperArm*                 m_ReadyCreeperArm;
+        static ClimbStep*                       m_ClimbStep;
 
-        // this should probably be moved later
-        static wpi::json m_JsonConfig;
+        // JSON Reader for Config (this should probably be moved later)
+        static wpi::json                        m_JsonConfig;
    
         Robot();
         void RobotInit() override;
