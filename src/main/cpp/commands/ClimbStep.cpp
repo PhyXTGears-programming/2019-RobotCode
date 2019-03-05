@@ -4,8 +4,6 @@
 #include "util/StopWatch.h"
 
 #include <iostream>
-using std::cout;
-using std::endl;
 
 static StopWatch logTimer;
 
@@ -136,7 +134,12 @@ void ClimbStep::Execute() {
             break;
 
         default:
-            cout << logTimer.Split() << "ClimbStep.Execute: Unknown segment in ClimbStep! (segment:" << m_Segment << ")" << endl;
+            std::cout
+                << logTimer.Split()
+                << "ClimbStep.Execute: Unknown segment in ClimbStep! (segment:"
+                << m_Segment
+                << ")"
+                << std::endl;
     }
 
     Robot::GetDriveTrain().ArcadeDrive(0, 0);
