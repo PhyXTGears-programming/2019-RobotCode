@@ -181,10 +181,15 @@ void Robot::CompetitionJoystickInput() {
         }
     }
 
-    if (console.IsHatchReleaseDown()) {
+    if (console.IsHatchReleaseDown() && console.IsHatchGrabDown()) {
+        // Stop cheesecake hatch if both buttons are down.
+        GetCargoIntake().SetHatchRotateSpeed(0.0);
+    } else if (console.IsHatchReleaseDown()) {
         GetCargoIntake().SetHatchRotateSpeed(0.5);
     } else if (console.IsHatchGrabDown()) {
         GetCargoIntake().SetHatchRotateSpeed(-0.5);
+    } else {
+        GetCargoIntake().SetHatchRotateSpeed(0.0);
     }
 
     if (console.GetCreeperReadyArmPressed()) {
