@@ -20,8 +20,10 @@
 #include "subsystems/CargoIntake.h"
 // Commands
 #include "commands/ClimbStep.h"
+
+#include "commands/DriveSandstormStepWithHatch.h"
 #include "commands/TeleOpDrive.h"
-#include "commands/SandstormPlatformDrive.h"
+
 #include "commands/GrabHatchFromDispenser.h"
 #include "commands/ReadyCreeperArm.h"
 #include "commands/ReleaseHatch.h"
@@ -50,7 +52,7 @@ class Robot : public frc::TimedRobot {
         static CargoIntake*                     m_CargoIntake;
   
         // Commands - Drive
-        static SandstormPlatformDrive*          m_SandstormPlatformDrive;
+        static DriveSandstormStepWithHatch*     m_DriveSandstormStepWithHatch;
 
         // Commands - Intake
         static GrabHatchFromDispenser*          m_GrabHatchFromDispenser;

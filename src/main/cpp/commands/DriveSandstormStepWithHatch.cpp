@@ -5,25 +5,23 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-#include "commands/SandstormPlatformDrive.h"
+#include "commands/DriveSandstormStepWithHatch.h"
 #include "Robot.h"
 
 #include "util/StopWatch.h"
 
 #include <iostream>
 
-//using Action = SandstormPlatformDrive::Action;
-
 static StopWatch logTimer;
 
-SandstormPlatformDrive::SandstormPlatformDrive() : m_Action(Action::End) {
+DriveSandstormStepWithHatch::DriveSandstormStepWithHatch() : m_Action(Action::End) {
   // Use Requires() here to declare subsystem dependencies
   Requires(&Robot::GetDriveTrain());
   Requires(&Robot::GetCargoIntake());
 }
 
 // Called just before this Command runs the first time
-void SandstormPlatformDrive::Initialize() {
+void DriveSandstormStepWithHatch::Initialize() {
     Robot::GetDriveTrain().UseDukesSpeedLimit();
     Robot::GetCargoIntake().SetHatchRotateSpeed(0.3);
     m_LowerHatchDelay.Start();
@@ -33,18 +31,18 @@ void SandstormPlatformDrive::Initialize() {
 
     m_Action = Action::WaitForLowerHatch;
 
-    std::cout << logTimer.Elapsed() << ": SandstormPlatformDrive.Initialize: Lowering Hatch" << std::endl;
+    std::cout << logTimer.Elapsed() << ": DriveSandstormStepWithHatch.Initialize: Lowering Hatch" << std::endl;
 }
 
 // Called repeatedly when this Command is scheduled to run
-void SandstormPlatformDrive::Execute() {
+void DriveSandstormStepWithHatch::Execute() {
     if (ENABLE_DRIVETRAIN_CONTROL) {
         switch (m_Action) {
             case Action::WaitForLowerHatch:
                 Robot::GetDriveTrain().ArcadeDrive(0, 0);
 
                 if (m_LowerHatchDelay.IsDone()) {
-                    std::cout << logTimer.Elapsed() << ": SandstormPlatformDrive.Execute: Driving now." << std::endl;
+                    std::cout << logTimer.Elapsed() << ": DriveSandstormStepWithHatch.Execute: Driving now." << std::endl;
 
                     Robot::GetDriveTrain().ArcadeDrive(1, 0);
                     m_RaiseHatchDelay.Start();
@@ -57,7 +55,7 @@ void SandstormPlatformDrive::Execute() {
                 Robot::GetDriveTrain().ArcadeDrive(1, 0);
 
                 if (m_RaiseHatchDelay.IsDone()) {
-                    std::cout << logTimer.Elapsed() << ": SandstormPlatformDrive.Execute: Raising hatch now." << std::endl;
+                    std::cout << logTimer.Elapsed() << ": DriveSandstormStepWithHatch.Execute: Raising hatch now." << std::endl;
 
                     m_RaiseHatchDelay.Stop();
                     Robot::GetCargoIntake().SetHatchRotateSpeed(-0.5);
@@ -78,17 +76,17 @@ void SandstormPlatformDrive::Execute() {
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool SandstormPlatformDrive::IsFinished() {
+bool DriveSandstormStepWithHatch::IsFinished() {
     return Action::End == m_Action;
 }
 
 // Called once after isFinished returns true
-void SandstormPlatformDrive::End() {
-    std::cout << logTimer.Elapsed() << ": SandstormPlatformDrive.End" << std::endl;
+void DriveSandstormStepWithHatch::End() {
+    std::cout << logTimer.Elapsed() << ": DriveSandstormStepWithHatch.End" << std::endl;
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void SandstormPlatformDrive::Interrupted() {
+void DriveSandstormStepWithHatch::Interrupted() {
     Robot::GetDriveTrain().UseNormalSpeedLimit();
 }

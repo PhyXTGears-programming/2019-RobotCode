@@ -11,9 +11,9 @@
 
 #include <frc/commands/Command.h>
 
-class SandstormPlatformDrive : public frc::Command {
+class DriveSandstormStepWithHatch : public frc::Command {
     public:
-        SandstormPlatformDrive();
+        DriveSandstormStepWithHatch();
         void Initialize() override;
         void Execute() override;
         bool IsFinished() override;

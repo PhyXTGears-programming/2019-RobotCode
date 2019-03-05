@@ -34,7 +34,7 @@ ReadyCreeperArm*                Robot::m_ReadyCreeperArm;
 ClimbStep*                      Robot::m_ClimbStep;
 
 // Initialize Commands - Drive
-SandstormPlatformDrive*         Robot::m_SandstormPlatformDrive;
+DriveSandstormStepWithHatch*    Robot::m_DriveSandstormStepWithHatch;
 
 // Initialize JSON reader
 wpi::json                       Robot::m_JsonConfig;
@@ -62,7 +62,7 @@ Robot::Robot() {
     m_DriveTrain = new DriveTrain(m_JsonConfig);
 
     // Allocate and initialize commands - Teleop
-    m_SandstormPlatformDrive = new SandstormPlatformDrive();
+    m_DriveSandstormStepWithHatch = new DriveSandstormStepWithHatch();
 
     // Allocate and initialize commands - Intake
     m_GrabHatchFromDispenser = new GrabHatchFromDispenser();
@@ -147,7 +147,7 @@ void Robot::TestPeriodic() {}
 void Robot::CompetitionJoystickInput() {
     // DRIVER CONTROLS
     if (m_OI.GetDriverJoystick().GetBButton() && m_CanSandstormStepDrive) {
-        m_SandstormPlatformDrive->Start();
+        m_DriveSandstormStepWithHatch->Start();
         m_CanSandstormStepDrive = false;
     }
 
