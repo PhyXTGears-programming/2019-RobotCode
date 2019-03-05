@@ -21,6 +21,7 @@
 // Commands
 #include "commands/ClimbStep.h"
 
+#include "commands/DriveSandstormStepWithCargo.h"
 #include "commands/DriveSandstormStepWithHatch.h"
 #include "commands/TeleOpDrive.h"
 
@@ -53,6 +54,7 @@ class Robot : public frc::TimedRobot {
   
         // Commands - Drive
         static DriveSandstormStepWithHatch*     m_DriveSandstormStepWithHatch;
+        static DriveSandstormStepWithCargo*     m_DriveSandstormStepWithCargo;
 
         // Commands - Intake
         static GrabHatchFromDispenser*          m_GrabHatchFromDispenser;
