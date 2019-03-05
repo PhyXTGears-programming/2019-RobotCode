@@ -22,7 +22,7 @@
             "D": -0.02
         },
         "rotation": {
-            "zero-point": -31.2,
+            "zero-point": 0.0,
             "angles": {
                 "home": 81.0,
                 "cargo-ship-shoot": 65,
