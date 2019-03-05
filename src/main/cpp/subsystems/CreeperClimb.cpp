@@ -177,6 +177,7 @@ double CreeperClimb::worldAngleToMachine(double world) {
 }
 
 void CreeperClimb::RunReset() {
+    PistonDisable();
     RotateArmToPosition(GetCurrentArmPosition());
 }
 
