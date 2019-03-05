@@ -56,7 +56,7 @@
             "angles": {
                 "home": 65,
                 "arm-ready": 162,
-                "arm-climb": 215
+                "arm-climb": 220
             }
         }
     }
