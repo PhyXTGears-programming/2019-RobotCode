@@ -150,10 +150,13 @@ void ClimbStep::End() {
     // Make sure rollers are stopped.
     Robot::GetCreeperClimb().StopArmWheels();
     Robot::GetCreeperClimb().SetRotatePIDOutputRange(-1, 1);
+    std::cout << "ClimbStep.End" << std::endl;
 }
 
 void ClimbStep::Interrupted() {
     // Make sure rollers are stopped.
     Robot::GetCreeperClimb().StopArmWheels();
     Robot::GetCreeperClimb().SetRotatePIDOutputRange(-1, 1);
+
+    std::cout << "ClimbStep.Interrupt" << std::endl;
 }

@@ -21,16 +21,14 @@ class SandstormPlatformDrive : public frc::Command {
         void Interrupted() override;
 
         enum class Action {
-            WaitForLowerHatch,
+            Capture,
+            WaitForCapture,
             Go,
-            WaitUntilLanding,
             End,
         };
 
     private:
         Action m_Action;
 
-        Delay m_LowerHatchDelay{0.6};
-        Delay m_RaiseHatchDelay{0.5};
-        Delay m_WaitForLanding{1.6};
+        Delay m_DrivePeriod{1.0};
 };

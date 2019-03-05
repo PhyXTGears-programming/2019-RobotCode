@@ -6,6 +6,8 @@
 #include <wpi/StringRef.h>
 #include <wpi/json.h>
 
+#include <iostream>
+
 // Initialize Operator Interface
 OI            Robot::m_OI;
 // Initialize Subsystems
@@ -100,13 +102,16 @@ void Robot::RobotPeriodic() {
 }
 
 void Robot::DisabledInit() {
+    std::cout << "DisableInit" << std::endl;
     m_ClimbStep->Cancel();
 
     GetCreeperClimb().Disable();
     GetCargoIntake().Disable();
 }
 
-void Robot::DisabledPeriodic() {}
+void Robot::DisabledPeriodic() {
+    frc::Scheduler::GetInstance()->Run();
+}
 
 static bool canSandstormDrive = true;
 
@@ -328,10 +333,16 @@ void Robot::JoystickDemoHatchCheesecake() {
     //     GetCargoIntake().SetHatchRotateSpeed(0.0);
     // }
 
-    if (m_OI.GetOperatorConsole().IsHatchReleaseDown()) {
+    OperatorHID& console = m_OI.GetOperatorConsole();
+
+    if (console.IsHatchReleaseDown() && console.IsHatchGrabDown()) {
+        GetCargoIntake().SetHatchRotateSpeed(0.0);
+    } else if (console.IsHatchReleaseDown()) {
         GetCargoIntake().SetHatchRotateSpeed(0.5);
-    } else if (m_OI.GetOperatorConsole().IsHatchGrabDown()) {
+    } else if (console.IsHatchGrabDown()) {
         GetCargoIntake().SetHatchRotateSpeed(-0.5);
+    } else {
+        GetCargoIntake().SetHatchRotateSpeed(0.0);
     }
 }
 

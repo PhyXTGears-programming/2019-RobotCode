@@ -35,7 +35,7 @@
         },
         "roller-speed": {
             "intake": -0.75,
-            "cargo-ship": 0.90,
+            "cargo-ship": 0.80,
             "rocket-1": 0.60
         }
     },
@@ -56,7 +56,7 @@
             "angles": {
                 "home": 65,
                 "arm-ready": 162,
-                "arm-climb": 215
+                "arm-climb": 220
             }
         }
     }
