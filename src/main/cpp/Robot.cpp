@@ -110,12 +110,11 @@ void Robot::DisabledInit() {
 
     GetCreeperClimb().Disable();
     GetCargoIntake().Disable();
-
-    // Clear pending commands out of scheduler.
-    frc::Scheduler::GetInstance()->ResetAll();
 }
 
-void Robot::DisabledPeriodic() {}
+void Robot::DisabledPeriodic() {
+    frc::Scheduler::GetInstance()->Run();
+}
 
 void Robot::AutonomousInit() {
     GetDriveTrain().RunReset();
