@@ -2,6 +2,7 @@ plugins {
     id "cpp"
     id "google-test-test-suite"
     id "edu.wpi.first.GradleRIO" version "2019.4.1"
+    id "org.ajoberstar.grgit" version "2.3.0"
 }
 
 // Define my targets (RoboRIO) and artifacts (deployable files)
@@ -85,3 +86,18 @@ model {
         }
     }
 }
+
+task versionFile {
+    doFirst {
+        new File('src/main/deploy/version.txt').text = """
+========================================
+FRC Team 1720 - PhyXTGears
+Robot: Space Walrus
+Season: 2019
+Software version: ${grgit.describe()}
+========================================
+        """
+    }
+}
+
+tasks.getByName('deploy').dependsOn(versionFile)
