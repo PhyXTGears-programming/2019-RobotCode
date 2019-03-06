@@ -90,8 +90,13 @@ Robot::Robot() {
 }
 
 void Robot::RobotInit() {
-    frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
-    frc::CameraServer::GetInstance()->StartAutomaticCapture(1);
+    m_Camera0 = frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
+    m_Camera1 = frc::CameraServer::GetInstance()->StartAutomaticCapture(1);
+
+    m_Camera0.SetConnectionStrategy(cs::VideoSource::ConnectionStrategy::kConnectionKeepOpen);
+    m_Camera1.SetConnectionStrategy(cs::VideoSource::ConnectionStrategy::kConnectionKeepOpen);
+
+    frc::CameraServer::GetInstance()->GetServer().SetSource(m_Camera0);
 }
 
 void Robot::RobotPeriodic() {
@@ -103,6 +108,18 @@ void Robot::RobotPeriodic() {
                                    GetCreeperClimb().GetCurrentArmPosition());
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
     frc::Scheduler::GetInstance()->Run();
+
+    bool bumperPressed = m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kRightHand);
+    bool flightstickPressed = m_OI.GetOperatorConsole().GetFlightStickPressed(11);
+
+    if (bumperPressed || flightstickPressed) {
+        if (m_UsingCamera1) {
+            frc::CameraServer::GetInstance()->GetServer().SetSource(m_Camera0);
+        } else {
+            frc::CameraServer::GetInstance()->GetServer().SetSource(m_Camera1);
+        }
+        m_UsingCamera1 = !m_UsingCamera1;
+    }
 }
 
 void Robot::DisabledInit() {

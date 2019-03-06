@@ -101,6 +101,10 @@ class Robot : public frc::TimedRobot {
 
         bool m_CanSandstormStepDrive;
 
+        bool m_UsingCamera1 = false;
+        cs::UsbCamera m_Camera0;
+        cs::UsbCamera m_Camera1;
+
         // Protobot doesn't have a CAN Bus to the PDP
 #       ifndef PROTOBOT
             frc::PowerDistributionPanel m_PDP{0};
