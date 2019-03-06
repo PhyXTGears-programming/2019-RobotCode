@@ -87,6 +87,8 @@ class OperatorHID {
             }
         };
 
+        bool GetFlightStickPressed(int button) { return m_FlightStick.GetRawButtonPressed(button); }
+
     private:
         ButtonBoard m_ActionPad{2};     // To control the intake and creeper arms actions.
         ButtonBoard m_RotationPad{1};   // To control the intake angle.

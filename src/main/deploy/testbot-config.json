@@ -36,7 +36,8 @@
         "roller-speed": {
             "intake": -0.75,
             "cargo-ship": 0.80,
-            "rocket-1": 0.60
+            "rocket-1": 0.60,
+            "rocket-2": 0.96
         }
     },
     "drive": {

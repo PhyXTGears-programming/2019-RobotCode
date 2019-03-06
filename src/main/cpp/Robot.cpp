@@ -23,6 +23,7 @@ RotateHatchForDispenser*        Robot::m_RotateHatchForDispenser;
 
 ShootCargoForCargoShip*         Robot::m_ShootCargoForCargoShip;
 ShootCargoForLevelOneRocket*    Robot::m_ShootCargoForLevelOneRocket;
+ShootCargoForLevelTwoRocket*    Robot::m_ShootCargoForLevelTwoRocket;
 
 StopCargoRoller*                Robot::m_StopCargoRoller;
 TakeCargo*                      Robot::m_TakeCargo;
@@ -76,6 +77,7 @@ Robot::Robot() {
 
     m_ShootCargoForCargoShip = new ShootCargoForCargoShip();
     m_ShootCargoForLevelOneRocket = new ShootCargoForLevelOneRocket();
+    m_ShootCargoForLevelTwoRocket = new ShootCargoForLevelTwoRocket();
 
     m_StopCargoRoller = new StopCargoRoller();
     m_TakeCargo = new TakeCargo();
@@ -88,8 +90,13 @@ Robot::Robot() {
 }
 
 void Robot::RobotInit() {
-    frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
-    frc::CameraServer::GetInstance()->StartAutomaticCapture(1);
+    m_Camera0 = frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
+    m_Camera1 = frc::CameraServer::GetInstance()->StartAutomaticCapture(1);
+
+    m_Camera0.SetConnectionStrategy(cs::VideoSource::ConnectionStrategy::kConnectionKeepOpen);
+    m_Camera1.SetConnectionStrategy(cs::VideoSource::ConnectionStrategy::kConnectionKeepOpen);
+
+    frc::CameraServer::GetInstance()->GetServer().SetSource(m_Camera0);
 }
 
 void Robot::RobotPeriodic() {
@@ -101,6 +108,18 @@ void Robot::RobotPeriodic() {
                                    GetCreeperClimb().GetCurrentArmPosition());
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
     frc::Scheduler::GetInstance()->Run();
+
+    bool bumperPressed = m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kRightHand);
+    bool flightstickPressed = m_OI.GetOperatorConsole().GetFlightStickPressed(11);
+
+    if (bumperPressed || flightstickPressed) {
+        if (m_UsingCamera1) {
+            frc::CameraServer::GetInstance()->GetServer().SetSource(m_Camera0);
+        } else {
+            frc::CameraServer::GetInstance()->GetServer().SetSource(m_Camera1);
+        }
+        m_UsingCamera1 = !m_UsingCamera1;
+    }
 }
 
 void Robot::DisabledInit() {
@@ -108,12 +127,11 @@ void Robot::DisabledInit() {
 
     GetCreeperClimb().Disable();
     GetCargoIntake().Disable();
-
-    // Clear pending commands out of scheduler.
-    frc::Scheduler::GetInstance()->ResetAll();
 }
 
-void Robot::DisabledPeriodic() {}
+void Robot::DisabledPeriodic() {
+    frc::Scheduler::GetInstance()->Run();
+}
 
 void Robot::AutonomousInit() {
     GetDriveTrain().RunReset();
@@ -192,6 +210,10 @@ void Robot::CompetitionJoystickInput() {
         GetCargoIntake().SetHatchRotateSpeed(-0.5);
     } else {
         GetCargoIntake().SetHatchRotateSpeed(0.0);
+    }
+
+    if (console.GetHatchFloorPressed()) {
+        m_ShootCargoForLevelTwoRocket->Start();
     }
 
     if (console.GetCreeperReadyArmPressed()) {

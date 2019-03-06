@@ -24,7 +24,6 @@
  */
 
 TakeCargo::TakeCargo() {
-    // This command needs the drivetrain subsystem to be available while running.
     Requires(&Robot::GetCargoIntake());
 }
 

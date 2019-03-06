@@ -34,6 +34,7 @@
 #include "commands/RotateCargoForLevelOneRocket.h"
 #include "commands/ShootCargoForCargoShip.h"
 #include "commands/ShootCargoForLevelOneRocket.h"
+#include "commands/ShootCargoForLevelTwoRocket.h"
 #include "commands/StopCargoRoller.h"
 #include "commands/TakeCargo.h"
 #include "commands/TakeCargoFromDispenser.h"
@@ -66,6 +67,7 @@ class Robot : public frc::TimedRobot {
 
         static ShootCargoForCargoShip*          m_ShootCargoForCargoShip;
         static ShootCargoForLevelOneRocket*     m_ShootCargoForLevelOneRocket;
+        static ShootCargoForLevelTwoRocket*     m_ShootCargoForLevelTwoRocket;
 
         static StopCargoRoller*                 m_StopCargoRoller;
         static TakeCargo*                       m_TakeCargo;
@@ -98,6 +100,10 @@ class Robot : public frc::TimedRobot {
         frc::SendableChooser<frc::Command*> m_Chooser;
 
         bool m_CanSandstormStepDrive;
+
+        bool m_UsingCamera1 = false;
+        cs::UsbCamera m_Camera0;
+        cs::UsbCamera m_Camera1;
 
         // Protobot doesn't have a CAN Bus to the PDP
 #       ifndef PROTOBOT

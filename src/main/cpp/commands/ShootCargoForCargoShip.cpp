@@ -29,8 +29,6 @@ ShootCargoForCargoShip::ShootCargoForCargoShip()
     : m_HasPrerequisites(false)
     , m_Action(Action::End)
 {
-    // This command needs the drivetrain subsystem to be available while
-    // running.
     Requires(&Robot::GetCargoIntake());
 }
 
