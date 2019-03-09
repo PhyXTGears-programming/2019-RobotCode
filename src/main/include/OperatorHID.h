@@ -24,7 +24,8 @@
 
 // Flight Stick consts
 #define bRetractPiston 3
-#define bRetractArm    4
+#define bRetractArm    5
+#define bCreeperCrawl  4
 
 // Generic in-line Button Board class.
 // We use an `am-3753` Button Board controller.
@@ -74,8 +75,10 @@ class OperatorHID {
         bool IsHatchReleaseDown()    { return m_ActionPad.GetButton(bHatchRelease); };
 
         // Functions for testing, probably shouldn't keep these.
-        bool GetRetractCylinder() { return m_FlightStick.GetRawButtonPressed(bRetractPiston); };
-        bool GetRetractArm()      { return m_FlightStick.GetRawButtonPressed(bRetractArm); };
+        bool GetRetractCylinder()       { return m_FlightStick.GetRawButtonPressed(bRetractPiston); };
+        bool GetRetractArm()            { return m_FlightStick.GetRawButtonPressed(bRetractArm);    };
+        bool GetCreeperCrawlPressed()   { return m_FlightStick.GetRawButtonPressed(bCreeperCrawl);  };
+        bool GetCreeperCrawlReleased()  { return m_FlightStick.GetRawButtonReleased(bCreeperCrawl); };
 
         double GetThrottle() { return m_FlightStick.GetThrottle(); }; // Throttle is the switch on the base of the stick
         double GetJoystickY() {

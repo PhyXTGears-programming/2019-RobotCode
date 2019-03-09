@@ -233,6 +233,12 @@ void Robot::CompetitionJoystickInput() {
     } else if (console.GetThrottle() <= -0.75) {
         GetCreeperClimb().SetArmRotateSpeed(console.GetJoystickY());
     }
+
+    if (console.GetCreeperCrawlPressed()) {
+        Robot::GetCreeperClimb().SetArmWheels(true);
+    } else if (console.GetCreeperCrawlReleased()) {
+        Robot::GetCreeperClimb().StopArmWheels();
+    }
 }
 
 void Robot::ButtonBoardDemo() {
