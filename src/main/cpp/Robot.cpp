@@ -6,6 +6,8 @@
 #include <wpi/StringRef.h>
 #include <wpi/json.h>
 
+#include <iostream>
+
 // Initialize Operator Interface
 OI Robot::m_OI;
 // Initialize Subsystems
@@ -23,7 +25,6 @@ RotateHatchForDispenser*        Robot::m_RotateHatchForDispenser;
 
 ShootCargoForCargoShip*         Robot::m_ShootCargoForCargoShip;
 ShootCargoForLevelOneRocket*    Robot::m_ShootCargoForLevelOneRocket;
-ShootCargoForLevelTwoRocket*    Robot::m_ShootCargoForLevelTwoRocket;
 
 StopCargoRoller*                Robot::m_StopCargoRoller;
 TakeCargo*                      Robot::m_TakeCargo;
@@ -77,7 +78,6 @@ Robot::Robot() {
 
     m_ShootCargoForCargoShip = new ShootCargoForCargoShip();
     m_ShootCargoForLevelOneRocket = new ShootCargoForLevelOneRocket();
-    m_ShootCargoForLevelTwoRocket = new ShootCargoForLevelTwoRocket();
 
     m_StopCargoRoller = new StopCargoRoller();
     m_TakeCargo = new TakeCargo();
@@ -109,10 +109,7 @@ void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
     frc::Scheduler::GetInstance()->Run();
 
-    bool bumperPressed = m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kRightHand);
-    bool flightstickPressed = m_OI.GetOperatorConsole().GetFlightStickPressed(11);
-
-    if (bumperPressed || flightstickPressed) {
+    if (m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kRightHand)) {
         if (m_UsingCamera1) {
             frc::CameraServer::GetInstance()->GetServer().SetSource(m_Camera0);
         } else {
@@ -127,6 +124,9 @@ void Robot::DisabledInit() {
 
     GetCreeperClimb().Disable();
     GetCargoIntake().Disable();
+
+    // Clear pending commands out of scheduler.
+    // frc::Scheduler::GetInstance()->ResetAll();
 }
 
 void Robot::DisabledPeriodic() {
@@ -159,6 +159,7 @@ void Robot::TeleopPeriodic() {
     // so help me, more words will ensue.
     //
     // (╯°Д°）╯︵┻━┻
+    
     CompetitionJoystickInput();
 }
 
@@ -210,10 +211,6 @@ void Robot::CompetitionJoystickInput() {
         GetCargoIntake().SetHatchRotateSpeed(-0.5);
     } else {
         GetCargoIntake().SetHatchRotateSpeed(0.0);
-    }
-
-    if (console.GetHatchFloorPressed()) {
-        m_ShootCargoForLevelTwoRocket->Start();
     }
 
     if (console.GetCreeperReadyArmPressed()) {

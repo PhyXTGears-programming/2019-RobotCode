@@ -17,7 +17,7 @@
 //#define PROTOBOT
 
 // Bottype is either "compbot" or "testbot"
-#define BOTTYPE "testbot"
+#define BOTTYPE "compbot"
 #define CONFIGPATH "/home/lvuser/deploy/" BOTTYPE "-config.json"
 
 
