@@ -55,6 +55,8 @@ class CargoIntake : public frc::Subsystem {
         void RunReset();
         void Disable();
 
+        bool IsRollerRunning();
+
     private:
         frc::DigitalInput m_CargoSensor {kCargoSensor};
     

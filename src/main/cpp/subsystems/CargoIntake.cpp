@@ -160,3 +160,7 @@ void CargoIntake::RunReset() {
 void CargoIntake::Disable() {
     m_RotationPID.Reset();
 }
+
+bool CargoIntake::IsRollerRunning() {
+    return std::abs(m_IntakeRoller.Get()) > 0.1;
+}

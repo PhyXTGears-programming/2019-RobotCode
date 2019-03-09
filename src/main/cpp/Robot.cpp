@@ -195,7 +195,7 @@ void Robot::CompetitionJoystickInput() {
     } else if (console.GetCargoHighShotPressed()) {
         m_ShootCargoForCargoShip->Start();
     } else if (console.GetCargoIntakePressed()) {
-        if (m_TakeCargo->IsRunning()) {
+        if (GetCargoIntake().IsRollerRunning()) {
             m_StopCargoRoller->Start();
         } else {
             m_TakeCargo->Start();
