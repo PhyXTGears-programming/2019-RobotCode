@@ -42,7 +42,7 @@ void ClimbStep::Initialize() {
     logTimer.Reset();
 
     // Slow climb arm to match piston lift speed.
-    Robot::GetCreeperClimb().SetRotatePIDOutputRange(-0.6, 0.6);
+    Robot::GetCreeperClimb().SetRotatePIDOutputRange(-0.61, 0.61);
 }
 
 void ClimbStep::Execute() {
