@@ -48,16 +48,16 @@
     },
     "climb": {
         "PID": {
-            "P": 0.09,
-            "I": 0.001,
-            "D": -0.0003
+            "P": 0.07,
+            "I": 0.0,
+            "D": 0.0
         },
         "rotation": {
-            "zero-point": -24,
+            "zero-point": -28,
             "angles": {
-                "home": 88,
+                "home": 96,
                 "arm-ready": 160,
-                "arm-climb": 215
+                "arm-climb": 217
             }
         }
     }

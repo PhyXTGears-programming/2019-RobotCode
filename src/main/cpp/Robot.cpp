@@ -107,6 +107,8 @@ void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("climb arm rotation",
                                    GetCreeperClimb().GetCurrentArmPosition());
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
+    frc::SmartDashboard::PutBoolean("climb ready", GetCreeperClimb().IsArmAtPosition("arm-ready"));
+    frc::SmartDashboard::PutBoolean("climb done", GetCreeperClimb().IsArmAtPosition("arm-climb"));
     frc::Scheduler::GetInstance()->Run();
 
     if (m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kRightHand)) {
