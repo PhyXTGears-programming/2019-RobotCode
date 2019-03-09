@@ -49,15 +49,15 @@
     "climb": {
         "PID": {
             "P": 0.09,
-            "I": 0.00,
+            "I": 0.001,
             "D": -0.0003
         },
         "rotation": {
-            "zero-point": 0,
+            "zero-point": -24,
             "angles": {
                 "home": 88,
                 "arm-ready": 160,
-                "arm-climb": 210
+                "arm-climb": 215
             }
         }
     }
