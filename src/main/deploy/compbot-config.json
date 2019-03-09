@@ -37,7 +37,7 @@
             "intake": -0.75,
             "cargo-ship": 1.0,
             "rocket-1": 0.70,
-            "rocket-2": 0.96
+            "rocket-2": 0.85
         }
     },
     "drive": {
