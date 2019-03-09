@@ -35,7 +35,7 @@
         },
         "roller-speed": {
             "intake": -0.75,
-            "cargo-ship": 0.80,
+            "cargo-ship": 1.0,
             "rocket-1": 0.70,
             "rocket-2": 0.96
         }
@@ -55,7 +55,7 @@
         "rotation": {
             "zero-point": -28,
             "angles": {
-                "home": 96,
+                "home": 84,
                 "arm-ready": 160,
                 "arm-climb": 217
             }
