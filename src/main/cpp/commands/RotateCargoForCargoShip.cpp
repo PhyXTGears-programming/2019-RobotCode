@@ -34,10 +34,7 @@ bool RotateCargoForCargoShip::IsFinished() {
     return Robot::GetCargoIntake().IsRotationDone();
 }
 
-void RotateCargoForCargoShip::End() {
-    // Make sure the motors stop moving when they aren't being controlled.
-    Robot::GetCargoIntake().StopRotation();
-}
+void RotateCargoForCargoShip::End() {}
 
 void RotateCargoForCargoShip::Interrupted() {
     Robot::GetCargoIntake().StopRotation();
