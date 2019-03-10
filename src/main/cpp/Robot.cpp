@@ -113,7 +113,10 @@ void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutBoolean("climb done", GetCreeperClimb().IsArmAtPosition("arm-climb"));
     frc::Scheduler::GetInstance()->Run();
 
-    if (m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kRightHand)) {
+    bool bumperPressed = m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kRightHand);
+    bool flightstickPressed = m_OI.GetOperatorConsole().GetFlightStickPressed(11);
+
+    if (bumperPressed || flightstickPressed) {
         if (m_UsingCamera1) {
             frc::CameraServer::GetInstance()->GetServer().SetSource(m_Camera0);
         } else {
