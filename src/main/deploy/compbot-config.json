@@ -55,7 +55,7 @@
         "rotation": {
             "zero-point": -28,
             "angles": {
-                "home": 84,
+                "home": 96,
                 "arm-ready": 160,
                 "arm-climb": 217
             }
