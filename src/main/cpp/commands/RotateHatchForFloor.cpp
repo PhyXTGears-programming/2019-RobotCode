@@ -37,10 +37,7 @@ bool RotateHatchForFloor::IsFinished() {
 }
 
 // Called once after isFinished returns true
-void RotateHatchForFloor::End() {
-    // Make sure the motors stop moving when they aren't being controlled.
-    Robot::GetCargoIntake().StopRotation();
-}
+void RotateHatchForFloor::End() {}
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run

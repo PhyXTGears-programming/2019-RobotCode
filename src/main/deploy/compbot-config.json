@@ -17,7 +17,7 @@
             }
         },
         "PID": {
-            "P": 0.05,
+            "P": 0.035,
             "I": 0.0,
             "D": 0.0
         },
@@ -55,7 +55,7 @@
         "rotation": {
             "zero-point": -28,
             "angles": {
-                "home": 84,
+                "home": 96,
                 "arm-ready": 160,
                 "arm-climb": 217
             }
