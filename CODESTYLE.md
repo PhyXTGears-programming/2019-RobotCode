@@ -12,8 +12,8 @@ Useful terms to understand while reading.
 # C++
 ### General rules
 * 4 Space indentation. Spaces, no tabs.
-* Function declaration and definition has a space between the name and open parentheses.
-	* Example: `void Robot::RobotInit();` or
+* Both the function declaration and definition do not have a space between the name and open parentheses.
+	* Example: `void Robot::RobotInit();` and
 		```cpp
 		void Robot::RobotInit() {
 			cout << "Hello World!" << endl;

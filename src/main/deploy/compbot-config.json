@@ -1,0 +1,64 @@
+{
+    "intake": {
+        "hooks": {
+            "top": {
+                "docked": 0.23,
+                "hp-captured": 0.51,
+                "floor-receive": 0.65,
+                "loading-station-receive": 0.65, 
+                "kick-out": 0.79
+            },
+            "bottom": {
+                "docked": 0.57,
+                "hp-captured": 0.51,
+                "floor-receive": 0.51,
+                "loading-station-receive": 0.35,
+                "kick-out": 0.22
+            }
+        },
+        "PID": {
+            "P": 0.04,
+            "I": 0.0,
+            "D": 0.0
+        },
+        "rotation": {
+            "zero-point": 0.0,
+            "angles": {
+                "home": 92.0,
+                "cargo-ship-shoot": 65,
+                "rocket-1-shoot": 45,
+                "rocket-2-shoot": 30,
+                "cargo-floor-pickup": -53,
+                "hatch-dispenser-pickup": 0,
+                "hatch-floor-pickup": -92
+            }
+        },
+        "roller-speed": {
+            "intake": -0.75,
+            "cargo-ship": 0.80,
+            "rocket-1": 0.60,
+            "rocket-2": 0.96
+        }
+    },
+    "drive": {
+        "max-acceleration": 12.0,
+        "max-normal-speed": 1,
+        "sandstorm-step-speed": 0.45,
+        "turn-factor": 1
+    },
+    "climb": {
+        "PID": {
+            "P": 0.09,
+            "I": 0.00,
+            "D": -0.0003
+        },
+        "rotation": {
+            "zero-point": 0,
+            "angles": {
+                "home": 88,
+                "arm-ready": 160,
+                "arm-climb": 210
+            }
+        }
+    }
+}
