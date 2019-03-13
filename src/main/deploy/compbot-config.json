@@ -34,10 +34,10 @@
             }
         },
         "roller-speed": {
-            "intake": -0.75,
-            "cargo-ship": 0.80,
+            "intake": -1.0,
+            "cargo-ship": 1.0,
             "rocket-1": 0.70,
-            "rocket-2": 0.96
+            "rocket-2": 0.85
         }
     },
     "drive": {
@@ -48,16 +48,16 @@
     },
     "climb": {
         "PID": {
-            "P": 0.09,
-            "I": 0.00,
-            "D": -0.0003
+            "P": 0.07,
+            "I": 0.0,
+            "D": 0.0
         },
         "rotation": {
-            "zero-point": 0,
+            "zero-point": -28,
             "angles": {
-                "home": 88,
+                "home": 84,
                 "arm-ready": 160,
-                "arm-climb": 210
+                "arm-climb": 217
             }
         }
     }

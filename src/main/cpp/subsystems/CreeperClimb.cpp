@@ -4,10 +4,10 @@
 #include <iostream>
 #include <cmath>
 
-#define PID_NEAR_ZERO_THRESHOLD 1
+#define PID_NEAR_ZERO_THRESHOLD 3
 #define PID_NEAR_ZERO_MAX_COUNT 6
 
-#define ANGLE_TOLERANCE 2.5
+#define ANGLE_TOLERANCE 3
 
 /**
  * Machine angles are those reported by machine sensors and subject to drift
@@ -28,7 +28,6 @@ CreeperClimb::CreeperClimb(wpi::json &jsonConfig) : Subsystem("CreeperClimb") {
     double d = jsonConfig["climb"]["PID"]["D"];
 
     m_RotationPID.SetPID(p, i, d);
-    std::cout << "CreeperClimbPID: " << p << " " << i << " " << d << std::endl;
 
     m_ArmRotate.SetInverted(true);
 

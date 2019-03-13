@@ -107,6 +107,8 @@ void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("climb arm rotation",
                                    GetCreeperClimb().GetCurrentArmPosition());
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
+    frc::SmartDashboard::PutBoolean("climb ready", GetCreeperClimb().IsArmAtPosition("arm-ready"));
+    frc::SmartDashboard::PutBoolean("climb done", GetCreeperClimb().IsArmAtPosition("arm-climb"));
     frc::Scheduler::GetInstance()->Run();
 
     if (m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kRightHand)) {
@@ -230,6 +232,12 @@ void Robot::CompetitionJoystickInput() {
         GetCargoIntake().SetRotateSpeed(console.GetJoystickY());
     } else if (console.GetThrottle() <= -0.75) {
         GetCreeperClimb().SetArmRotateSpeed(console.GetJoystickY());
+    }
+
+    if (console.GetCreeperCrawlPressed()) {
+        Robot::GetCreeperClimb().SetArmWheels(true);
+    } else if (console.GetCreeperCrawlReleased()) {
+        Robot::GetCreeperClimb().StopArmWheels();
     }
 }
 
