@@ -30,7 +30,6 @@ static StopWatch logTimer;
  */
 
 ClimbStep::ClimbStep() {
-    Requires(&Robot::GetDriveTrain());
     Requires(&Robot::GetCreeperClimb());
 }
 
@@ -43,7 +42,7 @@ void ClimbStep::Initialize() {
     logTimer.Reset();
 
     // Slow climb arm to match piston lift speed.
-    Robot::GetCreeperClimb().SetRotatePIDOutputRange(-0.65, 0.65);
+    Robot::GetCreeperClimb().SetRotatePIDOutputRange(-0.63, 0.63);
 }
 
 void ClimbStep::Execute() {
@@ -141,8 +140,6 @@ void ClimbStep::Execute() {
                 << ")"
                 << std::endl;
     }
-
-    Robot::GetDriveTrain().ArcadeDrive(0, 0);
 }
 
 bool ClimbStep::IsFinished() {

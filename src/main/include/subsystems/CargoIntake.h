@@ -55,6 +55,8 @@ class CargoIntake : public frc::Subsystem {
         void RunReset();
         void Disable();
 
+        bool IsRollerRunning();
+
     private:
         frc::DigitalInput m_CargoSensor {kCargoSensor};
     
@@ -67,9 +69,9 @@ class CargoIntake : public frc::Subsystem {
         void StopRoller();
 
     private:
-        frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 189, -108}; // Testbot
+        // frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 189, -108}; // Testbot
         // frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 211.8, -90.2}; // Testbot
-        // frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 236.8, -111.3}; // Compbot
+        frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 237, -137}; // Compbot
         frc::Servo                m_HatchGripBottom {kCargoHatchServoBottom};
         frc::Servo                m_HatchGripTop    {kCargoHatchServoTop};
         WPI_TalonSRX              m_IntakeArmMotor  {kCargoTalonRotate};
