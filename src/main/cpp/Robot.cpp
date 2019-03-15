@@ -43,6 +43,9 @@ DriveSandstormStepWithHatch*    Robot::m_DriveSandstormStepWithHatch;
 // Initialize JSON reader
 wpi::json                       Robot::m_JsonConfig;
 
+// NavX
+AHRS                            Robot::m_AHRS{kNavxPin};
+
 Robot::Robot() {
     // get the json config deployed onto the roborio
     std::ifstream jsonStream(CONFIGPATH);
@@ -124,6 +127,8 @@ void Robot::RobotPeriodic() {
         }
         m_UsingCamera1 = !m_UsingCamera1;
     }
+
+    std::cout << "Pitch: " << m_AHRS.GetPitch() << "\tRoll: " << m_AHRS.GetRoll() << "\tYaw: " << m_AHRS.GetYaw() << std::endl;
 }
 
 void Robot::DisabledInit() {
