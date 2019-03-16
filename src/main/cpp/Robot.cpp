@@ -1,6 +1,6 @@
 #include "Robot.h"
 
-#include "util.h"
+#include "util/util.h"
 
 // Initialize Operator Interface
 OI Robot::m_OI;
