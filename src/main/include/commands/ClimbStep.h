@@ -2,7 +2,10 @@
 
 #include <frc/commands/Command.h>
 
+#include <frc/PIDController.h>
+
 #include "util/Delay.h"
+#include "AngleSource.h"
 
 enum Segment {
     Initialize,
@@ -24,8 +27,12 @@ class ClimbStep : public frc::Command {
         void Interrupted() override;
 
         Segment GetSegment() { return m_Segment; }
+        
     private:
         bool m_HasPrerequisites;
         Delay m_Delay{2.5};         // Roll creeper delay.
         Segment m_Segment = Segment::Initialize;
+
+        AngleSource m_PitchSource{AngleSource::kPitch};
+        frc::PIDController* m_LevelingPID;
 };
