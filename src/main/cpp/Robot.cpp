@@ -127,8 +127,6 @@ void Robot::RobotPeriodic() {
         }
         m_UsingCamera1 = !m_UsingCamera1;
     }
-
-    std::cout << "Pitch: " << m_AHRS.GetPitch() << "\tRoll: " << m_AHRS.GetRoll() << "\tYaw: " << m_AHRS.GetYaw() << std::endl;
 }
 
 void Robot::DisabledInit() {
