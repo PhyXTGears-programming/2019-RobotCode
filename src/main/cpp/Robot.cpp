@@ -102,6 +102,8 @@ void Robot::RobotInit() {
     m_Camera1.SetConnectionStrategy(cs::VideoSource::ConnectionStrategy::kConnectionKeepOpen);
 
     frc::CameraServer::GetInstance()->GetServer().SetSource(m_Camera0);
+
+    m_OI.ClearButtonBuffer();
 }
 
 void Robot::RobotPeriodic() {
@@ -137,6 +139,8 @@ void Robot::DisabledInit() {
 
     // Clear pending commands out of scheduler.
     // frc::Scheduler::GetInstance()->ResetAll();
+
+    m_OI.ClearButtonBuffer();
 }
 
 void Robot::DisabledPeriodic() {
@@ -148,6 +152,8 @@ void Robot::AutonomousInit() {
     GetCreeperClimb().RunReset();
     GetCargoIntake().RunReset();
     m_CanSandstormStepDrive = true;
+
+    m_OI.ClearButtonBuffer();
 }
 
 void Robot::AutonomousPeriodic() {
@@ -156,6 +162,8 @@ void Robot::AutonomousPeriodic() {
 
 void Robot::TeleopInit() {
     m_CanSandstormStepDrive = false;
+
+    m_OI.ClearButtonBuffer();
 }
 
 void Robot::TeleopPeriodic() {

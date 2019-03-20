@@ -5,6 +5,8 @@
 #include <frc/GenericHID.h>
 #include <frc/Joystick.h>
 
+// Buttons are 1-indexed.
+
 // Button Board Rotation Consts
 #define bRotateFloorHatchPickup 1
 #define bRotateFloorCargoPickup 2
@@ -91,6 +93,10 @@ class OperatorHID {
         };
 
         bool GetFlightStickPressed(int button) { return m_FlightStick.GetRawButtonPressed(button); }
+
+        ButtonBoard& GetActionPad() { return m_ActionPad; }
+        ButtonBoard& GetRotationPad() { return m_RotationPad; }
+        frc::Joystick& GetFlightStick() { return m_FlightStick; }
 
     private:
         ButtonBoard m_ActionPad{2};     // To control the intake and creeper arms actions.
