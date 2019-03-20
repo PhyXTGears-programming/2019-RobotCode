@@ -43,10 +43,13 @@
 #include "OI.h"
 #include "RobotMap.h"
 
+// NavX
+#include "AHRS.h"
+
 class Robot : public frc::TimedRobot {
     public:
         // Operator Interface
-        static OI m_OI;
+        static OI                               m_OI;
 
         // Subsystems
         static DriveTrain*                      m_DriveTrain;
@@ -80,6 +83,9 @@ class Robot : public frc::TimedRobot {
 
         // JSON Reader for Config (this should probably be moved later)
         static wpi::json                        m_JsonConfig;
+
+        // NavX
+        static AHRS                             m_AHRS;
    
         Robot();
         void RobotInit() override;

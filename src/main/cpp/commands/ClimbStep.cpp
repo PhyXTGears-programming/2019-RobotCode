@@ -1,9 +1,9 @@
 #include "commands/ClimbStep.h"
-#include "Robot.h"
-
-#include "util/StopWatch.h"
 
 #include <iostream>
+
+#include "util/StopWatch.h"
+#include "Robot.h"
 
 static StopWatch logTimer;
 
@@ -31,6 +31,8 @@ static StopWatch logTimer;
 
 ClimbStep::ClimbStep() {
     Requires(&Robot::GetCreeperClimb());
+
+    m_LevelingPID = new PIDController(0, 0, 0, m_PitchSource, Robot::GetCreeperClimb().GetArmMotor());
 }
 
 void ClimbStep::Initialize() {
@@ -40,9 +42,6 @@ void ClimbStep::Initialize() {
     m_Segment = Segment::Initialize;
 
     logTimer.Reset();
-
-    // Slow climb arm to match piston lift speed.
-    Robot::GetCreeperClimb().SetRotatePIDOutputRange(-0.63, 0.63);
 }
 
 void ClimbStep::Execute() {
@@ -87,7 +86,10 @@ void ClimbStep::Execute() {
     switch (m_Segment) {
         case Segment::Initialize: // Initialization, runs once
             Robot::GetCreeperClimb().ResetPistonLimitLatch();
-            Robot::GetCreeperClimb().RotateArmToPosition("arm-climb");
+            
+            Robot::GetCreeperClimb().GetArmPID().Disable();
+            m_LevelingPID->Enable();
+            
             Robot::GetCreeperClimb().PistonExtend();
 
             std::cout
@@ -108,6 +110,9 @@ void ClimbStep::Execute() {
         case Segment::CheckArm:
             if (Robot::GetCreeperClimb().IsArmAtPosition("arm-climb")) {
                 m_Segment = Segment::RollCreeper;
+
+                m_LevelingPID->Disable();
+                Robot::GetCreeperClimb().RotateArmToPosition(Robot::GetCreeperClimb().GetCurrentArmPosition());
             }
             break;
         case Segment::RollCreeper:
@@ -120,7 +125,6 @@ void ClimbStep::Execute() {
             if (m_Delay.IsDone()) {
                 m_Delay.Stop();
                 Robot::GetCreeperClimb().SetArmWheels(false);
-                Robot::GetCreeperClimb().SetRotatePIDOutputRange(-1, 1);
                 m_Segment = Segment::RaiseSolenoids;
             }
             break;

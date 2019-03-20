@@ -47,6 +47,7 @@ class CreeperClimb : public frc::Subsystem {
         void SetRotatePIDOutputRange(double minimumOutput, double maximumOutput);
 
         frc::PIDController& GetArmPID() { return m_RotationPID; }
+        WPI_TalonSRX& GetArmMotor() { return m_ArmRotate; }
 
         void RunReset();
         void Disable();
