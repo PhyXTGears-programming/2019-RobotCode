@@ -126,7 +126,7 @@ void CargoIntake::RotateToPosition(wpi::StringRef configName) {
     RotateToPosition(ang);
 }
 
-void CargoIntake::RotateToPosition(int worldAngle) {
+void CargoIntake::RotateToPosition(double worldAngle) {
     m_RotationPID.SetSetpoint(worldAngleToMachine(worldAngle));
     m_RotationPID.Enable();
 }
