@@ -21,7 +21,8 @@ CargoIntake::CargoIntake(wpi::json &jsonConfig) : Subsystem("CargoIntake") {
     AddChild("Hatch Grip (Bottom)", &m_HatchGripBottom);
     AddChild("Hatch Grip (Top)", &m_HatchGripTop);
     AddChild("Intake Arm Motor", &m_IntakeArmMotor);
-    AddChild("Intake Rollers", &m_IntakeRoller);
+    AddChild("Intake Top Roller", &m_IntakeRollerTop);
+    AddChild("Intake Bottom Roller", &m_IntakeRollerBottom);
     AddChild("Cargo Ejecter", &m_CargoEjector);
     AddChild("Cargo Sensor", &m_CargoSensor);
 
@@ -33,16 +34,19 @@ void CargoIntake::InitDefaultCommand() {
 
 #ifndef PROTOBOT
 void CargoIntake::SetRollerSpeed(wpi::StringRef configName) {
-    double speed = Robot::m_JsonConfig["intake"]["roller-speed"][configName];
-    SetRollerSpeed(speed);
+    double topspeed = Robot::m_JsonConfig["intake"]["roller-speed"][configName]["top"];
+    double bottomspeed = Robot::m_JsonConfig["intake"]["roller-speed"][configName]["bottom"];
+    SetRollerSpeed(topspeed, bottomspeed);
 }
 
-void CargoIntake::SetRollerSpeed(double speed) {
-    this->m_IntakeRoller.Set(speed);
+void CargoIntake::SetRollerSpeed(double topspeed, double bottomspeed) {
+    this->m_IntakeRollerTop.Set(topspeed);
+    this->m_IntakeRollerBottom.Set(bottomspeed);
 }
 
 void CargoIntake::StopRoller() {
-    this->m_IntakeRoller.Set(0.0);
+    this->m_IntakeRollerTop.Set(0.0);
+    this->m_IntakeRollerBottom.Set(0.0);
 }
 #endif
 
@@ -162,5 +166,5 @@ void CargoIntake::Disable() {
 }
 
 bool CargoIntake::IsRollerRunning() {
-    return std::abs(m_IntakeRoller.Get()) > 0.1;
+    return (std::abs(m_IntakeRollerTop.Get()) > 0.1) || (std::abs(m_IntakeRollerBottom.Get()) > 0.1);
 }
