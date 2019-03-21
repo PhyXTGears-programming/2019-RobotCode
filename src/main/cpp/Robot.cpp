@@ -219,7 +219,7 @@ void Robot::CompetitionJoystickInput() {
 
     if (console.GetHatchGrabReleased() || console.GetHatchReleaseReleased()) {
         std::cout << "Comp Joy Input: Stop Hatch Rotate" << std::endl;
-        GetCargoIntake().SetHatchRotateSpeed(0.0);
+        GetCargoIntake().SetHatchRotateSpeed(0.0); // TODO change to command and make separate subsystem
     } else if (console.GetHatchGrabPressed()) {
         std::cout << "Comp Joy Input: Console: Hatch Grab Pressed" << std::endl;
         GetCargoIntake().SetHatchRotateSpeed(0.5);
@@ -382,6 +382,8 @@ void Robot::JoystickDemoCreeperClimb() {
         Robot::GetCreeperClimb().PistonExtend();
     } else if (0 == pov) {
         Robot::GetCreeperClimb().PistonRetract();
+    } else {
+        Robot::GetCreeperClimb().PistonDisable();
     }
 
     if (driver.GetBackButtonPressed()) {

@@ -57,6 +57,7 @@ void ShootCargoForCargoShip::Execute() {
             break;
 
         case Action::WaitForSpeed:
+            intake.SetRollerSpeed("cargo-ship");
             if (m_WaitForRollers.IsDone()) {
                 m_WaitForRollers.Stop();
 

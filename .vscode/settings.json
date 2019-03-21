@@ -59,7 +59,8 @@
     "utility": "cpp",
     "hash_map": "cpp",
     "hash_set": "cpp",
-    "unordered_set": "cpp"
-  },
+    "unordered_set": "cpp",
+    "string": "cpp"
+},
   "C_Cpp.default.configurationProvider": "vscode-wpilib"
 }
