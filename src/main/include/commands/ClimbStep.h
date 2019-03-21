@@ -9,7 +9,6 @@
 
 enum Segment {
     Initialize,
-    CheckSwitch,
     CheckArm,
     RollCreeper,
     StopCreeper,

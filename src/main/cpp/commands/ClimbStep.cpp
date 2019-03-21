@@ -59,10 +59,6 @@ void ClimbStep::Execute() {
                 std::cout << logTimer.Split() << "ClimbStep.Execute: Segment: Initialize" << std::endl;
                 break;
 
-            case Segment::CheckSwitch:
-                std::cout << logTimer.Split() << "ClimbStep.Execute: Segment: Check Piston Limit" << std::endl;
-                break;
-            
             case Segment::CheckArm:
                 std::cout << logTimer.Split() << "ClimbStep.Execute: Segment: Check Arm" << std::endl;
                 break;
@@ -85,27 +81,12 @@ void ClimbStep::Execute() {
 
     switch (m_Segment) {
         case Segment::Initialize: // Initialization, runs once
-            Robot::GetCreeperClimb().ResetPistonLimitLatch();
-            
             Robot::GetCreeperClimb().GetArmPID().Disable();
             m_LevelingPID->Enable();
             
             Robot::GetCreeperClimb().PistonExtend();
 
-            std::cout
-                << logTimer.Split()
-                << "ClimbStep::Execute: Expect PistonLimitSwitch to be false.  Limit switch is "
-                << Robot::GetCreeperClimb().IsPistonAtLimit()
-                << std::endl;
-
-            m_Segment = Segment::CheckSwitch;
-            break;
-        case Segment::CheckSwitch:
-            if (Robot::GetCreeperClimb().IsPistonAtLimit()) {
-                Robot::GetCreeperClimb().PistonHold();
-
-                m_Segment = Segment::CheckArm;
-            }
+            m_Segment = Segment::CheckArm;
             break;
         case Segment::CheckArm:
             if (Robot::GetCreeperClimb().IsArmAtPosition("arm-climb")) {

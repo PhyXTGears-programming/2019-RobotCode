@@ -63,13 +63,10 @@ class CreeperClimb : public frc::Subsystem {
         frc::Relay        m_ArmDrive   {kCreeperArmDrive, frc::Relay::kForwardOnly};
         frc::Solenoid     m_SolAscend  {kPCM, kCreeperSolenoidAscend};
         frc::Solenoid     m_SolDescend {kPCM, kCreeperSolenoidDescend};
-        frc::DigitalInput m_SolSwitch  {kCreeperSolenoidSwitch};
 
         frc::PIDController m_RotationPID {0, 0, 0, m_ArmPosition, m_ArmRotate};
 
         int m_InRangeCount = 0;
-
-        bool m_IsPistonAtLimitLatch;
 
 
         /**
