@@ -132,6 +132,8 @@ void Robot::RobotPeriodic() {
 }
 
 void Robot::DisabledInit() {
+    PrintVersionFile();
+
     m_ClimbStep->Cancel();
 
     GetCreeperClimb().Disable();
@@ -448,6 +450,14 @@ void Robot::JoystickDemoIntakeHatch() {
     }
 
     std::cout << "hook: b(" << bottom << ") t(" << top << ")" << std::endl;
+}
+
+void Robot::PrintVersionFile() {
+    std::ifstream versionFile("/home/lvuser/deploy/version.txt");
+
+    if (versionFile.is_open()) {
+        std::cout << versionFile.rdbuf();
+    }
 }
 
 #ifndef RUNNING_FRC_TESTS
