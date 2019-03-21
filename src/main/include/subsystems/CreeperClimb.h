@@ -56,7 +56,7 @@ class CreeperClimb : public frc::Subsystem {
         // This gets the rotational position of the Creeper Arm
         // 10k Full-turn potentiometer, could need changes later
         // frc::AnalogPotentiometer m_ArmPosition {kCreeperArmAngle, 199.12, 31.66}; // Testbot
-        frc::AnalogPotentiometer m_ArmPosition {kCreeperArmAngle, 200, 11}; // Compbot
+        frc::AnalogPotentiometer m_ArmPosition {kCreeperArmAngle, 184.43, 35.23}; // Compbot
 
         // The motor that Rotates the Creeper Arm
         WPI_TalonSRX      m_ArmRotate  {kCreeperArmRotate};

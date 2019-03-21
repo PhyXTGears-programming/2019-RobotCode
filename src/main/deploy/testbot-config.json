@@ -21,27 +21,27 @@
             "retract": 0.35
         },
         "PID": {
-            "P": 0.04,
-            "I": 0.0,
-            "D": -0.02
+            "P": 3.0,
+            "I": 0.01,
+            "D": 0.0
         },
         "rotation": {
             "zero-point": 0.0,
             "angles": {
-                "home": 81.0,
-                "cargo-ship-shoot": 65,
-                "rocket-1-shoot": 45,
-                "rocket-2-shoot": 30,
-                "cargo-floor-pickup": -53,
-                "hatch-dispenser-pickup": 0,
-                "hatch-floor-pickup": -92
+                "home": 0.8,
+                "cargo-ship-shoot": 0.8,
+                "rocket-1-shoot": 0.525,
+                "rocket-2-shoot": 0.8,
+                "cargo-floor-pickup": 0.125,
+                "hatch-dispenser-pickup": 0.8,
+                "hatch-floor-pickup": 0.8
             }
         },
         "roller-speed": {
-            "intake": {"top":-1.0, "bottom":-1.0},
-            "cargo-ship": {"top":1.0, "bottom":0.0},
-            "rocket-1": {"top":0.70, "bottom":0.0},
-            "rocket-2": {"top":0.85, "bottom":0.0}
+            "intake":     {"top":  1.0,  "bottom": 0.0},
+            "cargo-ship": {"top": -1.0,  "bottom": 0.0},
+            "rocket-1":   {"top": -0.70, "bottom": 0.0},
+            "rocket-2":   {"top": -0.85, "bottom": 0.0}
         }
     },
     "drive": {
@@ -59,9 +59,9 @@
         "rotation": {
             "zero-point": 0,
             "angles": {
-                "home": 65,
-                "arm-ready": 162,
-                "arm-climb": 220
+                "home": 96,
+                "arm-ready": 160,
+                "arm-climb": 217
             }
         }
     }

@@ -72,7 +72,7 @@ class CargoIntake : public frc::Subsystem {
     private:
         // frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 189, -108}; // Testbot
         // frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 211.8, -90.2}; // Testbot
-        frc::AnalogPotentiometer  m_IntakeRotation     {kCargoRotationSensor, 237, -137}; // Compbot
+        frc::AnalogPotentiometer  m_IntakeRotation     {kCargoRotationSensor, 1.0, 0}; // Compbot
         frc::Servo                m_HatchGripBottom    {kCargoHatchServoBottom};
         frc::Servo                m_HatchGripTop       {kCargoHatchServoTop};
         WPI_TalonSRX              m_IntakeArmMotor     {kCargoTalonRotate};
