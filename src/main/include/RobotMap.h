@@ -130,8 +130,11 @@
 #   define kCreeperArmDrive  RELAY_0
 #   define kCreeperArmAngle  AIO_1
 #   define kCreeperArmRotate CAN_3
-#   define kCreeperSolenoidAscend  AIR_6
-#   define kCreeperSolenoidDescend AIR_7
+
+#   define kCreeperSolenoidExtendLeft   AIR_6
+#   define kCreeperSolenoidRetractLeft  AIR_7
+#   define kCreeperSolenoidExtendRight  AIR_4
+#   define kCreeperSolenoidRetractRight AIR_5
 
 // Cargo Intake constants
 // Cargo intake proximity sensor connected to DIO pin 4.

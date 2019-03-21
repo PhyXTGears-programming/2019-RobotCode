@@ -31,8 +31,8 @@ class CreeperClimb : public frc::Subsystem {
         void StopArmWheels();
 
         // Solenoid toggles (independent)   !!! Use Piston* methods instead.
-        void SetSolenoidAscend(bool on);
-        void SetSolenoidDescend(bool on);
+        void SetSolenoidExtend(bool leftOn, bool rightOn);
+        void SetSolenoidRetract(bool leftOn, bool rightOn);
 
         // Piston control methods.
         void PistonDisable();   // Disconnect air pressure from piston.
@@ -61,8 +61,12 @@ class CreeperClimb : public frc::Subsystem {
         // The motor that Rotates the Creeper Arm
         WPI_TalonSRX      m_ArmRotate  {kCreeperArmRotate};
         frc::Relay        m_ArmDrive   {kCreeperArmDrive, frc::Relay::kForwardOnly};
-        frc::Solenoid     m_SolAscend  {kPCM, kCreeperSolenoidAscend};
-        frc::Solenoid     m_SolDescend {kPCM, kCreeperSolenoidDescend};
+
+        frc::Solenoid     m_SolExtendLeft  {kPCM, kCreeperSolenoidExtendLeft};
+        frc::Solenoid     m_SolRetractLeft {kPCM, kCreeperSolenoidRetractLeft};
+
+        frc::Solenoid     m_SolExtendRight  {kPCM, kCreeperSolenoidExtendRight};
+        frc::Solenoid     m_SolRetractRight {kPCM, kCreeperSolenoidRetractRight};
 
         frc::PIDController m_RotationPID {0, 0, 0, m_ArmPosition, m_ArmRotate};
 
