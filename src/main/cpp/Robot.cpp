@@ -1,50 +1,44 @@
 #include "Robot.h"
+
 #include "util.h"
-
-#include <frc/commands/Scheduler.h>
-#include <frc/smartdashboard/SmartDashboard.h>
-#include <wpi/StringRef.h>
-#include <wpi/json.h>
-
-#include <iostream>
 
 // Initialize Operator Interface
 OI Robot::m_OI;
 // Initialize Subsystems
-DriveTrain*                     Robot::m_DriveTrain;
-CargoIntake*                    Robot::m_CargoIntake;
-CreeperClimb*                   Robot::m_CreeperClimb;
+DriveTrain*   Robot::m_DriveTrain;
+CargoIntake*  Robot::m_CargoIntake;
+CreeperClimb* Robot::m_CreeperClimb;
 
 // Initialize Commands - Intake
-GrabHatchFromDispenser*         Robot::m_GrabHatchFromDispenser;
-ReleaseHatch*                   Robot::m_ReleaseHatch;
-RotateCargoForCargoShip*        Robot::m_RotateCargoForCargoShip;
-RotateCargoForLevelOneRocket*   Robot::m_RotateCargoForLevelOneRocket;
-RotateHatchForFloor*            Robot::m_RotateHatchForFloor;
-RotateHatchForDispenser*        Robot::m_RotateHatchForDispenser;
+GrabHatchFromDispenser*       Robot::m_GrabHatchFromDispenser;
+ReleaseHatch*                 Robot::m_ReleaseHatch;
+RotateCargoForCargoShip*      Robot::m_RotateCargoForCargoShip;
+RotateCargoForLevelOneRocket* Robot::m_RotateCargoForLevelOneRocket;
+RotateHatchForFloor*          Robot::m_RotateHatchForFloor;
+RotateHatchForDispenser*      Robot::m_RotateHatchForDispenser;
 
-ShootCargoForCargoShip*         Robot::m_ShootCargoForCargoShip;
-ShootCargoForLevelOneRocket*    Robot::m_ShootCargoForLevelOneRocket;
-ShootCargoForLevelTwoRocket*    Robot::m_ShootCargoForLevelTwoRocket;
+ShootCargoForCargoShip*      Robot::m_ShootCargoForCargoShip;
+ShootCargoForLevelOneRocket* Robot::m_ShootCargoForLevelOneRocket;
+ShootCargoForLevelTwoRocket* Robot::m_ShootCargoForLevelTwoRocket;
 
-StopCargoRoller*                Robot::m_StopCargoRoller;
-TakeCargo*                      Robot::m_TakeCargo;
-TakeCargoFromDispenser*         Robot::m_TakeCargoFromDispenser;
-TakeCargoFromFloor*             Robot::m_TakeCargoFromFloor;
+StopCargoRoller*        Robot::m_StopCargoRoller;
+TakeCargo*              Robot::m_TakeCargo;
+TakeCargoFromDispenser* Robot::m_TakeCargoFromDispenser;
+TakeCargoFromFloor*     Robot::m_TakeCargoFromFloor;
 
 // Initialize Commands - Climb
-ReadyCreeperArm*                Robot::m_ReadyCreeperArm;
-ClimbStep*                      Robot::m_ClimbStep;
+ReadyCreeperArm* Robot::m_ReadyCreeperArm;
+ClimbStep*       Robot::m_ClimbStep;
 
 // Initialize Commands - Drive
-DriveSandstormStepWithCargo*    Robot::m_DriveSandstormStepWithCargo;
-DriveSandstormStepWithHatch*    Robot::m_DriveSandstormStepWithHatch;
+DriveSandstormStepWithCargo* Robot::m_DriveSandstormStepWithCargo;
+DriveSandstormStepWithHatch* Robot::m_DriveSandstormStepWithHatch;
 
 // Initialize JSON reader
-wpi::json                       Robot::m_JsonConfig;
+wpi::json Robot::m_JsonConfig;
 
 // NavX
-AHRS                            Robot::m_AHRS{kNavxPin};
+AHRS Robot::m_AHRS{kNavxPin};
 
 Robot::Robot() {
     // get the json config deployed onto the roborio
@@ -73,25 +67,25 @@ Robot::Robot() {
     m_DriveSandstormStepWithHatch = new DriveSandstormStepWithHatch();
 
     // Allocate and initialize commands - Intake
-    m_GrabHatchFromDispenser = new GrabHatchFromDispenser();
-    m_ReleaseHatch = new ReleaseHatch();
-    m_RotateCargoForCargoShip = new RotateCargoForCargoShip();
+    m_GrabHatchFromDispenser       = new GrabHatchFromDispenser();
+    m_ReleaseHatch                 = new ReleaseHatch();
+    m_RotateCargoForCargoShip      = new RotateCargoForCargoShip();
     m_RotateCargoForLevelOneRocket = new RotateCargoForLevelOneRocket();
-    m_RotateHatchForFloor = new RotateHatchForFloor();
-    m_RotateHatchForDispenser = new RotateHatchForDispenser();
+    m_RotateHatchForFloor          = new RotateHatchForFloor();
+    m_RotateHatchForDispenser      = new RotateHatchForDispenser();
 
-    m_ShootCargoForCargoShip = new ShootCargoForCargoShip();
+    m_ShootCargoForCargoShip      = new ShootCargoForCargoShip();
     m_ShootCargoForLevelOneRocket = new ShootCargoForLevelOneRocket();
     m_ShootCargoForLevelTwoRocket = new ShootCargoForLevelTwoRocket();
 
-    m_StopCargoRoller = new StopCargoRoller();
-    m_TakeCargo = new TakeCargo();
+    m_StopCargoRoller        = new StopCargoRoller();
+    m_TakeCargo              = new TakeCargo();
     m_TakeCargoFromDispenser = new TakeCargoFromDispenser();
-    m_TakeCargoFromFloor = new TakeCargoFromFloor();
+    m_TakeCargoFromFloor     = new TakeCargoFromFloor();
 
     // Allocate and initialize commands -
     m_ReadyCreeperArm = new ReadyCreeperArm();
-    m_ClimbStep = new ClimbStep();
+    m_ClimbStep       = new ClimbStep();
 }
 
 void Robot::RobotInit() {
