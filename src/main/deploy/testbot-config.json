@@ -16,6 +16,10 @@
                 "kick-out": 0.22
             }
         },
+        "ejector": {
+            "extend": 0.17,
+            "retract": 0.35
+        },
         "PID": {
             "P": 0.04,
             "I": 0.0,

@@ -102,4 +102,11 @@ class CargoIntake : public frc::Subsystem {
         */
         double machineAngleToWorld(double);
         double worldAngleToMachine(double);
+
+        struct Config {
+            double EjectorExtend = 0.0;
+            double EjectorRetract = 0.0;
+        };
+
+        Config m_Config;
 };

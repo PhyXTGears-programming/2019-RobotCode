@@ -27,6 +27,9 @@ CargoIntake::CargoIntake(wpi::json &jsonConfig) : Subsystem("CargoIntake") {
     AddChild("Cargo Sensor", &m_CargoSensor);
 
     m_IntakeArmMotor.SetInverted(true);
+
+    m_Config.EjectorExtend = jsonConfig["intake"]["ejector"]["extend"];
+    m_Config.EjectorRetract = jsonConfig["intake"]["ejector"]["retract"];
 }
 
 void CargoIntake::InitDefaultCommand() {
@@ -77,11 +80,11 @@ void CargoIntake::SetTopHookPosition(double position) {
 }
 
 void CargoIntake::ExtendEjector() {
-    m_CargoEjector.Set(0.3);
+    m_CargoEjector.Set(m_Config.EjectorExtend);
 }
 
 void CargoIntake::RetractEjector() {
-    m_CargoEjector.Set(0.5);
+    m_CargoEjector.Set(m_Config.EjectorRetract);
 }
 
 void CargoIntake::SetEjector(double value) {
