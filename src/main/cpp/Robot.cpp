@@ -320,6 +320,26 @@ void Robot::JoystickDemoCargo() {
     }
 }
 
+void Robot::JoystickDemoCargoEjector() {
+    static double value = 0.3;
+
+    frc::XboxController& driver = m_OI.GetDriverJoystick();
+
+    double leftTrigger =
+        driver.GetTriggerAxis(frc::XboxController::kLeftHand);
+    double rightTrigger =
+        driver.GetTriggerAxis(frc::XboxController::kRightHand);
+
+    if (0.1 < leftTrigger) {
+        value = util::clamp(value - 0.001 * leftTrigger, 0.0, 0.7);
+    } else if (0.1 < rightTrigger) {
+        value = util::clamp(value + 0.001 * rightTrigger, 0.0, 0.7);
+    }
+
+    std::cout << "Kick setpoint: " << value << std::endl;
+    GetCargoIntake().SetEjector(value);
+}
+
 void Robot::JoystickDemoCreeperClimb() {
     frc::XboxController& driver = m_OI.GetDriverJoystick();
 

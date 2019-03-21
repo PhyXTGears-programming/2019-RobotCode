@@ -123,6 +123,7 @@ class Robot : public frc::TimedRobot {
         void CompetitionJoystickInput();
         void ButtonBoardDemo();
         void JoystickDemoCargo();
+        void JoystickDemoCargoEjector();
         void JoystickDemoCreeperClimb();
         void JoystickDemoHatchCheesecake();
         void JoystickDemoIntakeHatch();

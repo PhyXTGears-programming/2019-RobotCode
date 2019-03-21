@@ -39,6 +39,7 @@ class CargoIntake : public frc::Subsystem {
 
         void ExtendEjector();
         void RetractEjector();
+        void SetEjector(double value);
 
         bool IsRotationDone();
         bool IsAtPosition(wpi::StringRef configName);

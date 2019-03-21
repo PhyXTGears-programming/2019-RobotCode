@@ -84,6 +84,10 @@ void CargoIntake::RetractEjector() {
     m_CargoEjector.Set(0.5);
 }
 
+void CargoIntake::SetEjector(double value) {
+    m_CargoEjector.Set(value);
+}
+
 bool CargoIntake::IsRotationDone() {
     // Rotation is done when PID error is near zero.
     if (std::fabs(m_RotationPID.GetError()) < 1) {
