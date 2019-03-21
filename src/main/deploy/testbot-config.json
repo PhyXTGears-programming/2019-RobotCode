@@ -38,10 +38,10 @@
             }
         },
         "roller-speed": {
-            "intake": -0.75,
-            "cargo-ship": 0.80,
-            "rocket-1": 0.60,
-            "rocket-2": 0.96
+            "intake": {"top":-1.0, "bottom":-1.0},
+            "cargo-ship": {"top":1.0, "bottom":0.0},
+            "rocket-1": {"top":0.70, "bottom":0.0},
+            "rocket-2": {"top":0.85, "bottom":0.0}
         }
     },
     "drive": {
