@@ -13,7 +13,6 @@
 #define bIntakeRotateToCargo  4
 #define bIntakeRotateToPickup 2
 #define bIntakeRotateToRocket 3
-#define bIntakeRotateToStowed 4
 // Hatch Grabber Button Consts (BLACK)  board 2
 #define bHatchGrabberUp   6
 #define bHatchGrabberDown 7
@@ -40,7 +39,6 @@ class OperatorHID {
         bool GetIntakeRotateToPickupPressed()     { return m_Board1.GetButtonPressed(bIntakeRotateToPickup); }
         bool GetIntakeRotateToRocketPressed()     { return m_Board1.GetButtonPressed(bIntakeRotateToRocket); }
         bool GetIntakeRotateToCargoShipPressed()  { return m_Board1.GetButtonPressed(bIntakeRotateToCargo); }
-        bool GetIntakeRotateToStowedPressed()     { return m_Board1.GetButtonPressed(bIntakeRotateToStowed); }
 
         bool GetHatchGrabPressed()     { return m_Board2.GetButtonPressed(bHatchGrabberUp); }
         bool GetHatchGrabReleased()    { return m_Board2.GetButtonReleased(bHatchGrabberUp); }

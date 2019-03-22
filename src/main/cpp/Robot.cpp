@@ -199,9 +199,6 @@ void Robot::CompetitionJoystickInput() {
     } else if (console.GetIntakeRotateToCargoShipPressed()) {
         std::cout << "Comp Joy Input: Console: Rotate Cargoship Pressed" << std::endl;
         m_RotateCargoForCargoShip->Start();
-    } else if (console.GetIntakeRotateToStowedPressed()) {
-        std::cout << "Comp Joy Input: Console: Stowed Pressed" << std::endl;
-        GetCargoIntake().GoHome();  // CHANGE TO COMMAND
     }
 
     // action command buttons, stuff happens
