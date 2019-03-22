@@ -253,7 +253,6 @@ void Robot::CompetitionJoystickInput() {
     if (console.GetThrottle() >= 0.75) {
         GetCargoIntake().SetRotateSpeed(-console.GetJoystickY());
     } else if (console.GetThrottle() <= -0.75) {
-        std::cout << "Comp Joy Input: Console: Rotate Intake/Creeper Backward" << std::endl;
         GetCreeperClimb().SetArmRotateSpeed(console.GetJoystickY());
     }
 
