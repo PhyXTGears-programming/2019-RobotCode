@@ -153,5 +153,5 @@
 // Cargo hatch cheesecake
 #   define kCargoHatchCheesecakeMotor PWM_3
 
-#   define kNavxPin I2C::Port::kMXP
+#   define kNavxPin frc::SPI::Port::kMXP
 #endif

@@ -32,7 +32,7 @@
                 "cargo-ship-shoot": 0.8,
                 "rocket-1-shoot": 0.525,
                 "rocket-2-shoot": 0.8,
-                "cargo-floor-pickup": 0.125,
+                "cargo-floor-pickup": 0.142,
                 "hatch-dispenser-pickup": 0.8,
                 "hatch-floor-pickup": 0.8
             }
@@ -41,7 +41,7 @@
             "intake":     {"top":  1.0,  "bottom": -1.0},
             "cargo-ship": {"top": -1.0,  "bottom": 0.0},
             "rocket-1":   {"top": -0.70, "bottom": 0.0},
-            "rocket-2":   {"top": -0.85, "bottom": 0.0}
+            "rocket-2":   {"top": -1,    "bottom": 1}
         }
     },
     "drive": {

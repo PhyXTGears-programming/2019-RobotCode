@@ -85,7 +85,7 @@ class Robot : public frc::TimedRobot {
         static wpi::json m_JsonConfig;
 
         // NavX
-        static AHRS m_AHRS;
+        static AHRS* m_AHRS;
    
         Robot();
         void RobotInit() override;

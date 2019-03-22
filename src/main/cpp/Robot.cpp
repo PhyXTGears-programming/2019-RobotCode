@@ -38,7 +38,7 @@ DriveSandstormStepWithHatch* Robot::m_DriveSandstormStepWithHatch;
 wpi::json Robot::m_JsonConfig;
 
 // NavX
-AHRS Robot::m_AHRS{kNavxPin};
+AHRS* Robot::m_AHRS;
 
 Robot::Robot() {
     // get the json config deployed onto the roborio
@@ -86,6 +86,9 @@ Robot::Robot() {
     // Allocate and initialize commands -
     m_ReadyCreeperArm = new ReadyCreeperArm();
     m_ClimbStep       = new ClimbStep();
+
+    // Initialize NavX
+    m_AHRS = new AHRS(kNavxPin);
 }
 
 void Robot::RobotInit() {
@@ -123,6 +126,9 @@ void Robot::RobotPeriodic() {
         }
         m_UsingCamera1 = !m_UsingCamera1;
     }
+
+    // std::cout << "\tPitch: " << m_AHRS->GetPitch() << "\tRoll: " << m_AHRS->GetRoll()
+    //           << "\tYaw: " << m_AHRS->GetYaw() << std::endl;
 }
 
 void Robot::DisabledInit() {
@@ -175,6 +181,7 @@ void Robot::TeleopPeriodic() {
     // (╯°Д°）╯︵┻━┻
     
     CompetitionJoystickInput();
+    ButtonBoardDemo();
 }
 
 void Robot::TestPeriodic() {}
@@ -266,14 +273,30 @@ void Robot::CompetitionJoystickInput() {
 }
 
 void Robot::ButtonBoardDemo() {
-    if (m_OI.GetOperatorConsole().GetCreeperReadyArmPressed()) {
+    OperatorHID& console = m_OI.GetOperatorConsole();
+
+    if (console.GetCreeperReadyArmPressed()) {
         m_ReadyCreeperArm->Start();
-    } else if (m_OI.GetOperatorConsole().GetCreeperClimbEnabled()) {
+    } else if (console.GetCreeperClimbEnabled()) {
         m_ClimbStep->Start();
-    } else if (m_OI.GetOperatorConsole().GetCreeperHomeArmPressed()) {
+    } else if (console.GetCreeperHomeArmPressed()) {
         Robot::GetCreeperClimb().RotateArmToPosition("home");
-    } else if (m_OI.GetOperatorConsole().GetCreeperRetractPistonPressed()) {
+    } else if (console.GetCreeperRetractPistonPressed()) {
         Robot::GetCreeperClimb().PistonRetract();
+    }
+
+    if (console.GetFlightStickPressed(9)) {
+        std::cout << "ButtonBoardDemo: Flightstick: Piston Extend Pressed" << std::endl;
+        GetCreeperClimb().PistonExtend();
+    } else if (console.GetFlightStickReleased(9)) {
+        std::cout << "ButtonBoardDemo: Flightstick: Piston Extend Released" << std::endl;
+        GetCreeperClimb().PistonHold();
+    } else if (console.GetFlightStickPressed(10)) {
+        std::cout << "ButtonBoardDemo: Flightstick: Piston Retract Pressed" << std::endl;
+        GetCreeperClimb().PistonRetract();
+    } else if (console.GetFlightStickReleased(10)) {
+        std::cout << "ButtonBoardDemo: Flightstick: Piston Retract Released" << std::endl;
+        GetCreeperClimb().PistonHold();
     }
 }
 

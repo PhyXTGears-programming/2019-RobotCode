@@ -72,6 +72,7 @@ class OperatorHID {
         };
 
         bool GetFlightStickPressed(int button) { return m_FlightStick.GetRawButtonPressed(button); }
+        bool GetFlightStickReleased(int button) { return m_FlightStick.GetRawButtonReleased(button); }
 
         ButtonBoard& GetBoard1() { return m_Board1; }
         ButtonBoard& GetBoard2() { return m_Board2; }
