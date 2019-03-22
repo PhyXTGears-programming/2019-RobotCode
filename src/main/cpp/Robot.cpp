@@ -225,10 +225,10 @@ void Robot::CompetitionJoystickInput() {
         GetCargoIntake().SetHatchRotateSpeed(0.0);
     } else if (console.GetHatchGrabPressed()) {
         std::cout << "Comp Joy Input: Console: Hatch Grab Pressed" << std::endl;
-        GetCargoIntake().SetHatchRotateSpeed(-0.5);
+        GetCargoIntake().SetHatchRotateSpeed(0.5);
     } else if (console.GetHatchReleasePressed()) {
         std::cout << "Comp Joy Input: Console: Hatch Release Pressed" << std::endl;
-        GetCargoIntake().SetHatchRotateSpeed(0.5);
+        GetCargoIntake().SetHatchRotateSpeed(-0.5);
     }
 
     if (console.GetCargoShootRocketTwoPressed()) {
