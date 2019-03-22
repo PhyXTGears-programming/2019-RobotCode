@@ -31,8 +31,8 @@ class CreeperClimb : public frc::Subsystem {
         void StopArmWheels();
 
         // Solenoid toggles (independent)   !!! Use Piston* methods instead.
-        void SetSolenoidAscend(bool on);
-        void SetSolenoidDescend(bool on);
+        void SetSolenoidExtend(bool leftOn, bool rightOn);
+        void SetSolenoidRetract(bool leftOn, bool rightOn);
 
         // Piston control methods.
         void PistonDisable();   // Disconnect air pressure from piston.
@@ -55,21 +55,22 @@ class CreeperClimb : public frc::Subsystem {
     private:
         // This gets the rotational position of the Creeper Arm
         // 10k Full-turn potentiometer, could need changes later
-        // frc::AnalogPotentiometer m_ArmPosition {kCreeperArmAngle, 199.12, 31.66}; // Testbot
-        frc::AnalogPotentiometer m_ArmPosition {kCreeperArmAngle, 200, 11}; // Compbot
+        //frc::AnalogPotentiometer m_ArmPosition {kCreeperArmAngle, 184.43, 35.23}; // Testbot
+        frc::AnalogPotentiometer m_ArmPosition {kCreeperArmAngle, 209.79, 34.4}; // Compbot
 
         // The motor that Rotates the Creeper Arm
         WPI_TalonSRX      m_ArmRotate  {kCreeperArmRotate};
         frc::Relay        m_ArmDrive   {kCreeperArmDrive, frc::Relay::kForwardOnly};
-        frc::Solenoid     m_SolAscend  {kPCM, kCreeperSolenoidAscend};
-        frc::Solenoid     m_SolDescend {kPCM, kCreeperSolenoidDescend};
-        frc::DigitalInput m_SolSwitch  {kCreeperSolenoidSwitch};
+
+        frc::Solenoid     m_SolExtendLeft  {kPCM, kCreeperSolenoidExtendLeft};
+        frc::Solenoid     m_SolRetractLeft {kPCM, kCreeperSolenoidRetractLeft};
+
+        frc::Solenoid     m_SolExtendRight  {kPCM, kCreeperSolenoidExtendRight};
+        frc::Solenoid     m_SolRetractRight {kPCM, kCreeperSolenoidRetractRight};
 
         frc::PIDController m_RotationPID {0, 0, 0, m_ArmPosition, m_ArmRotate};
 
         int m_InRangeCount = 0;
-
-        bool m_IsPistonAtLimitLatch;
 
 
         /**

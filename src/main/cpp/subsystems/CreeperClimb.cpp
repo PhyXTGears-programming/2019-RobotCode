@@ -31,22 +31,16 @@ CreeperClimb::CreeperClimb(wpi::json &jsonConfig) : Subsystem("CreeperClimb") {
 
     m_ArmRotate.SetInverted(true);
 
-    // Configure interrupt on limit switch.  Since input is normally high,
-    // watch for falling edge.
-    m_SolSwitch.RequestInterrupts(
-        [](uint32_t mask, void* obj) { static_cast<CreeperClimb*>(obj)->m_IsPistonAtLimitLatch = true; },
-        static_cast<void*>(this)
-    );
-    m_SolSwitch.SetUpSourceEdge(false /* rising */, true /* falling */);
-    m_SolSwitch.EnableInterrupts();
-
     AddChild("Climb Arm PID", m_RotationPID);
     AddChild("Climb Arm Angle", m_ArmPosition);
     AddChild("Climb Arm Motor", m_ArmRotate);
     AddChild("Climb Arm Wheels", m_ArmDrive);
-    AddChild("Climb Sol Ascend", m_SolAscend);
-    AddChild("Climb Sol Descend", m_SolDescend);
-    AddChild("Climb Sol Limit", m_SolSwitch);
+
+    AddChild("Climb Sol Extend Left", m_SolExtendLeft);
+    AddChild("Climb Sol Retract Left", m_SolRetractLeft);
+
+    AddChild("Climb Sol Extend Right", m_SolExtendRight);
+    AddChild("Climb Sol Retract Right", m_SolRetractRight);
 }
 
 void CreeperClimb::InitDefaultCommand() {}
@@ -88,52 +82,50 @@ void CreeperClimb::StopArmWheels() {
  * Open (on) or close (off) the solenoid that controls ascension of the robot
  * as done by extending the piston.
  */
-void CreeperClimb::SetSolenoidAscend(bool on) { m_SolAscend.Set(on); }
+void CreeperClimb::SetSolenoidExtend(bool leftOn, bool rightOn) {
+     m_SolExtendLeft.Set(leftOn);
+     m_SolExtendRight.Set(rightOn);
+}
 
 /**
  * Open (on) or close (off) the solenoid that controls the descent of the robot
  * as done by retracting the piston.
  */
-void CreeperClimb::SetSolenoidDescend(bool on) { m_SolDescend.Set(on); }
+void CreeperClimb::SetSolenoidRetract(bool leftOn, bool rightOn) {
+     m_SolRetractLeft.Set(leftOn);
+     m_SolRetractRight.Set(rightOn);
+}
 
 /**
  * Disconnect air pressure from piston.
  */
 void CreeperClimb::PistonDisable() {
-    SetSolenoidAscend(false);
-    SetSolenoidDescend(false);
+    SetSolenoidExtend(false, false);
+    SetSolenoidRetract(false, false);
 }
 
 /**
  * Extends piston to cause robot to ascend.
  */
 void CreeperClimb::PistonExtend() {
-    SetSolenoidAscend(true);
-    SetSolenoidDescend(false);
+    SetSolenoidExtend(true, true);
+    SetSolenoidRetract(false, false);
 }
 
 /**
  * Retract piston to cause robot to descend.
  */
 void CreeperClimb::PistonRetract() {
-    SetSolenoidAscend(false);
-    SetSolenoidDescend(true);
+    SetSolenoidExtend(false, false);
+    SetSolenoidRetract(true, true);
 }
 
 /**
  * Pressurize both sides of piston to hold its position.
  */
 void CreeperClimb::PistonHold() {
-    SetSolenoidAscend(true);
-    SetSolenoidDescend(true);
-}
-
-void CreeperClimb::ResetPistonLimitLatch() {
-    m_IsPistonAtLimitLatch = false;
-}
-
-bool CreeperClimb::IsPistonAtLimit() {
-    return m_IsPistonAtLimitLatch;
+    SetSolenoidExtend(true, true);
+    SetSolenoidRetract(true, true);
 }
 
 bool CreeperClimb::IsArmRotationDone() {
