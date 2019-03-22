@@ -37,13 +37,15 @@ class OperatorHID {
     public:
         OperatorHID() {}
 
-        bool GetIntakeRotateToPickupPressed() { return m_Board1.GetButtonPressed(bIntakeRotateToPickup); }
-        bool GetIntakeRotateToRocketPressed() { return m_Board1.GetButtonPressed(bIntakeRotateToRocket); }
-        bool GetIntakeRotateToCargoPressed()  { return m_Board1.GetButtonPressed(bIntakeRotateToCargo); }
-        bool GetIntakeRotateToStowedPressed() { return m_Board1.GetButtonPressed(bIntakeRotateToStowed); }
+        bool GetIntakeRotateToPickupPressed()     { return m_Board1.GetButtonPressed(bIntakeRotateToPickup); }
+        bool GetIntakeRotateToRocketPressed()     { return m_Board1.GetButtonPressed(bIntakeRotateToRocket); }
+        bool GetIntakeRotateToCargoShipPressed()  { return m_Board1.GetButtonPressed(bIntakeRotateToCargo); }
+        bool GetIntakeRotateToStowedPressed()     { return m_Board1.GetButtonPressed(bIntakeRotateToStowed); }
 
-        bool GetHatchGrabberUpPressed()   { return m_Board2.GetButtonPressed(bHatchGrabberUp); }
-        bool GetHatchGrabberDownPressed() { return m_Board2.GetButtonPressed(bHatchGrabberDown); }
+        bool GetHatchGrabPressed()     { return m_Board2.GetButtonPressed(bHatchGrabberUp); }
+        bool GetHatchGrabReleased()    { return m_Board2.GetButtonReleased(bHatchGrabberUp); }
+        bool GetHatchReleasePressed()  { return m_Board2.GetButtonPressed(bHatchGrabberDown); }
+        bool GetHatchReleaseReleased() { return m_Board2.GetButtonReleased(bHatchGrabberDown); }
     
         bool GetCargoIntakeCargoPressed()    { return m_Board2.GetButtonPressed(bCargoIntakeCargo); }
         bool GetCargoShootRocketOnePressed() { return m_Board2.GetButtonPressed(bCargoShootRocketOne); }
@@ -53,10 +55,13 @@ class OperatorHID {
         bool GetCameraSwapPressed() { return m_Board2.GetButtonPressed(bCameraSwap); }
 
         bool GetCreeperClimbEnabled()     { return m_Board1.GetButtonPressed(sCreeperClimb); }
-        bool GetCreeperReadyArmsPressed() { return m_Board1.GetButtonPressed(bCreeperReadyArms); }
-        bool GetCreeperHomeArmsPressed()  { return m_Board1.GetButtonPressed(bCreeperHomeArms); }
-        bool IsCreeperCrawlForwardDown()  { return m_Board1.GetButton(bCreeperCrawlForward); }
-        bool IsCreeperCrawlBackwardDown() { return m_Board1.GetButton(bCreeperCrawlBackward); }
+        bool GetCreeperReadyArmPressed()  { return m_Board1.GetButtonPressed(bCreeperReadyArms); }
+        bool GetCreeperHomeArmPressed()   { return m_Board1.GetButtonPressed(bCreeperHomeArms); }
+
+        bool IsCreeperCrawlForwardDown()      { return m_Board1.GetButton(bCreeperCrawlForward); }
+        bool GetCreeperCrawlForwardReleased() { return m_Board1.GetButtonReleased(bCreeperCrawlForward); }
+
+        bool GetCreeperRetractPistonPressed() { return false; }
 
         double GetThrottle() { return m_FlightStick.GetThrottle(); }; // Throttle is the switch on the base of the stick
         double GetJoystickY() {
@@ -70,8 +75,8 @@ class OperatorHID {
 
         bool GetFlightStickPressed(int button) { return m_FlightStick.GetRawButtonPressed(button); }
 
-        ButtonBoard& GetActionPad() { return m_ActionPad; }
-        ButtonBoard& GetRotationPad() { return m_RotationPad; }
+        ButtonBoard& GetBoard1() { return m_Board1; }
+        ButtonBoard& GetBoard2() { return m_Board2; }
         frc::Joystick& GetFlightStick() { return m_FlightStick; }
 
     private:
