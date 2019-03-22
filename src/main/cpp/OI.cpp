@@ -13,16 +13,16 @@ void OI::ClearButtonBuffer() {
         m_HidDriver.GetRawButtonReleased(i);
     }
 
-    ButtonBoard& actionpad = m_HidOperator.GetActionPad();
-    for (int i = 1; i <= actionpad.GetButtonCount(); i++) {
-        actionpad.GetRawButtonPressed(i);
-        actionpad.GetRawButtonReleased(i);
+    ButtonBoard& board1 = m_HidOperator.GetBoard1();
+    for (int i = 1; i <= board1.GetButtonCount(); i++) {
+        board1.GetRawButtonPressed(i);
+        board1.GetRawButtonReleased(i);
     }
 
-    ButtonBoard& rotatepad = m_HidOperator.GetRotationPad();
-    for (int i = 1; i <= rotatepad.GetButtonCount(); i++) {
-        rotatepad.GetRawButtonPressed(i);
-        rotatepad.GetRawButtonReleased(i);
+    ButtonBoard& board2 = m_HidOperator.GetBoard2();
+    for (int i = 1; i <= board2.GetButtonCount(); i++) {
+        board2.GetRawButtonPressed(i);
+        board2.GetRawButtonReleased(i);
     }
 
     frc::Joystick& flightstick = m_HidOperator.GetFlightStick();

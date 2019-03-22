@@ -72,7 +72,7 @@ void CreeperClimb::SetArmRotateSpeed(double spd) {
     } else if (!m_RotationPID.IsEnabled()) {
         // Allow manual control deadband to stop motor, but don't interfere
         // when PID is active.
-        m_ArmRotate.Set(spd);
+        m_ArmRotate.Set(0.0);
     }
 }
 

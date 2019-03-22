@@ -131,7 +131,7 @@ void CargoIntake::SetRotateSpeed(double speed) {
     } else if (!m_RotationPID.IsEnabled()) {
         // Allow manual control deadband to stop motor, but don't interfere
         // when PID is active.
-        m_IntakeArmMotor.Set(speed);
+        m_IntakeArmMotor.Set(0.0);
     }
 }
 
