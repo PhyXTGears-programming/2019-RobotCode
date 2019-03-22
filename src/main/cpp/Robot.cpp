@@ -194,10 +194,10 @@ void Robot::CompetitionJoystickInput() {
         std::cout << "Comp Joy Input: Console: Floor Cargo Pickup Pressed" << std::endl;
         m_TakeCargoFromFloor->Start();
     } else if (console.GetIntakeRotateToRocketPressed()) {
-        std::cout << "Comp Joy Input: Console: Rocket Shot Pressed" << std::endl;
+        std::cout << "Comp Joy Input: Console: Rotate Rocket Pressed" << std::endl;
         m_RotateCargoForLevelOneRocket->Start();
     } else if (console.GetIntakeRotateToCargoShipPressed()) {
-        std::cout << "Comp Joy Input: Console: Cargo Shot Pressed" << std::endl;
+        std::cout << "Comp Joy Input: Console: Rotate Cargoship Pressed" << std::endl;
         m_RotateCargoForCargoShip->Start();
     } else if (console.GetIntakeRotateToStowedPressed()) {
         std::cout << "Comp Joy Input: Console: Stowed Pressed" << std::endl;
