@@ -10,8 +10,8 @@
 // Buttons are 1-indexed.
 // These will need to be redefined after we make the new Button Board.
 // Intake Rotation Button Consts (GREEN)  board 1
-#define bIntakeRotateToCargo  2
-#define bIntakeRotateToPickup 4
+#define bIntakeRotateToCargo  4
+#define bIntakeRotateToPickup 2
 #define bIntakeRotateToRocket 3
 #define bIntakeRotateToStowed 4
 // Hatch Grabber Button Consts (BLACK)  board 2
