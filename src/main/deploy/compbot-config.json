@@ -17,8 +17,8 @@
             }
         },
         "ejector": {
-            "extend":  0.17,
-            "retract": 0.35
+            "extend":  0.24,
+            "retract": 0.63
         },
         "PID": {
             "P": 3.0,
