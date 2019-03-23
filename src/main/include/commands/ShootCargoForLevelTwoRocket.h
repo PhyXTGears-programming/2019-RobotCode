@@ -23,7 +23,7 @@ class ShootCargoForLevelTwoRocket : public frc::Command {
 
     private:
         bool m_HasPrerequisites;
-        Delay m_WaitForRollers{0.0};
+        Delay m_WaitForRollers{0.6};
         Delay m_WaitForEjector{0.75};
         Action m_Action;
 };

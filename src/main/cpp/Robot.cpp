@@ -228,7 +228,7 @@ void Robot::CompetitionJoystickInput() {
     }
 
     if (console.GetCargoShootRocketTwoPressed()) {
-        std::cout << "Comp Joy Input: Console: Hatch Floor Pressed" << std::endl;
+        std::cout << "Comp Joy Input: Console: Rocket Shot (Level 2)" << std::endl;
         m_ShootCargoForLevelTwoRocket->Start();
     }
 
