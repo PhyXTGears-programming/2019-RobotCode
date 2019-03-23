@@ -105,8 +105,8 @@ void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("climb arm rotation",
                                    GetCreeperClimb().GetCurrentArmPosition());
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
-    const double psiPerVolt = 150.0 / 4.0;
-    frc::SmartDashboard::PutNumber("air pressure", (m_AirPressureMeter.GetVoltage() - 0.5) * psiPerVolt);
+    const double psiPerVolt = 150.0 / 1.1;
+    frc::SmartDashboard::PutNumber("air pressure", (m_AirPressureMeter.GetVoltage() - 0.3) * psiPerVolt);
     frc::SmartDashboard::PutBoolean("climb ready", GetCreeperClimb().IsArmAtPosition("arm-ready"));
     frc::SmartDashboard::PutBoolean("climb done", GetCreeperClimb().IsArmAtPosition("arm-climb"));
     frc::Scheduler::GetInstance()->Run();
