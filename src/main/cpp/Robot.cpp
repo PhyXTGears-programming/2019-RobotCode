@@ -262,6 +262,20 @@ void Robot::CompetitionJoystickInput() {
         std::cout << "Comp Joy Input: Console: Creeper Crawl Released" << std::endl;
         Robot::GetCreeperClimb().StopArmWheels();
     }
+
+    if (console.GetBoard2().GetButtonPressed(9)) {
+        std::cout << "Comp Joy Input: Console: Piston Extend Pressed" << std::endl;
+        GetCreeperClimb().PistonExtend();
+    } else if (console.GetBoard2().GetButtonReleased(9)) {
+        std::cout << "Comp Joy Input: Console: Piston Extend Released" << std::endl;
+        GetCreeperClimb().PistonHold();
+    } else if (console.GetBoard2().GetButtonPressed(10)) {
+        std::cout << "Comp Joy Input: Console: Piston Retract Pressed" << std::endl;
+        GetCreeperClimb().PistonRetract();
+    } else if (console.GetBoard2().GetButtonReleased(10)) {
+        std::cout << "Comp Joy Input: Console: Piston Retract Released" << std::endl;
+        GetCreeperClimb().PistonHold();
+    }
 }
 
 void Robot::ButtonBoardDemo() {
