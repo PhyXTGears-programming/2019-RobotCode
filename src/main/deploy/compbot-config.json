@@ -2,23 +2,23 @@
     "intake": {
         "hooks": {
             "top": {
-                "docked": 0.23,
-                "hp-captured": 0.51,
-                "floor-receive": 0.65,
+                "docked":                  0.23,
+                "hp-captured":             0.51,
+                "floor-receive":           0.65,
                 "loading-station-receive": 0.65, 
-                "kick-out": 0.79
+                "kick-out":                0.79
             },
             "bottom": {
-                "docked": 0.57,
-                "hp-captured": 0.51,
-                "floor-receive": 0.51,
+                "docked":                  0.57,
+                "hp-captured":             0.51,
+                "floor-receive":           0.51,
                 "loading-station-receive": 0.35,
-                "kick-out": 0.22
+                "kick-out":                0.22
             }
         },
         "ejector": {
-            "extend": 0.17,
-            "retract": 0.35
+            "extend":  0.24,
+            "retract": 0.63
         },
         "PID": {
             "P": 3.0,
@@ -28,20 +28,20 @@
         "rotation": {
             "zero-point": 0.0,
             "angles": {
-                "home": 0.9,
-                "cargo-ship-shoot": 0.9,
-                "rocket-1-shoot": 0.675,
-                "rocket-2-shoot": 0.9,
-                "cargo-floor-pickup": 0.428,
+                "home":                   0.9,
+                "cargo-ship-shoot":       0.9,
+                "rocket-1-shoot":         0.675,
+                "rocket-2-shoot":         0.9,
+                "cargo-floor-pickup":     0.428,
                 "hatch-dispenser-pickup": 0.9,
-                "hatch-floor-pickup": 0.9
+                "hatch-floor-pickup":     0.9
             }
         },
         "roller-speed": {
-            "intake": {"top":-1.0, "bottom":-1.0},
-            "cargo-ship": {"top":1.0, "bottom":0.0},
-            "rocket-1": {"top":0.70, "bottom":0.0},
-            "rocket-2": {"top":0.85, "bottom":0.0}
+            "intake":     {"top": -1.00, "bottom": -1.00},
+            "cargo-ship": {"top":  1.00, "bottom":  0.00},
+            "rocket-1":   {"top":  0.70, "bottom":  0.00},
+            "rocket-2":   {"top":  0.85, "bottom":  0.00}
         }
     },
     "drive": {
@@ -59,7 +59,7 @@
         "rotation": {
             "zero-point": 0,
             "angles": {
-                "home": 96,
+                "home":      96,
                 "arm-ready": 160,
                 "arm-climb": 217
             }

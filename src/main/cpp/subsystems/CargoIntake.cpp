@@ -93,7 +93,7 @@ void CargoIntake::SetEjector(double value) {
 
 bool CargoIntake::IsRotationDone() {
     // Rotation is done when PID error is near zero.
-    if (std::fabs(m_RotationPID.GetError()) < 1) {
+    if (std::fabs(m_RotationPID.GetError()) < 0.008) {
         m_InRangeCount++;
         if (m_InRangeCount > 5) {
             return true;
