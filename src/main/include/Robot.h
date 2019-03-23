@@ -5,7 +5,6 @@
 #include <streambuf>
 #include <iostream>
 
-#include "AHRS.h"
 #include <cameraserver/CameraServer.h>
 #include <frc/TimedRobot.h>
 #include <frc/PowerDistributionPanel.h>
@@ -83,9 +82,6 @@ class Robot : public frc::TimedRobot {
 
         // JSON Reader for Config (this should probably be moved later)
         static wpi::json m_JsonConfig;
-
-        // NavX
-        static AHRS m_AHRS;
    
         Robot();
         void RobotInit() override;

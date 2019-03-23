@@ -37,9 +37,6 @@ DriveSandstormStepWithHatch* Robot::m_DriveSandstormStepWithHatch;
 // Initialize JSON reader
 wpi::json Robot::m_JsonConfig;
 
-// NavX
-AHRS Robot::m_AHRS{kNavxPin};
-
 Robot::Robot() {
     // get the json config deployed onto the roborio
     std::ifstream jsonStream(CONFIGPATH);

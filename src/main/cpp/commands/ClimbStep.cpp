@@ -82,7 +82,6 @@ void ClimbStep::Execute() {
 
     switch (m_Segment) {
         case Segment::Initialize: // Initialization, runs once
-            Robot::GetCreeperClimb().ResetPistonLimitLatch();
             Robot::GetCreeperClimb().RotateArmToPosition("arm-climb");
             Robot::GetCreeperClimb().PistonExtend();
 
