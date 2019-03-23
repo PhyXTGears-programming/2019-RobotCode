@@ -68,7 +68,7 @@ void DriveTrain::Drive(frc::XboxController& driver) {
     sprintFactor += driver.GetTriggerAxis(frc::XboxController::kRightHand) * 0.25;
     sprintFactor -= driver.GetTriggerAxis(frc::XboxController::kLeftHand) * 0.25;
 
-    double turnFactor = 1 - (driver.GetTriggerAxis(frc::XboxController::kLeftHand) * 0.3);
+    double turnFactor = 1 - (driver.GetTriggerAxis(frc::XboxController::kLeftHand) * 0.25);
 
     if (ENABLE_DRIVETRAIN_CONTROL) {
         ArcadeDrive(hidY * sprintFactor, hidX * turnFactor, true);

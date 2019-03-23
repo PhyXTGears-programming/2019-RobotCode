@@ -17,7 +17,7 @@
             }
         },
         "ejector": {
-            "extend":  0.24,
+            "extend":  0.15,
             "retract": 0.63
         },
         "PID": {
@@ -39,7 +39,7 @@
         },
         "roller-speed": {
             "intake":     {"top":  1.00, "bottom": -1.00},
-            "cargo-ship": {"top": -1.00, "bottom":  0.00},
+            "cargo-ship": {"top": -1.00, "bottom":  0.10},
             "rocket-1":   {"top": -0.70, "bottom":  0.00},
             "rocket-2":   {"top": -0.85, "bottom":  0.00}
         }
