@@ -156,4 +156,6 @@
 #   define kNavxPin I2C::Port::kMXP
 
 #   define kAirPressureMeterPin AIO_3
+
+#   define kBlinkenPin PWM_9
 #endif
