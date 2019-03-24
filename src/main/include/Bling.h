@@ -25,8 +25,8 @@ class Bling {
             [CargoIntakePattern]        =  0.65, // Orange
             [CargoShootShipPattern]     = -0.39, // Color Waves, Lava Palette
             [CargoShootRocketPattern]   = -0.57, // Large Fire
-            [IntakeRotateShip]          = -0.99,
-            [IntakeRotateRocket]        = -0.99,
+            [IntakeRotateShip]          = -0.91, // Rainbow - Forest
+            [IntakeRotateRocket]        =  0.75, // Dark Green
             [HatchPattern]              = -0.07, // Strobe Gold
             [Climb]                     = -0.13, // Breathe Gray
         };
