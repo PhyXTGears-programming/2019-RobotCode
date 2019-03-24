@@ -131,14 +131,14 @@ void CargoIntake::RotateToPosition(double worldAngle) {
     m_RotationPID.Enable();
 }
 
-void CargoIntake::SetRotateSpeed(double speed) {
-    if (std::abs(speed) > 0.1) {
+void CargoIntake::SetRotateSpeed(double spd) {
+    if (std::abs(spd) > 0.1) {
         m_RotationPID.Disable();
-        m_IntakeArmMotor.Set(speed);
+        m_IntakeArmMotor.Set(spd);
     } else if (!m_RotationPID.IsEnabled()) {
         // Allow manual control deadband to stop motor, but don't interfere
         // when PID is active.
-        m_IntakeArmMotor.Set(0.0);
+        m_IntakeArmMotor.Set(std::abs(spd) > 0.03 ? spd : 0.0);
     }
 }
 
