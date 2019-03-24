@@ -105,12 +105,14 @@ void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("climb arm rotation",
                                    GetCreeperClimb().GetCurrentArmPosition());
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
+    const double psiPerVolt = 150.0 / 1.1;
+    frc::SmartDashboard::PutNumber("air pressure", (m_AirPressureMeter.GetVoltage() - 0.3) * psiPerVolt);
     frc::SmartDashboard::PutBoolean("climb ready", GetCreeperClimb().IsArmAtPosition("arm-ready"));
     frc::SmartDashboard::PutBoolean("climb done", GetCreeperClimb().IsArmAtPosition("arm-climb"));
     frc::Scheduler::GetInstance()->Run();
 
     bool bumperPressed = m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kRightHand);
-    bool flightstickPressed = m_OI.GetOperatorConsole().GetFlightStickPressed(11);
+    bool flightstickPressed = m_OI.GetOperatorConsole().GetCameraSwapPressed();
 
     if (bumperPressed || flightstickPressed) {
         if (m_UsingCamera1) {
@@ -226,7 +228,7 @@ void Robot::CompetitionJoystickInput() {
     }
 
     if (console.GetCargoShootRocketTwoPressed()) {
-        std::cout << "Comp Joy Input: Console: Hatch Floor Pressed" << std::endl;
+        std::cout << "Comp Joy Input: Console: Rocket Shot (Level 2)" << std::endl;
         m_ShootCargoForLevelTwoRocket->Start();
     }
 
@@ -259,6 +261,20 @@ void Robot::CompetitionJoystickInput() {
     } else if (console.GetCreeperCrawlForwardReleased()) {
         std::cout << "Comp Joy Input: Console: Creeper Crawl Released" << std::endl;
         Robot::GetCreeperClimb().StopArmWheels();
+    }
+
+    if (console.GetBoard2().GetButtonPressed(9)) {
+        std::cout << "Comp Joy Input: Console: Piston Extend Pressed" << std::endl;
+        GetCreeperClimb().PistonExtend();
+    } else if (console.GetBoard2().GetButtonReleased(9)) {
+        std::cout << "Comp Joy Input: Console: Piston Extend Released" << std::endl;
+        GetCreeperClimb().PistonHold();
+    } else if (console.GetBoard2().GetButtonPressed(10)) {
+        std::cout << "Comp Joy Input: Console: Piston Retract Pressed" << std::endl;
+        GetCreeperClimb().PistonRetract();
+    } else if (console.GetBoard2().GetButtonReleased(10)) {
+        std::cout << "Comp Joy Input: Console: Piston Retract Released" << std::endl;
+        GetCreeperClimb().PistonHold();
     }
 }
 

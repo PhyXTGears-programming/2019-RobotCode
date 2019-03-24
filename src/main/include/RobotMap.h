@@ -154,4 +154,6 @@
 #   define kCargoHatchCheesecakeMotor PWM_3
 
 #   define kNavxPin I2C::Port::kMXP
+
+#   define kAirPressureMeterPin AIO_3
 #endif

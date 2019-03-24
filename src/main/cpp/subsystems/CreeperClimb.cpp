@@ -7,7 +7,7 @@
 #define PID_NEAR_ZERO_THRESHOLD 3
 #define PID_NEAR_ZERO_MAX_COUNT 6
 
-#define ANGLE_TOLERANCE 3
+#define ANGLE_TOLERANCE 5
 
 /**
  * Machine angles are those reported by machine sensors and subject to drift

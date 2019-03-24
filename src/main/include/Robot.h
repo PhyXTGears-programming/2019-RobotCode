@@ -107,6 +107,8 @@ class Robot : public frc::TimedRobot {
         cs::UsbCamera m_Camera0;
         cs::UsbCamera m_Camera1;
 
+        frc::AnalogInput m_AirPressureMeter{kAirPressureMeterPin};
+
         // Protobot doesn't have a CAN Bus to the PDP
 #       ifndef PROTOBOT
             frc::PowerDistributionPanel m_PDP{0};
