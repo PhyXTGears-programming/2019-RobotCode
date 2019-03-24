@@ -450,7 +450,7 @@ void Robot::JoystickDemoIntakeHatch() {
 void Robot::CameraThread() {
     cs::UsbCamera camera0 = frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
     cs::UsbCamera camera1 = frc::CameraServer::GetInstance()->StartAutomaticCapture(1);
-    bool usingcamera1 = false
+    bool usingcamera1 = false;
 
     camera0.SetResolution(320, 240);
     camera1.SetResolution(320, 240);
