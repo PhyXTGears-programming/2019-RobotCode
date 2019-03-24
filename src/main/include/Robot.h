@@ -82,6 +82,9 @@ class Robot : public frc::TimedRobot {
 
         // JSON Reader for Config (this should probably be moved later)
         static wpi::json m_JsonConfig;
+
+        // Blinken
+        static frc::Spark m_Blinken;
    
         Robot();
         void RobotInit() override;
@@ -125,6 +128,9 @@ class Robot : public frc::TimedRobot {
         void JoystickDemoCreeperClimb();
         void JoystickDemoHatchCheesecake();
         void JoystickDemoIntakeHatch();
+
+        // Bling code
+        void CompetitionBling();
 
         //
         void PrintVersionFile();

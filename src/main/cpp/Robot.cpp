@@ -37,6 +37,9 @@ DriveSandstormStepWithHatch* Robot::m_DriveSandstormStepWithHatch;
 // Initialize JSON reader
 wpi::json Robot::m_JsonConfig;
 
+// Blinken
+frc::Spark Robot::m_Blinken{kBlinkenPin};
+
 Robot::Robot() {
     // get the json config deployed onto the roborio
     std::ifstream jsonStream(CONFIGPATH);
@@ -174,6 +177,7 @@ void Robot::TeleopPeriodic() {
     // (╯°Д°）╯︵┻━┻
     
     CompetitionJoystickInput();
+    CompetitionBling();
 }
 
 void Robot::TestPeriodic() {}
@@ -462,6 +466,10 @@ void Robot::JoystickDemoIntakeHatch() {
     }
 
     std::cout << "hook: b(" << bottom << ") t(" << top << ")" << std::endl;
+}
+
+void Robot::CompetitionBling () {
+    m_Blinken.Set(-0.99);
 }
 
 void Robot::PrintVersionFile() {
