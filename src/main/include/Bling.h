@@ -39,7 +39,7 @@ class Bling {
             [IntakeRotateShip]          = 2.0,
             [IntakeRotateRocket]        = 2.0,
             [HatchPattern]              = 2.0,
-            [Climb]                     = 3.0,
+            [Climb]                     = 5.0,
         };
 
     public:
