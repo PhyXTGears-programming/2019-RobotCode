@@ -82,7 +82,8 @@ class CargoIntake : public frc::Subsystem {
 
         frc::Spark                m_HatchCheesecakeMotor {kCargoHatchCheesecakeMotor};
 
-        frc::PIDController        m_RotationPID     {1, 0, 0, m_IntakeRotation, m_IntakeArmMotor};
+        frc::PIDController        m_RotationUpPID   {1, 0, 0, m_IntakeRotation, m_IntakeArmMotor};
+        frc::PIDController        m_RotationDownPID {1, 0, 0, m_IntakeRotation, m_IntakeArmMotor};
 
         int m_InRangeCount = 0;
 

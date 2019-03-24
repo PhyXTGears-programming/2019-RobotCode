@@ -14,9 +14,11 @@ CargoIntake::CargoIntake(wpi::json &jsonConfig) : Subsystem("CargoIntake") {
     double i = jsonConfig["intake"]["PID"]["I"];
     double d = jsonConfig["intake"]["PID"]["D"];
 
-    m_RotationPID.SetPID(p, i, d);
+    m_RotationUpPID.SetPID(p, i, d);
+    m_RotationDownPID.SetPID(p, i, d);
 
-    AddChild("Intake Arm PID", &m_RotationPID);
+    AddChild("Intake Arm PID (Up)", &m_RotationUpPID);
+    AddChild("Intake Arm PID (Down)", &m_RotationDownPID);
     AddChild("Intake Angle", &m_IntakeRotation);
     AddChild("Hatch Grip (Bottom)", &m_HatchGripBottom);
     AddChild("Hatch Grip (Top)", &m_HatchGripTop);
@@ -93,7 +95,13 @@ void CargoIntake::SetEjector(double value) {
 
 bool CargoIntake::IsRotationDone() {
     // Rotation is done when PID error is near zero.
-    if (std::fabs(m_RotationPID.GetError()) < 0.008) {
+    bool bothDisabled = !(m_RotationDownPID.IsEnabled() || m_RotationDownPID.IsEnabled());
+    bool upDone = m_RotationUpPID.IsEnabled() && std::fabs(m_RotationUpPID.GetError()) < 0.008;
+    bool downDone = m_RotationDownPID.IsEnabled() && std::fabs(m_RotationDownPID.GetError()) < 0.008;
+
+    if (bothDisabled) {
+        return true;
+    } else if (upDone || downDone) {
         m_InRangeCount++;
         if (m_InRangeCount > 5) {
             return true;
@@ -127,15 +135,21 @@ void CargoIntake::RotateToPosition(wpi::StringRef configName) {
 }
 
 void CargoIntake::RotateToPosition(double worldAngle) {
-    m_RotationPID.SetSetpoint(worldAngleToMachine(worldAngle));
-    m_RotationPID.Enable();
+    if (worldAngle > GetIntakeRotation()) {
+        m_RotationUpPID.SetSetpoint(worldAngleToMachine(worldAngle));
+        m_RotationUpPID.Enable();
+    } else {
+        m_RotationDownPID.SetSetpoint(worldAngleToMachine(worldAngle));
+        m_RotationDownPID.Enable();
+    }
 }
 
 void CargoIntake::SetRotateSpeed(double speed) {
     if (std::abs(speed) > 0.1) {
-        m_RotationPID.Disable();
+        m_RotationUpPID.Disable();
+        m_RotationDownPID.Disable();
         m_IntakeArmMotor.Set(speed);
-    } else if (!m_RotationPID.IsEnabled()) {
+    } else if (!(m_RotationUpPID.IsEnabled() || m_RotationDownPID.IsEnabled())) {
         // Allow manual control deadband to stop motor, but don't interfere
         // when PID is active.
         m_IntakeArmMotor.Set(0.0);
@@ -143,7 +157,8 @@ void CargoIntake::SetRotateSpeed(double speed) {
 }
 
 void CargoIntake::StopRotation() {
-    m_RotationPID.Disable();
+    m_RotationUpPID.Disable();
+    m_RotationDownPID.Disable();
 }
 
 double CargoIntake::GetIntakeRotation() {
@@ -169,7 +184,8 @@ void CargoIntake::RunReset() {
 }
 
 void CargoIntake::Disable() {
-    m_RotationPID.Reset();
+    m_RotationUpPID.Reset();
+    m_RotationDownPID.Reset();
 }
 
 bool CargoIntake::IsRollerRunning() {
