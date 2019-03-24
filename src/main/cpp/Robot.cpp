@@ -447,7 +447,7 @@ void Robot::JoystickDemoIntakeHatch() {
     std::cout << "hook: b(" << bottom << ") t(" << top << ")" << std::endl;
 }
 
-void Robot::CameraThread() {
+static void Robot::CameraThread() {
     cs::UsbCamera camera0 = frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
     cs::UsbCamera camera1 = frc::CameraServer::GetInstance()->StartAutomaticCapture(1);
     bool usingcamera1 = false;

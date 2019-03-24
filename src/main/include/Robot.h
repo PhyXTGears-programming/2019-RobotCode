@@ -128,5 +128,5 @@ class Robot : public frc::TimedRobot {
 
         //
         void PrintVersionFile();
-        void CameraThread();
+        static void CameraThread();
 };
