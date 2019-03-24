@@ -110,7 +110,7 @@ void Robot::RobotPeriodic() {
     frc::Scheduler::GetInstance()->Run();
 
     bool bumperPressed = m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kRightHand);
-    bool flightstickPressed = m_OI.GetOperatorConsole().GetFlightStickPressed(11);
+    bool flightstickPressed = m_OI.GetOperatorConsole().GetCameraSwapPressed();
 
     if (bumperPressed || flightstickPressed) {
         if (m_UsingCamera1) {
