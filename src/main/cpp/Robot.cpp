@@ -152,6 +152,8 @@ void Robot::AutonomousInit() {
     m_CanSandstormStepDrive = true;
 
     m_OI.ClearButtonBuffer();
+
+    m_Blinken.Set(-0.99);
 }
 
 void Robot::AutonomousPeriodic() {
@@ -162,6 +164,8 @@ void Robot::TeleopInit() {
     m_CanSandstormStepDrive = false;
 
     m_OI.ClearButtonBuffer();
+
+    m_Blinken.Set(-0.83);
 }
 
 void Robot::TeleopPeriodic() {
@@ -177,7 +181,6 @@ void Robot::TeleopPeriodic() {
     // (╯°Д°）╯︵┻━┻
     
     CompetitionJoystickInput();
-    CompetitionBling();
 }
 
 void Robot::TestPeriodic() {}
