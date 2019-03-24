@@ -84,7 +84,7 @@ class Robot : public frc::TimedRobot {
         static wpi::json m_JsonConfig;
 
         // Blinken
-        static frc::Spark m_Blinken;
+        static frc::Spark m_Blinkin;
    
         Robot();
         void RobotInit() override;

@@ -157,5 +157,5 @@
 
 #   define kAirPressureMeterPin AIO_3
 
-#   define kBlinkenPin PWM_9
+#   define kBlinkinPin PWM_9
 #endif
