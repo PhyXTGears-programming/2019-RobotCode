@@ -31,6 +31,17 @@ class Bling {
             [Climb]                     = -0.13, // Breathe Gray
         };
 
+        const double m_DelayMap [SizeValue] = {
+            [Default]                   = 2.0,
+            [CargoIntakePattern]        = 2.0,
+            [CargoShootShipPattern]     = 2.0,
+            [CargoShootRocketPattern]   = 2.0,
+            [IntakeRotateShip]          = 2.0,
+            [IntakeRotateRocket]        = 2.0,
+            [HatchPattern]              = 2.0,
+            [Climb]                     = 3.0,
+        };
+
     public:
         Bling();
         void RunBling();
@@ -41,5 +52,5 @@ class Bling {
         frc::Spark m_Blinkin{kBlinkinPin};
 
         BlingPattern m_Pattern = Default;
-        Delay m_SeqDelay{2};
+        Delay m_SeqDelay{0};
 };

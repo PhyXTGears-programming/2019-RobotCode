@@ -14,5 +14,6 @@ void Bling::RunBling () {
 
 void Bling::SetBling (BlingPattern p) {
     m_Pattern = p;
+    m_SeqDelay.setPeriod(m_DelayMap[p]);
     m_SeqDelay.Start();
 }
