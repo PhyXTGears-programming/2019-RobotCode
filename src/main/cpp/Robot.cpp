@@ -264,6 +264,7 @@ void Robot::CompetitionJoystickInput() {
     if (console.GetThrottle() >= 0.75) {
         GetCargoIntake().SetRotateSpeed(-console.GetJoystickY());
     } else if (console.GetThrottle() <= -0.75) {
+        m_ClimbStep->Cancel();
         GetCreeperClimb().SetArmRotateSpeed(console.GetJoystickY());
     }
 
