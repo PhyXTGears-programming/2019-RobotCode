@@ -452,8 +452,10 @@ void Robot::CameraThread() {
     cs::UsbCamera camera1 = frc::CameraServer::GetInstance()->StartAutomaticCapture(1);
     bool usingcamera1 = false;
 
-    camera0.SetResolution(320, 240);
-    camera1.SetResolution(320, 240);
+    camera0.SetResolution(640, 480);
+    camera1.SetResolution(640, 480);
+    camera1.SetFPS(5); // Doesn't work
+    camera1.SetFPS(5);
     camera0.SetConnectionStrategy(cs::VideoSource::ConnectionStrategy::kConnectionKeepOpen);
     camera1.SetConnectionStrategy(cs::VideoSource::ConnectionStrategy::kConnectionKeepOpen);
 
