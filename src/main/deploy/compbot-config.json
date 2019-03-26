@@ -57,7 +57,7 @@
             "D": 0.0
         },
         "rotation": {
-            "zero-point": -11,
+            "zero-point": 0,
             "angles": {
                 "home":      85,
                 "arm-ready": 161,

@@ -174,6 +174,7 @@ void Robot::TeleopPeriodic() {
     // (╯°Д°）╯︵┻━┻
     
     CompetitionJoystickInput();
+    m_Bling.RunBling();
 }
 
 void Robot::TestPeriodic() {}
@@ -192,21 +193,26 @@ void Robot::CompetitionJoystickInput() {
     if (console.GetIntakeRotateToPickupPressed()) {
         std::cout << "Comp Joy Input: Console: Floor Cargo Pickup Pressed" << std::endl;
         m_TakeCargoFromFloor->Start();
+        m_Bling.SetBling(m_Bling.CargoIntakePattern);
     } else if (console.GetIntakeRotateToRocketPressed()) {
         std::cout << "Comp Joy Input: Console: Rotate Rocket Pressed" << std::endl;
         m_RotateCargoForLevelOneRocket->Start();
+        m_Bling.SetBling(m_Bling.IntakeRotateRocket);
     } else if (console.GetIntakeRotateToCargoShipPressed()) {
         std::cout << "Comp Joy Input: Console: Rotate Cargoship Pressed" << std::endl;
         m_RotateCargoForCargoShip->Start();
+        m_Bling.SetBling(m_Bling.IntakeRotateShip);
     }
 
     // action command buttons, stuff happens
     if (console.GetCargoShootRocketOnePressed()) {
         std::cout << "Comp Joy Input: Console: Cargo Close Shot Pressed" << std::endl;
         m_ShootCargoForLevelOneRocket->Start();
+        m_Bling.SetBling(m_Bling.CargoShootRocketPattern);
     } else if (console.GetCargoShootCargoShipPressed()) {
         std::cout << "Comp Joy Input: Console: Cargo High Shot Pressed" << std::endl;
         m_ShootCargoForCargoShip->Start();
+        m_Bling.SetBling(m_Bling.CargoShootShipPattern);
     } else if (console.GetCargoIntakeCargoPressed()) {
         std::cout << "Comp Joy Input: Console: Cargo Intake Pressed" << std::endl;
         if (GetCargoIntake().IsRollerRunning()) {
@@ -214,6 +220,7 @@ void Robot::CompetitionJoystickInput() {
         } else {
             m_TakeCargo->Start();
         }
+        m_Bling.SetBling(m_Bling.CargoIntakePattern);
     }
 
     if (console.GetHatchGrabReleased() || console.GetHatchReleaseReleased()) {
@@ -222,22 +229,27 @@ void Robot::CompetitionJoystickInput() {
     } else if (console.GetHatchGrabPressed()) {
         std::cout << "Comp Joy Input: Console: Hatch Grab Pressed" << std::endl;
         GetCargoIntake().SetHatchRotateSpeed(0.5);
+        m_Bling.SetBling(m_Bling.HatchPattern);
     } else if (console.GetHatchReleasePressed()) {
         std::cout << "Comp Joy Input: Console: Hatch Release Pressed" << std::endl;
         GetCargoIntake().SetHatchRotateSpeed(-0.5);
+        m_Bling.SetBling(m_Bling.HatchPattern);
     }
 
     if (console.GetCargoShootRocketTwoPressed()) {
         std::cout << "Comp Joy Input: Console: Rocket Shot (Level 2)" << std::endl;
         m_ShootCargoForLevelTwoRocket->Start();
+        m_Bling.SetBling(m_Bling.CargoShootRocketPattern);
     }
 
     if (console.GetCreeperReadyArmPressed()) {
         std::cout << "Comp Joy Input: Console: Creeper Ready Arm Pressed" << std::endl;
         m_ReadyCreeperArm->Start();
+        m_Bling.SetBling(m_Bling.Climb);
     } else if (console.GetCreeperClimbEnabled()) {
         std::cout << "Comp Joy Input: Console: Climb Sequence Pressed" << std::endl;
         m_ClimbStep->Start();
+        m_Bling.SetBling(m_Bling.Climb);
     }
 
     // manual controls
@@ -252,6 +264,7 @@ void Robot::CompetitionJoystickInput() {
     if (console.GetThrottle() >= 0.75) {
         GetCargoIntake().SetRotateSpeed(-console.GetJoystickY());
     } else if (console.GetThrottle() <= -0.75) {
+        m_ClimbStep->Cancel();
         GetCreeperClimb().SetArmRotateSpeed(console.GetJoystickY());
     }
 
