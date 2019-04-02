@@ -150,10 +150,6 @@ double CargoIntake::GetIntakeRotation() {
     return machineAngleToWorld(m_IntakeRotation.Get());
 }
 
-void CargoIntake::SetHatchRotateSpeed(double speed) {
-    m_HatchCheesecakeMotor.Set(speed);
-}
-
 // HELPER FUNCTIONS
 
 double CargoIntake::machineAngleToWorld(double machine) {

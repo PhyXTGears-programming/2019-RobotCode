@@ -5,9 +5,10 @@
 // Initialize Operator Interface
 OI Robot::m_OI;
 // Initialize Subsystems
-DriveTrain*   Robot::m_DriveTrain;
-CargoIntake*  Robot::m_CargoIntake;
-CreeperClimb* Robot::m_CreeperClimb;
+DriveTrain*     Robot::m_DriveTrain;
+CargoIntake*    Robot::m_CargoIntake;
+CreeperClimb*   Robot::m_CreeperClimb;
+HatchMechanism* Robot::m_HatchMechanism;
 
 // Initialize Commands - Intake
 GrabHatchFromDispenser*       Robot::m_GrabHatchFromDispenser;
@@ -54,10 +55,10 @@ Robot::Robot() {
     m_JsonConfig = wpi::json::parse(jsonString);
 
     // Allocate and initialize subsystems.
-
-    m_CargoIntake = new CargoIntake(m_JsonConfig);
-    m_CreeperClimb = new CreeperClimb(m_JsonConfig);
-    m_DriveTrain = new DriveTrain(m_JsonConfig);
+    m_CargoIntake    = new CargoIntake(m_JsonConfig);
+    m_HatchMechanism = new HatchMechanism(m_JsonConfig);
+    m_CreeperClimb   = new CreeperClimb(m_JsonConfig);
+    m_DriveTrain     = new DriveTrain(m_JsonConfig);
 
     // Allocate and initialize commands - Teleop
     m_DriveSandstormStepWithCargo = new DriveSandstormStepWithCargo();
@@ -179,6 +180,8 @@ void Robot::TeleopPeriodic() {
     
     CompetitionJoystickInput();
     m_Bling.RunBling();
+
+    JoystickDemoHatchPneumatics();
 }
 
 void Robot::TestPeriodic() {}
@@ -229,14 +232,14 @@ void Robot::CompetitionJoystickInput() {
 
     if (console.GetHatchGrabReleased() || console.GetHatchReleaseReleased()) {
         std::cout << "Comp Joy Input: Stop Hatch Rotate" << std::endl;
-        GetCargoIntake().SetHatchRotateSpeed(0.0);
+        GetHatchMechanism().SetRotateSpeed(0.0);
     } else if (console.GetHatchGrabPressed()) {
         std::cout << "Comp Joy Input: Console: Hatch Grab Pressed" << std::endl;
-        GetCargoIntake().SetHatchRotateSpeed(0.5);
+        GetHatchMechanism().SetRotateSpeed(0.5);
         m_Bling.SetBling(m_Bling.HatchPattern);
     } else if (console.GetHatchReleasePressed()) {
         std::cout << "Comp Joy Input: Console: Hatch Release Pressed" << std::endl;
-        GetCargoIntake().SetHatchRotateSpeed(-0.5);
+        GetHatchMechanism().SetRotateSpeed(-0.5);
         m_Bling.SetBling(m_Bling.HatchPattern);
     }
 
@@ -433,14 +436,14 @@ void Robot::JoystickDemoHatchCheesecake() {
         double rightTrigger = driver.GetTriggerAxis(frc::XboxController::kRightHand);
 
         if (0.01 < leftTrigger) {
-            GetCargoIntake().SetHatchRotateSpeed(leftTrigger * 0.5);
+            GetHatchMechanism().SetRotateSpeed(leftTrigger * 0.5);
         } else if (0.01 < rightTrigger) {
-            GetCargoIntake().SetHatchRotateSpeed(rightTrigger * -0.5);
+            GetHatchMechanism().SetRotateSpeed(rightTrigger * -0.5);
         } else {
-            GetCargoIntake().SetHatchRotateSpeed(0.0);
+            GetHatchMechanism().SetRotateSpeed(0.0);
         }
     } else if (driver.GetXButtonReleased()) {
-        GetCargoIntake().SetHatchRotateSpeed(0.0);
+        GetHatchMechanism().SetRotateSpeed(0.0);
     }
 }
 
@@ -479,6 +482,23 @@ void Robot::JoystickDemoIntakeHatch() {
     }
 
     std::cout << "hook: b(" << bottom << ") t(" << top << ")" << std::endl;
+}
+
+void Robot::JoystickDemoHatchPneumatics() {
+    if (m_OI.GetOperatorConsole().GetFlightStick().GetRawButtonPressed(3)) {
+        std::cout << "JoystickDemoHatchPneumatics: Flightstick: Retract Hatch Pressed" << std::endl;
+        m_SolRetractHatch.Set(true);
+    } else if (m_OI.GetOperatorConsole().GetFlightStick().GetRawButtonReleased(3)) {
+        std::cout << "JoystickDemoHatchPneumatics: Flightstick: Retract Hatch Released" << std::endl;
+        m_SolRetractHatch.Set(false);
+    }
+    if (m_OI.GetOperatorConsole().GetFlightStick().GetRawButtonPressed(4)) {
+        std::cout << "JoystickDemoHatchPneumatics: Flightstick: Extend Hatch Pressed" << std::endl;
+        m_SolExtendHatch.Set(true);
+    } else if (m_OI.GetOperatorConsole().GetFlightStick().GetRawButtonReleased(4)) {
+        std::cout << "JoystickDemoHatchPneumatics: Flightstick: Extend Hatch Released" << std::endl;
+        m_SolExtendHatch.Set(false);
+    }
 }
 
 void Robot::PrintVersionFile() {
