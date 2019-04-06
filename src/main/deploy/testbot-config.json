@@ -18,15 +18,15 @@
         },
         "ejector": {
             "extend":  0.15,
-            "retract": 0.63
+            "retract": 0.60
         },
         "PID": {
-            "P": 15.0,
+            "P": 10.0,
             "I": 0.0,
             "D": 0.0
         },
         "rotation": {
-            "zero-point": 0.0,
+            "zero-point": -0.22,
             "angles": {
                 "home":                   0.9,
                 "cargo-ship-shoot":       0.97,
