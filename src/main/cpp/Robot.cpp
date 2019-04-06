@@ -89,6 +89,10 @@ void Robot::RobotInit() {
     m_Camera0 = frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
     m_Camera1 = frc::CameraServer::GetInstance()->StartAutomaticCapture(1);
 
+    // m_Camera0.SetResolution(320, 240);
+    // m_Camera1.SetResolution(320, 240);
+    // m_Camera0.SetFPS(15);
+    // m_Camera1.SetFPS(15);
     m_Camera0.SetConnectionStrategy(cs::VideoSource::ConnectionStrategy::kConnectionKeepOpen);
     m_Camera1.SetConnectionStrategy(cs::VideoSource::ConnectionStrategy::kConnectionKeepOpen);
 
