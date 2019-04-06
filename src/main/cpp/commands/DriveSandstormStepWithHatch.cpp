@@ -16,7 +16,6 @@ DriveSandstormStepWithHatch::DriveSandstormStepWithHatch() : m_Action(Action::En
 // Called just before this Command runs the first time
 void DriveSandstormStepWithHatch::Initialize() {
     Robot::GetDriveTrain().UseDukesSpeedLimit();
-    Robot::GetHatchMechanism().SetRotateSpeed(0.3);
     m_LowerHatchDelay.Start();
     m_WaitForLanding.Start();
     m_RaiseHatchDelay.Stop();
@@ -51,7 +50,7 @@ void DriveSandstormStepWithHatch::Execute() {
                     std::cout << logTimer.Elapsed() << ": DriveSandstormStepWithHatch.Execute: Raising hatch now." << std::endl;
 
                     m_RaiseHatchDelay.Stop();
-                    Robot::GetHatchMechanism().SetRotateSpeed(-0.5);
+                    Robot::GetHatchMechanism().RaiseHatch();
 
                     m_Action = Action::WaitUntilLanding;
                 }

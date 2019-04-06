@@ -117,9 +117,6 @@ class Robot : public frc::TimedRobot {
 
         frc::AnalogInput m_AirPressureMeter{kAirPressureMeterPin};
 
-        frc::Solenoid m_SolRetractHatch {kPCM, AIR_1};
-        frc::Solenoid m_SolExtendHatch  {kPCM, AIR_2};
-
         // Protobot doesn't have a CAN Bus to the PDP
 #       ifndef PROTOBOT
             frc::PowerDistributionPanel m_PDP{0};
@@ -136,7 +133,6 @@ class Robot : public frc::TimedRobot {
         void JoystickDemoCreeperClimb();
         void JoystickDemoHatchCheesecake();
         void JoystickDemoIntakeHatch();
-        void JoystickDemoHatchPneumatics();
 
         // Bling code
         void CompetitionBling();

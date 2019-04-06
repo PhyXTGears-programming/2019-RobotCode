@@ -180,8 +180,6 @@ void Robot::TeleopPeriodic() {
     
     CompetitionJoystickInput();
     m_Bling.RunBling();
-
-    JoystickDemoHatchPneumatics();
 }
 
 void Robot::TestPeriodic() {}
@@ -232,14 +230,14 @@ void Robot::CompetitionJoystickInput() {
 
     if (console.GetHatchGrabReleased() || console.GetHatchReleaseReleased()) {
         std::cout << "Comp Joy Input: Stop Hatch Rotate" << std::endl;
-        GetHatchMechanism().SetRotateSpeed(0.0);
+        GetHatchMechanism().StopRotation();
     } else if (console.GetHatchGrabPressed()) {
         std::cout << "Comp Joy Input: Console: Hatch Grab Pressed" << std::endl;
-        GetHatchMechanism().SetRotateSpeed(0.5);
+        GetHatchMechanism().RaiseHatch();
         m_Bling.SetBling(m_Bling.HatchPattern);
     } else if (console.GetHatchReleasePressed()) {
         std::cout << "Comp Joy Input: Console: Hatch Release Pressed" << std::endl;
-        GetHatchMechanism().SetRotateSpeed(-0.5);
+        GetHatchMechanism().LowerHatch();
         m_Bling.SetBling(m_Bling.HatchPattern);
     }
 
@@ -482,23 +480,6 @@ void Robot::JoystickDemoIntakeHatch() {
     }
 
     std::cout << "hook: b(" << bottom << ") t(" << top << ")" << std::endl;
-}
-
-void Robot::JoystickDemoHatchPneumatics() {
-    if (m_OI.GetOperatorConsole().GetFlightStick().GetRawButtonPressed(3)) {
-        std::cout << "JoystickDemoHatchPneumatics: Flightstick: Retract Hatch Pressed" << std::endl;
-        m_SolRetractHatch.Set(true);
-    } else if (m_OI.GetOperatorConsole().GetFlightStick().GetRawButtonReleased(3)) {
-        std::cout << "JoystickDemoHatchPneumatics: Flightstick: Retract Hatch Released" << std::endl;
-        m_SolRetractHatch.Set(false);
-    }
-    if (m_OI.GetOperatorConsole().GetFlightStick().GetRawButtonPressed(4)) {
-        std::cout << "JoystickDemoHatchPneumatics: Flightstick: Extend Hatch Pressed" << std::endl;
-        m_SolExtendHatch.Set(true);
-    } else if (m_OI.GetOperatorConsole().GetFlightStick().GetRawButtonReleased(4)) {
-        std::cout << "JoystickDemoHatchPneumatics: Flightstick: Extend Hatch Released" << std::endl;
-        m_SolExtendHatch.Set(false);
-    }
 }
 
 void Robot::PrintVersionFile() {

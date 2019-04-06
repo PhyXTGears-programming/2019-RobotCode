@@ -6,11 +6,36 @@
 #include <string>
 #include <cmath>
 
+#define HatchGrabberSpeed 0.7
 
-HatchMechanism::HatchMechanism(wpi::json &jsonConfig) : Subsystem("CargoIntake") {
+HatchMechanism::HatchMechanism(wpi::json &jsonConfig) : Subsystem("HatchMechanism") {
 }
 
 void HatchMechanism::InitDefaultCommand() {
+}
+
+void HatchMechanism::RaiseHatch () {
+    SetRotateSpeed(HatchGrabberSpeed);
+    GrabHatch();
+}
+
+void HatchMechanism::LowerHatch () {
+    SetRotateSpeed(-HatchGrabberSpeed);
+    ReleaseHatch();
+}
+
+void HatchMechanism::StopRotation () {
+    SetRotateSpeed(0.0);
+}
+
+void HatchMechanism::GrabHatch () {
+    m_SolRetractHatch.Set(true);
+    m_SolExtendHatch.Set(false);
+}
+
+void HatchMechanism::ReleaseHatch () {
+    m_SolExtendHatch.Set(true);
+    m_SolRetractHatch.Set(false);
 }
 
 void HatchMechanism::SetRotateSpeed(double speed) {
