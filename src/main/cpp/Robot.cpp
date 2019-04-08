@@ -115,6 +115,19 @@ void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutBoolean("climb ready", GetCreeperClimb().IsArmAtPosition("arm-ready"));
     frc::SmartDashboard::PutBoolean("climb done", GetCreeperClimb().IsArmAtPosition("arm-climb"));
 
+    {
+        static bool lastCargoState = false;
+        bool cargoState = m_CargoIntake->HasCargo();
+
+        if (lastCargoState != cargoState) {
+            std::cout
+                << "Cargo "
+                << (cargoState ? "detected" : "not detected")
+                << std::endl;
+            lastCargoState = cargoState;
+        }
+    }
+
     frc::Scheduler::GetInstance()->Run();
 
     bool bumperPressed = m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kRightHand);
