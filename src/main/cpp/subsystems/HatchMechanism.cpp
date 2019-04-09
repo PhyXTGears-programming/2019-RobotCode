@@ -16,12 +16,10 @@ void HatchMechanism::InitDefaultCommand() {
 
 void HatchMechanism::RaiseHatch () {
     SetRotateSpeed(HatchGrabberSpeed);
-    GrabHatch();
 }
 
 void HatchMechanism::LowerHatch () {
     SetRotateSpeed(-HatchGrabberSpeed);
-    ReleaseHatch();
 }
 
 void HatchMechanism::StopRotation () {

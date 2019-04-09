@@ -27,6 +27,8 @@
 #include "commands/DriveSandstormStepWithHatch.h"
 #include "commands/TeleOpDrive.h"
 
+#include "commands/LowerHatch.h"
+#include "commands/RaiseHatch.h"
 #include "commands/ReadyCreeperArm.h"
 #include "commands/RotateCargoForCargoShip.h"
 #include "commands/RotateCargoForLevelOneRocket.h"
@@ -75,6 +77,10 @@ class Robot : public frc::TimedRobot {
         // Commands - Climb
         static ReadyCreeperArm* m_ReadyCreeperArm;
         static ClimbStep*       m_ClimbStep;
+
+        // Commands - Hatch
+        static LowerHatch*  m_LowerHatch;
+        static RaiseHatch*  m_RaiseHatch;
 
         // JSON Reader for Config (this should probably be moved later)
         static wpi::json m_JsonConfig;

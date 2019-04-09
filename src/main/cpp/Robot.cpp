@@ -31,6 +31,10 @@ ClimbStep*       Robot::m_ClimbStep;
 DriveSandstormStepWithCargo* Robot::m_DriveSandstormStepWithCargo;
 DriveSandstormStepWithHatch* Robot::m_DriveSandstormStepWithHatch;
 
+// Initialize Commands - Hatch
+LowerHatch* Robot::m_LowerHatch;
+RaiseHatch* Robot::m_RaiseHatch;
+
 // Initialize JSON reader
 wpi::json Robot::m_JsonConfig;
 
@@ -234,16 +238,17 @@ void Robot::CompetitionJoystickInput() {
         m_Bling.SetBling(m_Bling.CargoIntakePattern);
     }
 
-    if (console.GetHatchGrabReleased() || console.GetHatchReleaseReleased()) {
-        std::cout << "Comp Joy Input: Stop Hatch Rotate" << std::endl;
-        GetHatchMechanism().StopRotation();
-    } else if (console.GetHatchGrabPressed()) {
+    if (console.GetHatchGrabPressed()) {
         std::cout << "Comp Joy Input: Console: Hatch Grab Pressed" << std::endl;
-        GetHatchMechanism().RaiseHatch();
+        m_RaiseHatch
+          ->Until([]() { return Robot::m_OI.GetOperatorConsole().GetHatchGrabReleased(); })
+          ->Start();
         m_Bling.SetBling(m_Bling.HatchPattern);
     } else if (console.GetHatchReleasePressed()) {
         std::cout << "Comp Joy Input: Console: Hatch Release Pressed" << std::endl;
-        GetHatchMechanism().LowerHatch();
+        m_LowerHatch
+          ->Until([]() { return Robot::m_OI.GetOperatorConsole().GetHatchReleaseReleased(); })
+          ->Start();
         m_Bling.SetBling(m_Bling.HatchPattern);
     }
 
