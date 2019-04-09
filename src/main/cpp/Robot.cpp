@@ -265,6 +265,22 @@ void Robot::CompetitionJoystickInput() {
         m_Bling.SetBling(m_Bling.HatchPattern);
     }
 
+    if (console.GetHatchTopPositionPressed()) {
+        std::cout << "Comp Joy Input: Console: Hatch Top Position Pressed" << std::endl;
+        m_GrabHatchFromLoadingStation->Start();
+        m_Bling.SetBling(m_Bling.HatchPattern);
+    } else if (console.GetHatchMidPositionPressed()) {
+        std::cout << "Comp Joy Input: Console: Hatch Mid Position Pressed" << std::endl;
+        m_ReadyHatch->Start();
+        m_Bling.SetBling(m_Bling.HatchPattern);
+    } else if (console.GetHatchLowerPressed()) {
+        std::cout << "Comp Joy Input: Console: Hatch Lower Pressed" << std::endl;
+        m_LowerHatch
+          ->Until([]() { return Robot::m_OI.GetOperatorConsole().GetHatchLowerReleased(); })
+          ->Start();
+        m_Bling.SetBling(m_Bling.HatchPattern);
+    }
+
     if (console.GetCargoShootRocketTwoPressed()) {
         std::cout << "Comp Joy Input: Console: Rocket Shot (Level 2)" << std::endl;
         m_ShootCargoForLevelTwoRocket->Start();
