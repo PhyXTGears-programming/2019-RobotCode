@@ -130,9 +130,11 @@
 #   define kCreeperArmDrive  RELAY_0
 #   define kCreeperArmAngle  AIO_1
 #   define kCreeperArmRotate CAN_3
-#   define kCreeperSolenoidAscend  AIR_6
-#   define kCreeperSolenoidDescend AIR_7
-#   define kCreeperSolenoidSwitch  DIO_4
+
+#   define kCreeperSolenoidExtendLeft   AIR_6
+#   define kCreeperSolenoidRetractLeft  AIR_7
+#   define kCreeperSolenoidExtendRight  AIR_4
+#   define kCreeperSolenoidRetractRight AIR_5
 
 // Cargo Intake constants
 // Cargo intake proximity sensor connected to DIO pin 4.
@@ -143,11 +145,17 @@
 // Spike relays for pickup rollers and ejector
 #   define kCargoEjectServo PWM_2
 // TalonSRX CAN ID for rotating arm and rollers
-#   define kCargoTalonRotate CAN_6
-#   define kCargoTalonRoller CAN_8
+#   define kCargoTalonRotate       CAN_6
+#   define kCargoTalonRollerTop    CAN_8
+#   define kCargoTalonRollerBottom CAN_5
 // Potentiometer for rotation position
 #   define kCargoRotationSensor AIO_0
 // Cargo hatch cheesecake
 #   define kCargoHatchCheesecakeMotor PWM_3
 
+#   define kNavxPin I2C::Port::kMXP
+
+#   define kAirPressureMeterPin AIO_3
+
+#   define kBlinkinPin PWM_9
 #endif

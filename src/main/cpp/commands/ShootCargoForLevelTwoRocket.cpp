@@ -36,7 +36,7 @@ ShootCargoForLevelTwoRocket::ShootCargoForLevelTwoRocket()
 void ShootCargoForLevelTwoRocket::Initialize() {
     CargoIntake& intake = Robot::GetCargoIntake();
 
-    m_HasPrerequisites = intake.HasCargo();
+    m_HasPrerequisites = true;
 
     m_Action = Action::TurnOnRollers;
 }

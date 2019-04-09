@@ -11,6 +11,8 @@ class OI {
         // E.g.: passing the joysticks to the drive subsystem.
         frc::XboxController& GetDriverJoystick() { return m_HidDriver; };
         OperatorHID& GetOperatorConsole() { return m_HidOperator; };
+
+        void ClearButtonBuffer();
         
     private:
         frc::XboxController m_HidDriver   {0};

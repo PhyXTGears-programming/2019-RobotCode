@@ -1,6 +1,6 @@
 #include "subsystems/CargoIntake.h"
 #include "Robot.h"
-#include "util.h"
+#include "util/util.h"
 
 #include <iostream>
 #include <string>
@@ -21,11 +21,15 @@ CargoIntake::CargoIntake(wpi::json &jsonConfig) : Subsystem("CargoIntake") {
     AddChild("Hatch Grip (Bottom)", &m_HatchGripBottom);
     AddChild("Hatch Grip (Top)", &m_HatchGripTop);
     AddChild("Intake Arm Motor", &m_IntakeArmMotor);
-    AddChild("Intake Rollers", &m_IntakeRoller);
+    AddChild("Intake Top Roller", &m_IntakeRollerTop);
+    AddChild("Intake Bottom Roller", &m_IntakeRollerBottom);
     AddChild("Cargo Ejecter", &m_CargoEjector);
     AddChild("Cargo Sensor", &m_CargoSensor);
 
     m_IntakeArmMotor.SetInverted(true);
+
+    m_Config.EjectorExtend = jsonConfig["intake"]["ejector"]["extend"];
+    m_Config.EjectorRetract = jsonConfig["intake"]["ejector"]["retract"];
 }
 
 void CargoIntake::InitDefaultCommand() {
@@ -33,16 +37,19 @@ void CargoIntake::InitDefaultCommand() {
 
 #ifndef PROTOBOT
 void CargoIntake::SetRollerSpeed(wpi::StringRef configName) {
-    double speed = Robot::m_JsonConfig["intake"]["roller-speed"][configName];
-    SetRollerSpeed(speed);
+    double topspeed = Robot::m_JsonConfig["intake"]["roller-speed"][configName]["top"];
+    double bottomspeed = Robot::m_JsonConfig["intake"]["roller-speed"][configName]["bottom"];
+    SetRollerSpeed(topspeed, bottomspeed);
 }
 
-void CargoIntake::SetRollerSpeed(double speed) {
-    this->m_IntakeRoller.Set(speed);
+void CargoIntake::SetRollerSpeed(double topspeed, double bottomspeed) {
+    this->m_IntakeRollerTop.Set(topspeed);
+    this->m_IntakeRollerBottom.Set(bottomspeed);
 }
 
 void CargoIntake::StopRoller() {
-    this->m_IntakeRoller.Set(0.0);
+    this->m_IntakeRollerTop.Set(0.0);
+    this->m_IntakeRollerBottom.Set(0.0);
 }
 #endif
 
@@ -73,16 +80,20 @@ void CargoIntake::SetTopHookPosition(double position) {
 }
 
 void CargoIntake::ExtendEjector() {
-    m_CargoEjector.Set(0.3);
+    m_CargoEjector.Set(m_Config.EjectorExtend);
 }
 
 void CargoIntake::RetractEjector() {
-    m_CargoEjector.Set(0.5);
+    m_CargoEjector.Set(m_Config.EjectorRetract);
+}
+
+void CargoIntake::SetEjector(double value) {
+    m_CargoEjector.Set(value);
 }
 
 bool CargoIntake::IsRotationDone() {
     // Rotation is done when PID error is near zero.
-    if (std::fabs(m_RotationPID.GetError()) < 1) {
+    if (std::fabs(m_RotationPID.GetError()) < 0.008) {
         m_InRangeCount++;
         if (m_InRangeCount > 5) {
             return true;
@@ -115,19 +126,19 @@ void CargoIntake::RotateToPosition(wpi::StringRef configName) {
     RotateToPosition(ang);
 }
 
-void CargoIntake::RotateToPosition(int worldAngle) {
+void CargoIntake::RotateToPosition(double worldAngle) {
     m_RotationPID.SetSetpoint(worldAngleToMachine(worldAngle));
     m_RotationPID.Enable();
 }
 
-void CargoIntake::SetRotateSpeed(double speed) {
-    if (std::abs(speed) > 0.1) {
+void CargoIntake::SetRotateSpeed(double spd) {
+    if (std::abs(spd) > 0.1) {
         m_RotationPID.Disable();
-        m_IntakeArmMotor.Set(speed);
+        m_IntakeArmMotor.Set(spd);
     } else if (!m_RotationPID.IsEnabled()) {
         // Allow manual control deadband to stop motor, but don't interfere
         // when PID is active.
-        m_IntakeArmMotor.Set(speed);
+        m_IntakeArmMotor.Set(std::abs(spd) > 0.03 ? spd : 0.0);
     }
 }
 
@@ -162,5 +173,5 @@ void CargoIntake::Disable() {
 }
 
 bool CargoIntake::IsRollerRunning() {
-    return std::abs(m_IntakeRoller.Get()) > 0.1;
+    return (std::abs(m_IntakeRollerTop.Get()) > 0.1) || (std::abs(m_IntakeRollerBottom.Get()) > 0.1);
 }

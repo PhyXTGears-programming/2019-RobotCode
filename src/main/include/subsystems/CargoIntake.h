@@ -39,11 +39,12 @@ class CargoIntake : public frc::Subsystem {
 
         void ExtendEjector();
         void RetractEjector();
+        void SetEjector(double value);
 
         bool IsRotationDone();
         bool IsAtPosition(wpi::StringRef configName);
         void RotateToPosition(wpi::StringRef configName);
-        void RotateToPosition(int position);
+        void RotateToPosition(double position);
         void SetRotateSpeed(double speed);
         void StopRotation();
 
@@ -65,18 +66,19 @@ class CargoIntake : public frc::Subsystem {
 
     public:
         void SetRollerSpeed(wpi::StringRef configName);
-        void SetRollerSpeed(double speed);
+        void SetRollerSpeed(double topspeed, double bottomspeed);
         void StopRoller();
 
     private:
         // frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 189, -108}; // Testbot
         // frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 211.8, -90.2}; // Testbot
-        frc::AnalogPotentiometer  m_IntakeRotation  {kCargoRotationSensor, 237, -137}; // Compbot
-        frc::Servo                m_HatchGripBottom {kCargoHatchServoBottom};
-        frc::Servo                m_HatchGripTop    {kCargoHatchServoTop};
-        WPI_TalonSRX              m_IntakeArmMotor  {kCargoTalonRotate};
-        WPI_TalonSRX              m_IntakeRoller    {kCargoTalonRoller};
-        frc::Servo                m_CargoEjector    {kCargoEjectServo};
+        frc::AnalogPotentiometer  m_IntakeRotation     {kCargoRotationSensor, 1.0, 0}; // Compbot
+        frc::Servo                m_HatchGripBottom    {kCargoHatchServoBottom};
+        frc::Servo                m_HatchGripTop       {kCargoHatchServoTop};
+        WPI_TalonSRX              m_IntakeArmMotor     {kCargoTalonRotate};
+        WPI_TalonSRX              m_IntakeRollerTop    {kCargoTalonRollerTop};
+        WPI_TalonSRX              m_IntakeRollerBottom {kCargoTalonRollerBottom};
+        frc::Servo                m_CargoEjector       {kCargoEjectServo};
 
         frc::Spark                m_HatchCheesecakeMotor {kCargoHatchCheesecakeMotor};
 
@@ -100,4 +102,11 @@ class CargoIntake : public frc::Subsystem {
         */
         double machineAngleToWorld(double);
         double worldAngleToMachine(double);
+
+        struct Config {
+            double EjectorExtend = 0.0;
+            double EjectorRetract = 0.0;
+        };
+
+        Config m_Config;
 };
