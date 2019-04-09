@@ -25,6 +25,8 @@ class HatchMechanism : public frc::Subsystem {
         void GrabHatch();
         void ReleaseHatch();
 
+        void Disable();
+
     private:
 
         frc::Spark m_ArmMotor {kHatchArmMotor};

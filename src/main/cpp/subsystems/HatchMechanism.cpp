@@ -39,3 +39,7 @@ void HatchMechanism::ReleaseHatch () {
 void HatchMechanism::SetRotateSpeed(double speed) {
     m_ArmMotor.Set(speed);
 }
+
+void HatchMechanism::Disable() {
+    SetRotateSpeed(0.0);
+}

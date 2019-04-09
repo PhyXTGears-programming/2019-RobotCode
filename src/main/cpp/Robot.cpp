@@ -146,6 +146,7 @@ void Robot::DisabledInit() {
 
     GetCreeperClimb().Disable();
     GetCargoIntake().Disable();
+    GetHatchMechanism().Disable();
 
     // Clear pending commands out of scheduler.
     // frc::Scheduler::GetInstance()->ResetAll();
