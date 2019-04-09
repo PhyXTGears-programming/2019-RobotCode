@@ -36,6 +36,7 @@ LowerHatch* Robot::m_LowerHatch;
 RaiseHatch* Robot::m_RaiseHatch;
 
 GrabHatchFromLoadingStation*  Robot::m_GrabHatchFromLoadingStation;
+ReadyHatch*                   Robot::m_ReadyHatch;
 
 // Initialize JSON reader
 wpi::json Robot::m_JsonConfig;
@@ -85,6 +86,7 @@ Robot::Robot() {
 
     // Allocate and initialize commands - Hatch
     m_GrabHatchFromLoadingStation  = new GrabHatchFromLoadingStation();
+    m_ReadyHatch                   = new ReadyHatch();
 }
 
 void Robot::RobotInit() {

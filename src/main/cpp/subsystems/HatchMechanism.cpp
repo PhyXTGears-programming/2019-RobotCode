@@ -19,6 +19,7 @@ HatchMechanism::HatchMechanism(wpi::json &jsonConfig) : Subsystem("HatchMechanis
 
     m_ArmPID.SetPID(p, i, d);
 
+    m_Config.MidPosition = jsonConfig["hatch"]["rotation"]["mid-position"];
     m_Config.TopPosition = jsonConfig["hatch"]["rotation"]["top-position"];
     m_Config.GripThreshold = jsonConfig["hatch"]["rotation"]["grip-threshold"];
 
@@ -37,6 +38,11 @@ void HatchMechanism::RaiseHatch () {
 void HatchMechanism::LowerHatch () {
     m_ArmPID.Disable();
     SetRotateSpeed(-HatchGrabberSpeed);
+}
+
+void HatchMechanism::RotateToMidPosition() {
+    m_ArmPID.SetSetpoint(m_Config.MidPosition);
+    m_ArmPID.Enable();
 }
 
 void HatchMechanism::RotateToTopPosition() {

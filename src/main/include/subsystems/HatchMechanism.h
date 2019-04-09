@@ -52,6 +52,7 @@ class HatchMechanism : public frc::Subsystem {
 
         struct Config {
             double TopPosition = 0.0;
+            double MidPosition = 0.0;
             double GripThreshold = 0.0;
         };
 
