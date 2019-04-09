@@ -159,4 +159,6 @@
 #   define kAirPressureMeterPin AIO_3
 
 #   define kBlinkinPin PWM_9
+
+#   define kHatchArmPositionSensor AIO_2
 #endif

@@ -162,6 +162,11 @@ void Robot::AutonomousInit() {
     GetDriveTrain().RunReset();
     GetCreeperClimb().RunReset();
     GetCargoIntake().RunReset();
+
+    // Some positions of hatch mechanism are compliant, so disable
+    // PID/rotation instead of RunReset.
+    GetHatchMechanism().StopRotation();
+
     m_CanSandstormStepDrive = true;
 
     m_OI.ClearButtonBuffer();
