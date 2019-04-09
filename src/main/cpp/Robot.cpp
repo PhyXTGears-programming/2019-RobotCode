@@ -11,12 +11,8 @@ CreeperClimb*   Robot::m_CreeperClimb;
 HatchMechanism* Robot::m_HatchMechanism;
 
 // Initialize Commands - Intake
-GrabHatchFromDispenser*       Robot::m_GrabHatchFromDispenser;
-ReleaseHatch*                 Robot::m_ReleaseHatch;
 RotateCargoForCargoShip*      Robot::m_RotateCargoForCargoShip;
 RotateCargoForLevelOneRocket* Robot::m_RotateCargoForLevelOneRocket;
-RotateHatchForFloor*          Robot::m_RotateHatchForFloor;
-RotateHatchForDispenser*      Robot::m_RotateHatchForDispenser;
 
 ShootCargoForCargoShip*      Robot::m_ShootCargoForCargoShip;
 ShootCargoForLevelOneRocket* Robot::m_ShootCargoForLevelOneRocket;
@@ -65,12 +61,8 @@ Robot::Robot() {
     m_DriveSandstormStepWithHatch = new DriveSandstormStepWithHatch();
 
     // Allocate and initialize commands - Intake
-    m_GrabHatchFromDispenser       = new GrabHatchFromDispenser();
-    m_ReleaseHatch                 = new ReleaseHatch();
     m_RotateCargoForCargoShip      = new RotateCargoForCargoShip();
     m_RotateCargoForLevelOneRocket = new RotateCargoForLevelOneRocket();
-    m_RotateHatchForFloor          = new RotateHatchForFloor();
-    m_RotateHatchForDispenser      = new RotateHatchForDispenser();
 
     m_ShootCargoForCargoShip      = new ShootCargoForCargoShip();
     m_ShootCargoForLevelOneRocket = new ShootCargoForLevelOneRocket();
