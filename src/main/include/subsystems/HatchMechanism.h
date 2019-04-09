@@ -27,7 +27,7 @@ class HatchMechanism : public frc::Subsystem {
 
     private:
 
-        frc::Spark m_HatchMechanismMotor {kHatchMechanismMotor};
+        frc::Spark m_ArmMotor {kHatchArmMotor};
         
         frc::Solenoid m_SolRetractHatch {kPCM, AIR_2};
         frc::Solenoid m_SolExtendHatch  {kPCM, AIR_1};
