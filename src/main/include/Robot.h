@@ -19,6 +19,7 @@
 #include "subsystems/DriveTrain.h"
 #include "subsystems/CreeperClimb.h"
 #include "subsystems/CargoIntake.h"
+#include "subsystems/HatchMechanism.h"
 // Commands
 #include "commands/ClimbStep.h"
 
@@ -53,9 +54,10 @@ class Robot : public frc::TimedRobot {
         static OI                               m_OI;
 
         // Subsystems
-        static DriveTrain*   m_DriveTrain;
-        static CreeperClimb* m_CreeperClimb;
-        static CargoIntake*  m_CargoIntake;
+        static DriveTrain*     m_DriveTrain;
+        static CreeperClimb*   m_CreeperClimb;
+        static CargoIntake*    m_CargoIntake;
+        static HatchMechanism* m_HatchMechanism;
   
         // Commands - Drive
         static DriveSandstormStepWithHatch* m_DriveSandstormStepWithHatch;
@@ -99,9 +101,10 @@ class Robot : public frc::TimedRobot {
         void TeleopPeriodic() override;
         void TestPeriodic() override;
 
-        static CargoIntake & GetCargoIntake()   { return *Robot::m_CargoIntake; };
-        static CreeperClimb & GetCreeperClimb() { return *Robot::m_CreeperClimb; };
-        static DriveTrain & GetDriveTrain()     { return *Robot::m_DriveTrain; };
+        static CargoIntake & GetCargoIntake()       { return *Robot::m_CargoIntake;    };
+        static HatchMechanism & GetHatchMechanism() { return *Robot::m_HatchMechanism; };
+        static CreeperClimb & GetCreeperClimb()     { return *Robot::m_CreeperClimb;   };
+        static DriveTrain & GetDriveTrain()         { return *Robot::m_DriveTrain;     };
 
     private:
         frc::SendableChooser<frc::Command*> m_Chooser;

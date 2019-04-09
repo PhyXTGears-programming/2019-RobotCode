@@ -51,8 +51,6 @@ class CargoIntake : public frc::Subsystem {
         void GoHome();
         double GetIntakeRotation();
 
-        void SetHatchRotateSpeed(double);
-
         void RunReset();
         void Disable();
 
@@ -79,8 +77,6 @@ class CargoIntake : public frc::Subsystem {
         WPI_TalonSRX              m_IntakeRollerTop    {kCargoTalonRollerTop};
         WPI_TalonSRX              m_IntakeRollerBottom {kCargoTalonRollerBottom};
         frc::Servo                m_CargoEjector       {kCargoEjectServo};
-
-        frc::Spark                m_HatchCheesecakeMotor {kCargoHatchCheesecakeMotor};
 
         frc::PIDController        m_RotationPID     {1, 0, 0, m_IntakeRotation, m_IntakeArmMotor};
 

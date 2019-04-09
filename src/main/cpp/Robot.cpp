@@ -5,9 +5,10 @@
 // Initialize Operator Interface
 OI Robot::m_OI;
 // Initialize Subsystems
-DriveTrain*   Robot::m_DriveTrain;
-CargoIntake*  Robot::m_CargoIntake;
-CreeperClimb* Robot::m_CreeperClimb;
+DriveTrain*     Robot::m_DriveTrain;
+CargoIntake*    Robot::m_CargoIntake;
+CreeperClimb*   Robot::m_CreeperClimb;
+HatchMechanism* Robot::m_HatchMechanism;
 
 // Initialize Commands - Intake
 GrabHatchFromDispenser*       Robot::m_GrabHatchFromDispenser;
@@ -54,10 +55,10 @@ Robot::Robot() {
     m_JsonConfig = wpi::json::parse(jsonString);
 
     // Allocate and initialize subsystems.
-
-    m_CargoIntake = new CargoIntake(m_JsonConfig);
-    m_CreeperClimb = new CreeperClimb(m_JsonConfig);
-    m_DriveTrain = new DriveTrain(m_JsonConfig);
+    m_CargoIntake    = new CargoIntake(m_JsonConfig);
+    m_HatchMechanism = new HatchMechanism(m_JsonConfig);
+    m_CreeperClimb   = new CreeperClimb(m_JsonConfig);
+    m_DriveTrain     = new DriveTrain(m_JsonConfig);
 
     // Allocate and initialize commands - Teleop
     m_DriveSandstormStepWithCargo = new DriveSandstormStepWithCargo();
@@ -89,6 +90,10 @@ void Robot::RobotInit() {
     m_Camera0 = frc::CameraServer::GetInstance()->StartAutomaticCapture(0);
     m_Camera1 = frc::CameraServer::GetInstance()->StartAutomaticCapture(1);
 
+    // m_Camera0.SetResolution(320, 240);
+    // m_Camera1.SetResolution(320, 240);
+    // m_Camera0.SetFPS(15);
+    // m_Camera1.SetFPS(15);
     m_Camera0.SetConnectionStrategy(cs::VideoSource::ConnectionStrategy::kConnectionKeepOpen);
     m_Camera1.SetConnectionStrategy(cs::VideoSource::ConnectionStrategy::kConnectionKeepOpen);
 
@@ -109,6 +114,20 @@ void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("air pressure", (m_AirPressureMeter.GetVoltage() - 0.3) * psiPerVolt);
     frc::SmartDashboard::PutBoolean("climb ready", GetCreeperClimb().IsArmAtPosition("arm-ready"));
     frc::SmartDashboard::PutBoolean("climb done", GetCreeperClimb().IsArmAtPosition("arm-climb"));
+
+    {
+        static bool lastCargoState = false;
+        bool cargoState = m_CargoIntake->HasCargo();
+
+        if (lastCargoState != cargoState) {
+            std::cout
+                << "Cargo "
+                << (cargoState ? "detected" : "not detected")
+                << std::endl;
+            lastCargoState = cargoState;
+        }
+    }
+
     frc::Scheduler::GetInstance()->Run();
 
     bool bumperPressed = m_OI.GetDriverJoystick().GetBumperPressed(frc::XboxController::kRightHand);
@@ -164,12 +183,12 @@ void Robot::TeleopInit() {
 void Robot::TeleopPeriodic() {
     // No control code goes here.  Put control code for testing in a new
     // JoystickDemo method, or control code for competition in
-    // CompetitionJoytickInput().
+    // CompetitionJoystickInput().
     //
-    // TestPeriodic() will only invoke CompetitionJoytickInput(), and we can
+    // TestPeriodic() will only invoke CompetitionJoystickInput(), and we can
     // swap out a JoystickDemo method for testing, but that modification to
-    // TeleopPeriodic() had better not be committed to the develop branch, or
-    // so help me, more words will ensue.
+    // TeleopPeriodic() had better not be committed to the develop branch, or so
+    // help me, more words will ensue.
     //
     // (╯°Д°）╯︵┻━┻
     
@@ -225,14 +244,14 @@ void Robot::CompetitionJoystickInput() {
 
     if (console.GetHatchGrabReleased() || console.GetHatchReleaseReleased()) {
         std::cout << "Comp Joy Input: Stop Hatch Rotate" << std::endl;
-        GetCargoIntake().SetHatchRotateSpeed(0.0);
+        GetHatchMechanism().StopRotation();
     } else if (console.GetHatchGrabPressed()) {
         std::cout << "Comp Joy Input: Console: Hatch Grab Pressed" << std::endl;
-        GetCargoIntake().SetHatchRotateSpeed(0.5);
+        GetHatchMechanism().RaiseHatch();
         m_Bling.SetBling(m_Bling.HatchPattern);
     } else if (console.GetHatchReleasePressed()) {
         std::cout << "Comp Joy Input: Console: Hatch Release Pressed" << std::endl;
-        GetCargoIntake().SetHatchRotateSpeed(-0.5);
+        GetHatchMechanism().LowerHatch();
         m_Bling.SetBling(m_Bling.HatchPattern);
     }
 
@@ -429,14 +448,14 @@ void Robot::JoystickDemoHatchCheesecake() {
         double rightTrigger = driver.GetTriggerAxis(frc::XboxController::kRightHand);
 
         if (0.01 < leftTrigger) {
-            GetCargoIntake().SetHatchRotateSpeed(leftTrigger * 0.5);
+            GetHatchMechanism().SetRotateSpeed(leftTrigger * 0.5);
         } else if (0.01 < rightTrigger) {
-            GetCargoIntake().SetHatchRotateSpeed(rightTrigger * -0.5);
+            GetHatchMechanism().SetRotateSpeed(rightTrigger * -0.5);
         } else {
-            GetCargoIntake().SetHatchRotateSpeed(0.0);
+            GetHatchMechanism().SetRotateSpeed(0.0);
         }
     } else if (driver.GetXButtonReleased()) {
-        GetCargoIntake().SetHatchRotateSpeed(0.0);
+        GetHatchMechanism().SetRotateSpeed(0.0);
     }
 }
 

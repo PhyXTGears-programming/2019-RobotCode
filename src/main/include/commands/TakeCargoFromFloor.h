@@ -11,4 +11,8 @@ class TakeCargoFromFloor : public frc::Command {
         bool IsInterruptible();
         void End() override;
         void Interrupted() override;
+
+    private:
+        int sensorCount = 0;
+        bool hadCargo = false;
 };
