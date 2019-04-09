@@ -71,6 +71,10 @@
             "I": 0.0,
             "D": 0.0,
             "F": 0.0
+        },
+        "rotation": {
+            "grip-threshold": 2.5,
+            "top-position": 3.1
         }
     }
 }

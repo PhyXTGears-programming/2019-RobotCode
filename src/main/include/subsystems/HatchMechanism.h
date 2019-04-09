@@ -16,14 +16,18 @@ class HatchMechanism : public frc::Subsystem {
 
         void SetRotateSpeed(double);
 
-        // Move up and down
+        // Move up and down via motor speed.  No PID.
         void RaiseHatch();
         void LowerHatch();
 
-        // Stop Moving
+        // Use PID to hold position.
+        void RotateToTopPosition();
+        void RotateToMidPosition();
+
+        // Stop moving arm.  Zero speed, disable PID.
         void StopRotation();
 
-        // Run solenoid
+        // Run solenoid gripper.
         void GrabHatch();
         void ReleaseHatch();
 
@@ -32,6 +36,8 @@ class HatchMechanism : public frc::Subsystem {
         bool IsArmRotationDone();
 
         void Disable();
+
+        bool IsAboveGripThreshold() { return GetArmPosition() > m_Config.GripThreshold; }
 
     private:
         frc::Spark m_ArmMotor {kHatchArmMotor};
@@ -43,4 +49,11 @@ class HatchMechanism : public frc::Subsystem {
         frc::Solenoid m_SolExtendHatch  {kPCM, AIR_1};
 
         int m_InRangeCount = 0;
+
+        struct Config {
+            double TopPosition = 0.0;
+            double GripThreshold = 0.0;
+        };
+
+        Config m_Config;
 };

@@ -35,6 +35,8 @@ DriveSandstormStepWithHatch* Robot::m_DriveSandstormStepWithHatch;
 LowerHatch* Robot::m_LowerHatch;
 RaiseHatch* Robot::m_RaiseHatch;
 
+GrabHatchFromLoadingStation*  Robot::m_GrabHatchFromLoadingStation;
+
 // Initialize JSON reader
 wpi::json Robot::m_JsonConfig;
 
@@ -80,6 +82,9 @@ Robot::Robot() {
     // Allocate and initialize commands -
     m_ReadyCreeperArm = new ReadyCreeperArm();
     m_ClimbStep       = new ClimbStep();
+
+    // Allocate and initialize commands - Hatch
+    m_GrabHatchFromLoadingStation  = new GrabHatchFromLoadingStation();
 }
 
 void Robot::RobotInit() {
