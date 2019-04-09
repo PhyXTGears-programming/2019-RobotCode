@@ -168,12 +168,12 @@ void Robot::TeleopInit() {
 void Robot::TeleopPeriodic() {
     // No control code goes here.  Put control code for testing in a new
     // JoystickDemo method, or control code for competition in
-    // CompetitionJoytickInput().
+    // CompetitionJoystickInput().
     //
-    // TestPeriodic() will only invoke CompetitionJoytickInput(), and we can
+    // TestPeriodic() will only invoke CompetitionJoystickInput(), and we can
     // swap out a JoystickDemo method for testing, but that modification to
-    // TeleopPeriodic() had better not be committed to the develop branch, or
-    // so help me, more words will ensue.
+    // TeleopPeriodic() had better not be committed to the develop branch, or so
+    // help me, more words will ensue.
     //
     // (╯°Д°）╯︵┻━┻
     
