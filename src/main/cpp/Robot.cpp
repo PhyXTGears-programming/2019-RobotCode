@@ -11,12 +11,8 @@ CreeperClimb*   Robot::m_CreeperClimb;
 HatchMechanism* Robot::m_HatchMechanism;
 
 // Initialize Commands - Intake
-GrabHatchFromDispenser*       Robot::m_GrabHatchFromDispenser;
-ReleaseHatch*                 Robot::m_ReleaseHatch;
 RotateCargoForCargoShip*      Robot::m_RotateCargoForCargoShip;
 RotateCargoForLevelOneRocket* Robot::m_RotateCargoForLevelOneRocket;
-RotateHatchForFloor*          Robot::m_RotateHatchForFloor;
-RotateHatchForDispenser*      Robot::m_RotateHatchForDispenser;
 
 ShootCargoForCargoShip*      Robot::m_ShootCargoForCargoShip;
 ShootCargoForLevelOneRocket* Robot::m_ShootCargoForLevelOneRocket;
@@ -34,6 +30,13 @@ ClimbStep*       Robot::m_ClimbStep;
 // Initialize Commands - Drive
 DriveSandstormStepWithCargo* Robot::m_DriveSandstormStepWithCargo;
 DriveSandstormStepWithHatch* Robot::m_DriveSandstormStepWithHatch;
+
+// Initialize Commands - Hatch
+LowerHatch* Robot::m_LowerHatch;
+RaiseHatch* Robot::m_RaiseHatch;
+
+GrabHatchFromLoadingStation*  Robot::m_GrabHatchFromLoadingStation;
+ReadyHatch*                   Robot::m_ReadyHatch;
 
 // Initialize JSON reader
 wpi::json Robot::m_JsonConfig;
@@ -65,12 +68,8 @@ Robot::Robot() {
     m_DriveSandstormStepWithHatch = new DriveSandstormStepWithHatch();
 
     // Allocate and initialize commands - Intake
-    m_GrabHatchFromDispenser       = new GrabHatchFromDispenser();
-    m_ReleaseHatch                 = new ReleaseHatch();
     m_RotateCargoForCargoShip      = new RotateCargoForCargoShip();
     m_RotateCargoForLevelOneRocket = new RotateCargoForLevelOneRocket();
-    m_RotateHatchForFloor          = new RotateHatchForFloor();
-    m_RotateHatchForDispenser      = new RotateHatchForDispenser();
 
     m_ShootCargoForCargoShip      = new ShootCargoForCargoShip();
     m_ShootCargoForLevelOneRocket = new ShootCargoForLevelOneRocket();
@@ -84,6 +83,10 @@ Robot::Robot() {
     // Allocate and initialize commands -
     m_ReadyCreeperArm = new ReadyCreeperArm();
     m_ClimbStep       = new ClimbStep();
+
+    // Allocate and initialize commands - Hatch
+    m_GrabHatchFromLoadingStation  = new GrabHatchFromLoadingStation();
+    m_ReadyHatch                   = new ReadyHatch();
 }
 
 void Robot::RobotInit() {
@@ -150,6 +153,7 @@ void Robot::DisabledInit() {
 
     GetCreeperClimb().Disable();
     GetCargoIntake().Disable();
+    GetHatchMechanism().Disable();
 
     // Clear pending commands out of scheduler.
     // frc::Scheduler::GetInstance()->ResetAll();
@@ -165,6 +169,11 @@ void Robot::AutonomousInit() {
     GetDriveTrain().RunReset();
     GetCreeperClimb().RunReset();
     GetCargoIntake().RunReset();
+
+    // Some positions of hatch mechanism are compliant, so disable
+    // PID/rotation instead of RunReset.
+    GetHatchMechanism().StopRotation();
+
     m_CanSandstormStepDrive = true;
 
     m_OI.ClearButtonBuffer();
@@ -242,16 +251,33 @@ void Robot::CompetitionJoystickInput() {
         m_Bling.SetBling(m_Bling.CargoIntakePattern);
     }
 
-    if (console.GetHatchGrabReleased() || console.GetHatchReleaseReleased()) {
-        std::cout << "Comp Joy Input: Stop Hatch Rotate" << std::endl;
-        GetHatchMechanism().StopRotation();
-    } else if (console.GetHatchGrabPressed()) {
+    if (console.GetHatchGrabPressed()) {
         std::cout << "Comp Joy Input: Console: Hatch Grab Pressed" << std::endl;
-        GetHatchMechanism().RaiseHatch();
+        m_RaiseHatch
+          ->Until([]() { return Robot::m_OI.GetOperatorConsole().GetHatchGrabReleased(); })
+          ->Start();
         m_Bling.SetBling(m_Bling.HatchPattern);
     } else if (console.GetHatchReleasePressed()) {
         std::cout << "Comp Joy Input: Console: Hatch Release Pressed" << std::endl;
-        GetHatchMechanism().LowerHatch();
+        m_LowerHatch
+          ->Until([]() { return Robot::m_OI.GetOperatorConsole().GetHatchReleaseReleased(); })
+          ->Start();
+        m_Bling.SetBling(m_Bling.HatchPattern);
+    }
+
+    if (console.GetHatchTopPositionPressed()) {
+        std::cout << "Comp Joy Input: Console: Hatch Top Position Pressed" << std::endl;
+        m_GrabHatchFromLoadingStation->Start();
+        m_Bling.SetBling(m_Bling.HatchPattern);
+    } else if (console.GetHatchMidPositionPressed()) {
+        std::cout << "Comp Joy Input: Console: Hatch Mid Position Pressed" << std::endl;
+        m_ReadyHatch->Start();
+        m_Bling.SetBling(m_Bling.HatchPattern);
+    } else if (console.GetHatchLowerPressed()) {
+        std::cout << "Comp Joy Input: Console: Hatch Lower Pressed" << std::endl;
+        m_LowerHatch
+          ->Until([]() { return Robot::m_OI.GetOperatorConsole().GetHatchLowerReleased(); })
+          ->Start();
         m_Bling.SetBling(m_Bling.HatchPattern);
     }
 

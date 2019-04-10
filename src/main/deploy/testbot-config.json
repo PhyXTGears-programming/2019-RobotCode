@@ -64,5 +64,18 @@
                 "arm-climb": 220
             }
         }
+    },
+    "hatch": {
+        "PID": {
+            "P": 1.0,
+            "I": 0.0,
+            "D": 0.0,
+            "F": 0.0
+        },
+        "rotation": {
+            "grip-threshold": 2.5,
+            "top-position": 3.1,
+            "mid-position": 2.5
+        }
     }
 }

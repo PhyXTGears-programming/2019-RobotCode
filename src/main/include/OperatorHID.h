@@ -30,6 +30,11 @@
 #define bCreeperCrawlForward  7
 #define bCreeperCrawlBackward 8
 
+// Hatch Buttons (PID) board 2
+#define bHatchTopPosition     10
+#define bHatchMidPosition      9
+#define bHatchLowPosition      8
+
 // A combo class that encapsules our button board and flight stick.
 // This is only for our robot operator to use.
 class OperatorHID {
@@ -44,6 +49,15 @@ class OperatorHID {
         bool GetHatchGrabReleased()    { return m_Board2.GetButtonReleased(bHatchGrabberUp); }
         bool GetHatchReleasePressed()  { return m_Board2.GetButtonPressed(bHatchGrabberDown); }
         bool GetHatchReleaseReleased() { return m_Board2.GetButtonReleased(bHatchGrabberDown); }
+
+        bool GetHatchTopPositionPressed()   { return m_Board2.GetButtonPressed(bHatchTopPosition); }
+        bool GetHatchTopPositionReleased()  { return m_Board2.GetButtonReleased(bHatchTopPosition); }
+
+        bool GetHatchMidPositionPressed()   { return m_Board2.GetButtonPressed(bHatchMidPosition); }
+        bool GetHatchMidPositionReleased()  { return m_Board2.GetButtonReleased(bHatchMidPosition); }
+
+        bool GetHatchLowerPressed()         { return m_Board2.GetButtonPressed(bHatchLowPosition); }
+        bool GetHatchLowerReleased()        { return m_Board2.GetButtonReleased(bHatchLowPosition); }
     
         bool GetCargoIntakeCargoPressed()    { return m_Board2.GetButtonPressed(bCargoIntakeCargo); }
         bool GetCargoShootRocketOnePressed() { return m_Board2.GetButtonPressed(bCargoShootRocketOne); }
