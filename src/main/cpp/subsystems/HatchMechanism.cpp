@@ -67,8 +67,7 @@ bool HatchMechanism::IsArmRotationDone() {
 
 void HatchMechanism::StopRotation () {
     SetRotateSpeed(0.0);
-    m_ArmPID.SetSetpoint(m_ArmPosition.Get());
-    m_ArmPID.Enable();
+    m_ArmPID.Disable();
 }
 
 void HatchMechanism::GrabHatch () {
