@@ -17,6 +17,8 @@ HatchMechanism::HatchMechanism(wpi::json &jsonConfig) : Subsystem("HatchMechanis
     double i = jsonConfig["hatch"]["PID"]["I"];
     double d = jsonConfig["hatch"]["PID"]["D"];
 
+    m_ArmMotor.SetInverted(true);
+
     m_ArmPID.SetPID(p, i, d);
 
     m_Config.MidPosition = jsonConfig["hatch"]["rotation"]["mid-position"];
@@ -32,12 +34,12 @@ void HatchMechanism::InitDefaultCommand() {
 
 void HatchMechanism::RaiseHatch () {
     m_ArmPID.Disable();
-    SetRotateSpeed(HatchGrabberSpeed);
+    SetRotateSpeed(-HatchGrabberSpeed);
 }
 
 void HatchMechanism::LowerHatch () {
     m_ArmPID.Disable();
-    SetRotateSpeed(-HatchGrabberSpeed);
+    SetRotateSpeed(HatchGrabberSpeed);
 }
 
 void HatchMechanism::RotateToMidPosition() {
