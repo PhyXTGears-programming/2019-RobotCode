@@ -87,6 +87,8 @@ Robot::Robot() {
     // Allocate and initialize commands - Hatch
     m_GrabHatchFromLoadingStation  = new GrabHatchFromLoadingStation();
     m_ReadyHatch                   = new ReadyHatch();
+    m_RaiseHatch                   = new RaiseHatch();
+    m_LowerHatch                   = new LowerHatch();
 }
 
 void Robot::RobotInit() {
