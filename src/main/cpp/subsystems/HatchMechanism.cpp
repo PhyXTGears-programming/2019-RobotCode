@@ -8,7 +8,7 @@
 
 #define HatchGrabberSpeed 0.7
 
-#define PID_NEAR_ZERO_THRESHOLD 3
+#define PID_NEAR_ZERO_THRESHOLD 0.05  // Fraction of [0, 5] range.
 #define PID_NEAR_ZERO_MAX_COUNT 5
 
 
