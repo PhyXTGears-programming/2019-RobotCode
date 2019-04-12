@@ -152,13 +152,11 @@
 #   define kCargoRotationSensor AIO_0
 
 // Hatch Mechanism
-#   define kHatchArmMotor PWM_3
-
-#   define kNavxPin I2C::Port::kMXP
-
-#   define kAirPressureMeterPin AIO_3
-
-#   define kBlinkinPin PWM_9
-
+#   define kHatchArmMotor          PWM_3
 #   define kHatchArmPositionSensor AIO_2
+
+// Miscellaneous
+#   define kAirPressureMeterPin AIO_3
+#   define kNavxPin             I2C::Port::kMXP
+#   define kBlinkinPin          PWM_9
 #endif
