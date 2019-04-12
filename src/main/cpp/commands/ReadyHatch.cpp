@@ -38,7 +38,7 @@ void ReadyHatch::Initialize() {
 
     // Start moving to mid position.
     hatch.RotateToMidPosition();
-    hatch.ReleaseHatch();
+    hatch.GrabHatch();
 }
 
 void ReadyHatch::Execute() {}
