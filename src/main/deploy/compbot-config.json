@@ -68,15 +68,15 @@
     },
     "hatch": {
         "PID": {
-            "P": 1.0,
+            "P": 0.75,
             "I": 0.0,
             "D": 0.0,
             "F": 0.0
         },
         "rotation": {
-            "grip-threshold": 1.9,
+            "grip-threshold": 1.5,
             "top-position": 0.55,
-            "mid-position": 2.0
+            "mid-position": 1.5
         }
     }
 }
