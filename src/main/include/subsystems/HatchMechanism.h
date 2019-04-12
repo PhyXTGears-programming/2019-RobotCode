@@ -37,7 +37,7 @@ class HatchMechanism : public frc::Subsystem {
 
         void Disable();
 
-        bool IsAboveGripThreshold() { return GetArmPosition() > m_Config.GripThreshold; }
+        bool IsAboveGripThreshold() { return GetArmPosition() <= m_Config.GripThreshold; }
 
     private:
         frc::Spark m_ArmMotor {kHatchArmMotor};
