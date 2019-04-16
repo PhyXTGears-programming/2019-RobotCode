@@ -60,7 +60,7 @@
             "zero-point": 30
             ,
             "angles": {
-                "home":      85,
+                "home":      80,
                 "arm-ready": 161,
                 "arm-climb": 220
             }
