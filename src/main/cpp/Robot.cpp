@@ -122,6 +122,11 @@ void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutBoolean("climb done", GetCreeperClimb().IsArmAtPosition("arm-climb"));
     frc::SmartDashboard::PutNumber("hatch anlge", GetHatchMechanism().GetArmPosition());
 
+    bool manualControl = abs(m_OI.GetOperatorConsole().GetThrottle()) >= 0.75;
+    bool cargoControl = m_OI.GetOperatorConsole().GetThrottle() >= 0.75;
+    frc::SmartDashboard::PutBoolean("manual control", manualControl);
+    frc::SmartDashboard::PutString("manual mode", manualControl ? (cargoControl ? "Cargo" : "Creeper") : "None");
+
     // 3.36 = 110
     const double psiPerVolt = 1.0 / 1.0;
     const double psiOffset = 0.0;
