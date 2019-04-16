@@ -47,6 +47,7 @@ class CargoIntake : public frc::Subsystem {
         void RotateToPosition(double position);
         void SetRotateSpeed(double speed);
         void StopRotation();
+        void HoldRotation();
 
         void GoHome();
         double GetIntakeRotation();

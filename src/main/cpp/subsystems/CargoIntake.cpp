@@ -146,6 +146,11 @@ void CargoIntake::StopRotation() {
     m_RotationPID.Disable();
 }
 
+void CargoIntake::HoldRotation() {
+    m_RotationPID.SetSetpoint(GetIntakeRotation());
+    m_RotationPID.Enable();
+}
+
 double CargoIntake::GetIntakeRotation() {
     return machineAngleToWorld(m_IntakeRotation.Get());
 }
