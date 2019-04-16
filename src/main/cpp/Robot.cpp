@@ -118,10 +118,13 @@ void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("intake rotation", GetCargoIntake().GetIntakeRotation());
     frc::SmartDashboard::PutNumber("climb arm rotation", GetCreeperClimb().GetCurrentArmPosition());
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
-    const double psiPerVolt = 150.0 / 1.1;
-    frc::SmartDashboard::PutNumber("air pressure", (m_AirPressureMeter.GetVoltage() - 0.3) * psiPerVolt);
     frc::SmartDashboard::PutBoolean("climb ready", GetCreeperClimb().IsArmAtPosition("arm-ready"));
     frc::SmartDashboard::PutBoolean("climb done", GetCreeperClimb().IsArmAtPosition("arm-climb"));
+
+    // 3.36 = 110
+    const double psiPerVolt = 1.0 / 1.0;
+    const double psiOffset = 0.0;
+    frc::SmartDashboard::PutNumber("air pressure", (m_AirPressureMeter.GetVoltage() * psiPerVolt) + psiOffset);
 
     {
         static bool lastCargoState = false;
