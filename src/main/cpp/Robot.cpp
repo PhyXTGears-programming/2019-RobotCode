@@ -342,6 +342,12 @@ void Robot::CompetitionJoystickInput() {
         m_Bling.SetBling(m_Bling.HatchPattern);
     }
 
+    if (console.GetOpenHatchGripperPressed()) {
+        GetHatchMechanism().ReleaseHatch();
+    } else if (console.GetOpenHatchGripperReleased()) {
+        GetHatchMechanism().GrabHatch();
+    }
+
     // Piston controls for Competition 3 Kokomo.
     // 2 vertical black buttons (originally for hatch)
     // Top button    - RETRACT piston.

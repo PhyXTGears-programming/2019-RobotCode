@@ -80,6 +80,9 @@ class OperatorHID {
         bool GetCreeperExtendPistonPressed()   { return m_FlightStick.GetRawButtonPressed(11); }
         bool GetCreeperExtendPistonReleased()  { return m_FlightStick.GetRawButtonReleased(11); }
 
+        bool GetOpenHatchGripperPressed()  { return m_Board1.GetButtonPressed(5); }
+        bool GetOpenHatchGripperReleased() { return m_Board1.GetButtonReleased(5); }
+
         double GetThrottle() { return m_FlightStick.GetThrottle(); }; // Throttle is the switch on the base of the stick
         double GetJoystickY() {
             double posY = -m_FlightStick.GetY();
