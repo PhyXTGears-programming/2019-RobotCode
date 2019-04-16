@@ -114,12 +114,9 @@ void Robot::RobotInit() {
 }
 
 void Robot::RobotPeriodic() {
-    frc::SmartDashboard::PutNumber("flight throttle",
-                                   m_OI.GetOperatorConsole().GetThrottle());
-    frc::SmartDashboard::PutNumber("intake rotation",
-                                   GetCargoIntake().GetIntakeRotation());
-    frc::SmartDashboard::PutNumber("climb arm rotation",
-                                   GetCreeperClimb().GetCurrentArmPosition());
+    frc::SmartDashboard::PutNumber("flight throttle", m_OI.GetOperatorConsole().GetThrottle());
+    frc::SmartDashboard::PutNumber("intake rotation", GetCargoIntake().GetIntakeRotation());
+    frc::SmartDashboard::PutNumber("climb arm rotation", GetCreeperClimb().GetCurrentArmPosition());
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
     const double psiPerVolt = 150.0 / 1.1;
     frc::SmartDashboard::PutNumber("air pressure", (m_AirPressureMeter.GetVoltage() - 0.3) * psiPerVolt);
