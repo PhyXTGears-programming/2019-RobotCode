@@ -35,6 +35,8 @@ class HatchMechanism : public frc::Subsystem {
 
         bool IsArmRotationDone();
 
+        void HoldPID();
+
         void Disable();
 
         bool IsAboveGripThreshold() { return GetArmPosition() <= m_Config.GripThreshold; }

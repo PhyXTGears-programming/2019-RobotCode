@@ -187,6 +187,7 @@ void Robot::AutonomousInit() {
     // Some positions of hatch mechanism are compliant, so disable
     // PID/rotation instead of RunReset.
     GetHatchMechanism().StopRotation();
+    GetHatchMechanism().HoldPID();
 
     m_CanSandstormStepDrive = true;
 
