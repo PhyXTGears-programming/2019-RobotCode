@@ -120,6 +120,7 @@ void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
     frc::SmartDashboard::PutBoolean("climb ready", GetCreeperClimb().IsArmAtPosition("arm-ready"));
     frc::SmartDashboard::PutBoolean("climb done", GetCreeperClimb().IsArmAtPosition("arm-climb"));
+    frc::SmartDashboard::PutNumber("hatch anlge", GetHatchMechanism().GetArmPosition());
 
     // 3.36 = 110
     const double psiPerVolt = 1.0 / 1.0;
