@@ -25,6 +25,6 @@ class ClimbStep : public frc::Command {
         Segment GetSegment() { return m_Segment; }
     private:
         bool m_HasPrerequisites;
-        Delay m_Delay{2};         // Roll creeper delay.
+        Delay m_Delay{1.5};         // Roll creeper delay.
         Segment m_Segment = Segment::Initialize;
 };
