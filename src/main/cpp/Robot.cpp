@@ -322,21 +322,41 @@ void Robot::CompetitionJoystickInput() {
         m_Bling.SetBling(m_Bling.HatchPattern);
     }
 
+    // Hatch controls for Compeition 2 Tippecanoe.
+    // 2 vertical black buttons.
+    //
+    // Top button     - RAISE + GRAB hatch.
+    // Bottom button  - LOWER + RELEASE hatch.
+
+    if (console.GetHatchGrabPressed()) {
+        std::cout << "Comp Joy Input: Console: Hatch Grab Pressed" << std::endl;
+        m_RaiseHatch
+          ->Until([]() { return Robot::m_OI.GetOperatorConsole().GetHatchGrabReleased(); })
+          ->Start();
+        m_Bling.SetBling(m_Bling.HatchPattern);
+    } else if (console.GetHatchReleasePressed()) {
+        std::cout << "Comp Joy Input: Console: Hatch Release Pressed" << std::endl;
+        m_LowerHatch
+          ->Until([]() { return Robot::m_OI.GetOperatorConsole().GetHatchReleaseReleased(); })
+          ->Start();
+        m_Bling.SetBling(m_Bling.HatchPattern);
+    }
+
     // Piston controls for Competition 3 Kokomo.
     // 2 vertical black buttons (originally for hatch)
     // Top button    - RETRACT piston.
     // Bottom button - EXTEND piston.
 
-    if (console.GetHatchReleasePressed()) {
+    if (console.GetCreeperExtendPistonPressed()) {
         std::cout << "Comp Joy Input: Console: Piston Extend Pressed" << std::endl;
         GetCreeperClimb().PistonExtend();
-    } else if (console.GetHatchReleaseReleased()) {
+    } else if (console.GetCreeperExtendPistonReleased()) {
         std::cout << "Comp Joy Input: Console: Piston Extend Released" << std::endl;
         GetCreeperClimb().PistonHold();
-    } else if (console.GetHatchGrabPressed()) {
+    } else if (console.GetCreeperRetractPistonPressed()) {
         std::cout << "Comp Joy Input: Console: Piston Retract Pressed" << std::endl;
         GetCreeperClimb().PistonRetract();
-    } else if (console.GetHatchGrabReleased()) {
+    } else if (console.GetCreeperRetractPistonReleased()) {
         std::cout << "Comp Joy Input: Console: Piston Retract Released" << std::endl;
         GetCreeperClimb().PistonHold();
     }
