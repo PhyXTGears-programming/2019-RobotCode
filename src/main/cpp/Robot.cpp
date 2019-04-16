@@ -378,7 +378,7 @@ void Robot::CompetitionJoystickInput() {
     if (console.GetCreeperReadyArmPressed()) {
         std::cout << "Comp Joy Input: Console: Creeper Ready Arm Pressed" << std::endl;
         m_ReadyCreeperArm->Start();
-        m_Bling.SetBling(m_Bling.Climb);
+        m_Bling.SetBling(m_Bling.ClimbReady);
     } else if (console.GetCreeperClimbEnabled()) {
         std::cout << "Comp Joy Input: Console: Climb Sequence Pressed" << std::endl;
         m_ClimbStep->Start();
