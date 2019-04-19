@@ -2,6 +2,12 @@
 
 #include "util/util.h"
 
+// Select hatch/piston controls
+//
+// 0 = Tippecanoe controls.  No PID hatch arm.  2 hatch buttons.
+// 1 = Kokomo controls.  PID hatch arm.  3 hatch buttons.
+#define HATCH_CONTROL_TYPE 1
+
 // Initialize Operator Interface
 OI Robot::m_OI;
 // Initialize Subsystems
@@ -108,17 +114,23 @@ void Robot::RobotInit() {
 }
 
 void Robot::RobotPeriodic() {
-    frc::SmartDashboard::PutNumber("flight throttle",
-                                   m_OI.GetOperatorConsole().GetThrottle());
-    frc::SmartDashboard::PutNumber("intake rotation",
-                                   GetCargoIntake().GetIntakeRotation());
-    frc::SmartDashboard::PutNumber("climb arm rotation",
-                                   GetCreeperClimb().GetCurrentArmPosition());
+    frc::SmartDashboard::PutNumber("flight throttle", m_OI.GetOperatorConsole().GetThrottle());
+    frc::SmartDashboard::PutNumber("intake rotation", GetCargoIntake().GetIntakeRotation());
+    frc::SmartDashboard::PutNumber("climb arm rotation", GetCreeperClimb().GetCurrentArmPosition());
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
-    const double psiPerVolt = 150.0 / 1.1;
-    frc::SmartDashboard::PutNumber("air pressure", (m_AirPressureMeter.GetVoltage() - 0.3) * psiPerVolt);
     frc::SmartDashboard::PutBoolean("climb ready", GetCreeperClimb().IsArmAtPosition("arm-ready"));
     frc::SmartDashboard::PutBoolean("climb done", GetCreeperClimb().IsArmAtPosition("arm-climb"));
+    frc::SmartDashboard::PutNumber("hatch anlge", GetHatchMechanism().GetArmPosition());
+
+    bool manualControl = abs(m_OI.GetOperatorConsole().GetThrottle()) >= 0.75;
+    bool cargoControl = m_OI.GetOperatorConsole().GetThrottle() >= 0.75;
+    frc::SmartDashboard::PutBoolean("manual control", manualControl);
+    frc::SmartDashboard::PutString("manual mode", manualControl ? (cargoControl ? "Cargo" : "Creeper") : "None");
+
+    // 3.36 = 110
+    const double psiPerVolt = 1.0 / 1.0;
+    const double psiOffset = 0.0;
+    frc::SmartDashboard::PutNumber("air pressure", (m_AirPressureMeter.GetVoltage() * psiPerVolt) + psiOffset);
 
     {
         static bool lastCargoState = false;
@@ -175,6 +187,7 @@ void Robot::AutonomousInit() {
     // Some positions of hatch mechanism are compliant, so disable
     // PID/rotation instead of RunReset.
     GetHatchMechanism().StopRotation();
+    GetHatchMechanism().HoldPID();
 
     m_CanSandstormStepDrive = true;
 
@@ -253,6 +266,13 @@ void Robot::CompetitionJoystickInput() {
         m_Bling.SetBling(m_Bling.CargoIntakePattern);
     }
 
+#if HATCH_CONTROL_TYPE==0
+    // Hatch controls for Compeition 2 Tippecanoe.
+    // 2 vertical black buttons.
+    //
+    // Top button     - RAISE + GRAB hatch.
+    // Bottom button  - LOWER + RELEASE hatch.
+
     if (console.GetHatchGrabPressed()) {
         std::cout << "Comp Joy Input: Console: Hatch Grab Pressed" << std::endl;
         m_RaiseHatch
@@ -266,6 +286,35 @@ void Robot::CompetitionJoystickInput() {
           ->Start();
         m_Bling.SetBling(m_Bling.HatchPattern);
     }
+
+    // Piston controls for Competition 2 Tippecanoe.
+    // Top 2 of 3 vertical buttons along right edge of console.
+    //
+    // Top button    - RETRACT piston.
+    // Middle button - EXTEND piston.
+
+    if (console.GetHatchTopPositionPressed()) {
+        std::cout << "Comp Joy Input: Console: Piston Extend Pressed" << std::endl;
+        GetCreeperClimb().PistonExtend();
+    } else if (console.GetHatchTopPositionReleased()) {
+        std::cout << "Comp Joy Input: Console: Piston Extend Released" << std::endl;
+        GetCreeperClimb().PistonHold();
+    } else if (console.GetHatchMidPositionPressed()) {
+        std::cout << "Comp Joy Input: Console: Piston Retract Pressed" << std::endl;
+        GetCreeperClimb().PistonRetract();
+    } else if (console.GetHatchMidPositionReleased()) {
+        std::cout << "Comp Joy Input: Console: Piston Retract Released" << std::endl;
+        GetCreeperClimb().PistonHold();
+    }
+
+#elif HATCH_CONTROL_TYPE==1
+
+    // Hatch controls for Competition 3 Kokomo.
+    // 3 buttons on right edge of console.
+    //
+    // Top button     - GRAB hatch    + TOP position + HOLD pid.
+    // Middle button  - GRAB hatch    + MID position + HOLD pid.
+    // Lower button   - RELEASE hatch + rotate DOWN  + no pid.
 
     if (console.GetHatchTopPositionPressed()) {
         std::cout << "Comp Joy Input: Console: Hatch Top Position Pressed" << std::endl;
@@ -283,6 +332,53 @@ void Robot::CompetitionJoystickInput() {
         m_Bling.SetBling(m_Bling.HatchPattern);
     }
 
+    // Hatch controls for Compeition 2 Tippecanoe.
+    // 2 vertical black buttons.
+    //
+    // Top button     - RAISE + GRAB hatch.
+    // Bottom button  - LOWER + RELEASE hatch.
+
+    if (console.GetHatchGrabPressed()) {
+        std::cout << "Comp Joy Input: Console: Hatch Grab Pressed" << std::endl;
+        m_RaiseHatch
+          ->Until([]() { return Robot::m_OI.GetOperatorConsole().GetHatchGrabReleased(); })
+          ->Start();
+        m_Bling.SetBling(m_Bling.HatchPattern);
+    } else if (console.GetHatchReleasePressed()) {
+        std::cout << "Comp Joy Input: Console: Hatch Release Pressed" << std::endl;
+        m_LowerHatch
+          ->Until([]() { return Robot::m_OI.GetOperatorConsole().GetHatchReleaseReleased(); })
+          ->Start();
+        m_Bling.SetBling(m_Bling.HatchPattern);
+    }
+
+    if (console.GetOpenHatchGripperPressed()) {
+        GetHatchMechanism().ReleaseHatch();
+    } else if (console.GetOpenHatchGripperReleased()) {
+        GetHatchMechanism().GrabHatch();
+    }
+
+    // Piston controls for Competition 3 Kokomo.
+    // 2 vertical black buttons (originally for hatch)
+    // Top button    - RETRACT piston.
+    // Bottom button - EXTEND piston.
+
+    if (console.GetCreeperExtendPistonPressed()) {
+        std::cout << "Comp Joy Input: Console: Piston Extend Pressed" << std::endl;
+        GetCreeperClimb().PistonExtend();
+    } else if (console.GetCreeperExtendPistonReleased()) {
+        std::cout << "Comp Joy Input: Console: Piston Extend Released" << std::endl;
+        GetCreeperClimb().PistonHold();
+    } else if (console.GetCreeperRetractPistonPressed()) {
+        std::cout << "Comp Joy Input: Console: Piston Retract Pressed" << std::endl;
+        GetCreeperClimb().PistonRetract();
+    } else if (console.GetCreeperRetractPistonReleased()) {
+        std::cout << "Comp Joy Input: Console: Piston Retract Released" << std::endl;
+        GetCreeperClimb().PistonHold();
+    }
+
+#endif
+
     if (console.GetCargoShootRocketTwoPressed()) {
         std::cout << "Comp Joy Input: Console: Rocket Shot (Level 2)" << std::endl;
         m_ShootCargoForLevelTwoRocket->Start();
@@ -292,7 +388,7 @@ void Robot::CompetitionJoystickInput() {
     if (console.GetCreeperReadyArmPressed()) {
         std::cout << "Comp Joy Input: Console: Creeper Ready Arm Pressed" << std::endl;
         m_ReadyCreeperArm->Start();
-        m_Bling.SetBling(m_Bling.Climb);
+        m_Bling.SetBling(m_Bling.ClimbReady);
     } else if (console.GetCreeperClimbEnabled()) {
         std::cout << "Comp Joy Input: Console: Climb Sequence Pressed" << std::endl;
         m_ClimbStep->Start();

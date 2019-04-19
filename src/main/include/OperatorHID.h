@@ -35,6 +35,8 @@
 #define bHatchMidPosition      9
 #define bHatchLowPosition      8
 
+// Using Joystick 9 and 11
+
 // A combo class that encapsules our button board and flight stick.
 // This is only for our robot operator to use.
 class OperatorHID {
@@ -73,7 +75,13 @@ class OperatorHID {
         bool IsCreeperCrawlForwardDown()      { return m_Board1.GetButton(bCreeperCrawlForward); }
         bool GetCreeperCrawlForwardReleased() { return m_Board1.GetButtonReleased(bCreeperCrawlForward); }
 
-        bool GetCreeperRetractPistonPressed() { return false; }
+        bool GetCreeperRetractPistonPressed()  { return m_FlightStick.GetRawButtonPressed(9); }
+        bool GetCreeperRetractPistonReleased() { return m_FlightStick.GetRawButtonReleased(9); }
+        bool GetCreeperExtendPistonPressed()   { return m_FlightStick.GetRawButtonPressed(11); }
+        bool GetCreeperExtendPistonReleased()  { return m_FlightStick.GetRawButtonReleased(11); }
+
+        bool GetOpenHatchGripperPressed()  { return m_Board1.GetButtonPressed(5); }
+        bool GetOpenHatchGripperReleased() { return m_Board1.GetButtonReleased(5); }
 
         double GetThrottle() { return m_FlightStick.GetThrottle(); }; // Throttle is the switch on the base of the stick
         double GetJoystickY() {

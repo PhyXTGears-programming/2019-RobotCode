@@ -38,5 +38,5 @@ void RotateCargoForCargoShip::End() {
 }
 
 void RotateCargoForCargoShip::Interrupted() {
-    Robot::GetCargoIntake().StopRotation();
+    Robot::GetCargoIntake().HoldRotation();
 }
