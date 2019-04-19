@@ -2,12 +2,15 @@
 
 #include <frc/commands/Command.h>
 
-class GrabHatchFromDispenser : public frc::Command {
+class GrabHatchFromLoadingStation : public frc::Command {
     public:
-        GrabHatchFromDispenser();
+        GrabHatchFromLoadingStation();
         void Initialize() override;
         void Execute() override;
         bool IsFinished() override;
         void End() override;
         void Interrupted() override;
+
+    private:
+        bool m_IsHatchGrabbed = false;
 };

@@ -146,12 +146,13 @@ void CargoIntake::StopRotation() {
     m_RotationPID.Disable();
 }
 
-double CargoIntake::GetIntakeRotation() {
-    return machineAngleToWorld(m_IntakeRotation.Get());
+void CargoIntake::HoldRotation() {
+    m_RotationPID.SetSetpoint(GetIntakeRotation());
+    m_RotationPID.Enable();
 }
 
-void CargoIntake::SetHatchRotateSpeed(double speed) {
-    m_HatchCheesecakeMotor.Set(speed);
+double CargoIntake::GetIntakeRotation() {
+    return machineAngleToWorld(m_IntakeRotation.Get());
 }
 
 // HELPER FUNCTIONS

@@ -34,6 +34,8 @@ void TakeCargoFromFloor::Initialize() {
     Robot::GetCargoIntake().RetractEjector();
     Robot::GetCargoIntake().SetTopHookPosition("docked");
     Robot::GetCargoIntake().SetBottomHookPosition("docked");
+    hadCargo = Robot::GetCargoIntake().HasCargo();
+    sensorCount = 0;
 }
 
 void TakeCargoFromFloor::Execute() {
@@ -53,7 +55,12 @@ void TakeCargoFromFloor::Execute() {
 }
 
 bool TakeCargoFromFloor::IsFinished() {
-    return Robot::GetCargoIntake().HasCargo();
+    if (Robot::GetCargoIntake().HasCargo()) {
+        sensorCount++;
+    } else {
+        sensorCount = 0;
+    }
+    return sensorCount >= 5;
 }
 
 // Make sure the motors stop moving when they aren't being controlled.
@@ -61,8 +68,11 @@ void TakeCargoFromFloor::End() {
     // Leave cargo intake arm under PID control to hold position.
 #ifndef PROTOBOT
     Robot::GetCargoIntake().StopRoller();
-#endif
 
+    // if (!hadCargo) {
+    //     Robot::GetCargoIntake().RotateToPosition("cargo-ship-shoot");
+    // }
+#endif
 }
 
 void TakeCargoFromFloor::Interrupted() {

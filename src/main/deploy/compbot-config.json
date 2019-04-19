@@ -21,20 +21,20 @@
             "retract": 0.63
         },
         "PID": {
-            "P": 4.5,
+            "P": 7.0,
             "I": 0.0,
             "D": 0.0
         },
         "rotation": {
-            "zero-point": 0.0,
+            "zero-point": -0.461,
             "angles": {
-                "home":                   0.9,
-                "cargo-ship-shoot":       0.9,
-                "rocket-1-shoot":         0.675,
-                "rocket-2-shoot":         0.9,
-                "cargo-floor-pickup":     0.35,
-                "hatch-dispenser-pickup": 0.9,
-                "hatch-floor-pickup":     0.9
+                "home":                   0.81,
+                "cargo-ship-shoot":       0.81,
+                "rocket-1-shoot":         0.625,
+                "rocket-2-shoot":         0.76,
+                "cargo-floor-pickup":     0.30,
+                "hatch-dispenser-pickup": 0.81,
+                "hatch-floor-pickup":     0.81
             }
         },
         "roller-speed": {
@@ -57,12 +57,26 @@
             "D": 0.0
         },
         "rotation": {
-            "zero-point": 0,
+            "zero-point": 30
+            ,
             "angles": {
-                "home":      85,
+                "home":      80,
                 "arm-ready": 161,
                 "arm-climb": 220
             }
+        }
+    },
+    "hatch": {
+        "PID": {
+            "P": 0.75,
+            "I": 0.0,
+            "D": 0.0,
+            "F": 0.0
+        },
+        "rotation": {
+            "grip-threshold": 1.5,
+            "top-position": 0.55,
+            "mid-position": 1.5
         }
     }
 }
