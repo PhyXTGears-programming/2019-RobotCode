@@ -8,7 +8,7 @@
 
 #define HatchGrabberSpeed 0.7
 
-#define PID_NEAR_ZERO_THRESHOLD 3
+#define PID_NEAR_ZERO_THRESHOLD 0.05  // Fraction of [0, 5] range.
 #define PID_NEAR_ZERO_MAX_COUNT 5
 
 
@@ -16,6 +16,8 @@ HatchMechanism::HatchMechanism(wpi::json &jsonConfig) : Subsystem("HatchMechanis
     double p = jsonConfig["hatch"]["PID"]["P"];
     double i = jsonConfig["hatch"]["PID"]["I"];
     double d = jsonConfig["hatch"]["PID"]["D"];
+
+    m_ArmMotor.SetInverted(true);
 
     m_ArmPID.SetPID(p, i, d);
 
@@ -32,12 +34,12 @@ void HatchMechanism::InitDefaultCommand() {
 
 void HatchMechanism::RaiseHatch () {
     m_ArmPID.Disable();
-    SetRotateSpeed(HatchGrabberSpeed);
+    SetRotateSpeed(-HatchGrabberSpeed);
 }
 
 void HatchMechanism::LowerHatch () {
     m_ArmPID.Disable();
-    SetRotateSpeed(-HatchGrabberSpeed);
+    SetRotateSpeed(HatchGrabberSpeed);
 }
 
 void HatchMechanism::RotateToMidPosition() {
@@ -67,8 +69,7 @@ bool HatchMechanism::IsArmRotationDone() {
 
 void HatchMechanism::StopRotation () {
     SetRotateSpeed(0.0);
-    m_ArmPID.SetSetpoint(m_ArmPosition.Get());
-    m_ArmPID.Enable();
+    m_ArmPID.Disable();
 }
 
 void HatchMechanism::GrabHatch () {
