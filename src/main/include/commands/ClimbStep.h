@@ -9,7 +9,8 @@ enum Segment {
     CheckArm,
     RollCreeper,
     StopCreeper,
-    RaiseSolenoids,
+    RaiseCylinder,
+    StopCylinder,
     End
 };
 
@@ -25,6 +26,7 @@ class ClimbStep : public frc::Command {
         Segment GetSegment() { return m_Segment; }
     private:
         bool m_HasPrerequisites;
-        Delay m_Delay{1.5};         // Roll creeper delay.
+        Delay m_CrawlDelay{1.4}; // Amount of time to roll creeper crawl wheels
+        Delay m_StopCylinderDelay{2.5};
         Segment m_Segment = Segment::Initialize;
 };

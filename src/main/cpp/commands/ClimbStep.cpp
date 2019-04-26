@@ -5,6 +5,8 @@
 
 #include <iostream>
 
+#define kCREEPER_MAX_SPEED 0.55
+
 static StopWatch logTimer;
 
 /* GOAL:
@@ -23,7 +25,7 @@ static StopWatch logTimer;
  *  - the last drive-slowly segment is stopped by a button press.
  *
  * Command end:
- *  - fully reset creeper arm and solenoids
+ *  - fully reset creeper arm
  *
  * Follow-up options:
  *  - None.
@@ -42,7 +44,7 @@ void ClimbStep::Initialize() {
     logTimer.Reset();
 
     // Slow climb arm to match piston lift speed.
-    Robot::GetCreeperClimb().SetRotatePIDOutputRange(-0.63, 0.63);
+    Robot::GetCreeperClimb().SetRotatePIDOutputRange(-kCREEPER_MAX_SPEED, kCREEPER_MAX_SPEED);
 }
 
 void ClimbStep::Execute() {
@@ -72,7 +74,7 @@ void ClimbStep::Execute() {
                 std::cout << logTimer.Split() << "ClimbStep.Execute: Segment: Stop Creeper" << std::endl;
                 break;
 
-            case Segment::RaiseSolenoids:
+            case Segment::RaiseCylinder:
                 std::cout << logTimer.Split() << "ClimbStep.Execute: Segment: Raise Piston" << std::endl;
                 break;
             
@@ -94,22 +96,30 @@ void ClimbStep::Execute() {
             break;
         case Segment::RollCreeper:
             Robot::GetCreeperClimb().SetArmWheels(true);
-            m_Delay.Start();
+            m_CrawlDelay.Start();
 
             m_Segment = Segment::StopCreeper;
             break;
         case Segment::StopCreeper:
-            if (m_Delay.IsDone()) {
-                m_Delay.Stop();
+            if (m_CrawlDelay.IsDone()) {
+                m_CrawlDelay.Stop();
                 Robot::GetCreeperClimb().SetArmWheels(false);
                 Robot::GetCreeperClimb().SetRotatePIDOutputRange(-1, 1);
-                m_Segment = Segment::RaiseSolenoids;
+                m_Segment = Segment::RaiseCylinder;
             }
             break;
-        case Segment::RaiseSolenoids:
+        case Segment::RaiseCylinder:
             Robot::GetCreeperClimb().RotateArmToPosition("home");
             Robot::GetCreeperClimb().PistonRetract();
-            m_Segment = Segment::End;
+            m_StopCylinderDelay.Start();
+            m_Segment = Segment::StopCylinder;
+            break;
+        case Segment::StopCylinder:
+            if (m_StopCylinderDelay.IsDone()) {
+                m_StopCylinderDelay.Stop();
+                Robot::GetCreeperClimb().PistonHold();
+                m_Segment = Segment::End;
+            }
             break;
         case Segment::End:
             break;
