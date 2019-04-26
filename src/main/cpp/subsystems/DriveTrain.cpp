@@ -80,7 +80,7 @@ void DriveTrain::InitDefaultCommand() {
 
 // Manually change the motors' power.
 void DriveTrain::Drive(double left, double right) {
-    //m_RobotDrive.TankDrive(left, right);
+    // m_RobotDrive.TankDrive(left, right);
 }
 
 // Given a controller object, use it to drive.

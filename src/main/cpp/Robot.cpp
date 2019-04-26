@@ -36,6 +36,7 @@ ClimbStep*       Robot::m_ClimbStep;
 // Initialize Commands - Drive
 DriveSandstormStepWithCargo* Robot::m_DriveSandstormStepWithCargo;
 DriveSandstormStepWithHatch* Robot::m_DriveSandstormStepWithHatch;
+DriveClimb* Robot::m_DriveClimb;
 
 // Initialize Commands - Hatch
 LowerHatch* Robot::m_LowerHatch;
@@ -72,6 +73,7 @@ Robot::Robot() {
     // Allocate and initialize commands - Teleop
     m_DriveSandstormStepWithCargo = new DriveSandstormStepWithCargo();
     m_DriveSandstormStepWithHatch = new DriveSandstormStepWithHatch();
+    m_DriveClimb                  = new DriveClimb();
 
     // Allocate and initialize commands - Intake
     m_RotateCargoForCargoShip      = new RotateCargoForCargoShip();
@@ -232,6 +234,15 @@ void Robot::CompetitionJoystickInput() {
         std::cout << "Comp Joy Input: Driver: B Button Down" << std::endl;
         m_DriveSandstormStepWithCargo->Start();
         m_CanSandstormStepDrive = false;
+    }
+
+    if (m_OI.GetDriverJoystick().GetAButtonPressed()) {
+        std::cout << "Comp Joy Input: Driver: A Button Pressed" << std::endl;
+        m_DriveClimb->Start();
+    }
+    if (m_OI.GetDriverJoystick().GetAButtonReleased()) {
+        std::cout << "Comp Joy Input: Driver: A Button Released" << std::endl;
+        m_DriveClimb->Cancel();
     }
 
     // OPERATOR CONTROLS
