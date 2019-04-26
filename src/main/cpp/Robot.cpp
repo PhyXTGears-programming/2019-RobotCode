@@ -127,10 +127,14 @@ void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutBoolean("manual control", manualControl);
     frc::SmartDashboard::PutString("manual mode", manualControl ? (cargoControl ? "Cargo" : "Creeper") : "None");
 
-    // 3.36 = 110
-    const double psiPerVolt = 1.0 / 1.0;
-    const double psiOffset = 0.0;
-    frc::SmartDashboard::PutNumber("air pressure", (m_AirPressureMeter.GetVoltage() * psiPerVolt) + psiOffset);
+    // values (after offset)
+    // 0 = 0 psi
+    // 1.37 = 50 psi
+    // 2.61 = 100 psi
+    // 3.32 = 110 psi
+    const double voltageOffset = 0.486;
+    const double psiPerVolt = 100.0 / 2.61;
+    frc::SmartDashboard::PutNumber("air pressure", (m_AirPressureMeter.GetVoltage() - voltageOffset) * psiPerVolt);
 
     {
         static bool lastCargoState = false;
