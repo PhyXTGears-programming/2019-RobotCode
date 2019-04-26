@@ -14,6 +14,30 @@ DriveTrain::DriveTrain(wpi::json &jsonConfig) : frc::Subsystem("DriveTrain") {
         m_MotorLeftFront.ConfigFactoryDefault();
         m_MotorLeftBack.ConfigFactoryDefault();
 
+        int contLimit = 40;
+        int peakLimit = 50;
+        int peakTime = 1800;
+
+        m_MotorRightFront.EnableCurrentLimit(true);
+        m_MotorRightFront.ConfigContinuousCurrentLimit(contLimit, 10);
+        m_MotorRightFront.ConfigPeakCurrentLimit(peakLimit, 10);
+        m_MotorRightFront.ConfigPeakCurrentDuration(peakTime, 10);
+
+        m_MotorRightBack.EnableCurrentLimit(true);
+        m_MotorRightBack.ConfigContinuousCurrentLimit(contLimit, 10);
+        m_MotorRightBack.ConfigPeakCurrentLimit(peakLimit, 10);
+        m_MotorRightBack.ConfigPeakCurrentDuration(peakTime, 10);
+
+        m_MotorLeftFront.EnableCurrentLimit(true);
+        m_MotorLeftFront.ConfigContinuousCurrentLimit(contLimit, 10);
+        m_MotorLeftFront.ConfigPeakCurrentLimit(peakLimit, 10);
+        m_MotorLeftFront.ConfigPeakCurrentDuration(peakTime, 10);
+
+        m_MotorLeftBack.EnableCurrentLimit(true);
+        m_MotorLeftBack.ConfigContinuousCurrentLimit(contLimit, 10);
+        m_MotorLeftBack.ConfigPeakCurrentLimit(peakLimit, 10);
+        m_MotorLeftBack.ConfigPeakCurrentDuration(peakTime, 10);
+
         // The documentation says to do this, so that both sides get the proper values.
         // See https://phoenix-documentation.readthedocs.io/en/latest/ch15_WPIDrive.html?highlight=wpi_talon
         m_MotorRightFront.SetInverted(false);
