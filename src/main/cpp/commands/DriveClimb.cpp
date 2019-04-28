@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-#define kDRIVE_SPEED -0.12
+#define kDRIVE_SPEED -0.10
 
 DriveClimb::DriveClimb() {
   // Use Requires() here to declare subsystem dependencies
