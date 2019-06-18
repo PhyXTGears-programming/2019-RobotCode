@@ -5,7 +5,7 @@
 #include <streambuf>
 #include <iostream>
 
-#include <cameraserver/CameraServer.h>
+#include <cameraserver/CameraServer.h>      // NOTE
 #include <frc/TimedRobot.h>
 #include <frc/PowerDistributionPanel.h>
 #include <frc/commands/Command.h>
@@ -25,6 +25,7 @@
 
 #include "commands/DriveSandstormStepWithCargo.h"
 #include "commands/DriveSandstormStepWithHatch.h"
+#include "commands/DriveClimb.h"
 #include "commands/TeleOpDrive.h"
 
 #include "commands/GrabHatchFromLoadingStation.h"
@@ -62,6 +63,7 @@ class Robot : public frc::TimedRobot {
         // Commands - Drive
         static DriveSandstormStepWithHatch* m_DriveSandstormStepWithHatch;
         static DriveSandstormStepWithCargo* m_DriveSandstormStepWithCargo;
+        static DriveClimb* m_DriveClimb;
 
         // Commands - Intake
         static RotateCargoForCargoShip*      m_RotateCargoForCargoShip;
@@ -115,7 +117,7 @@ class Robot : public frc::TimedRobot {
         bool m_CanSandstormStepDrive;
 
         bool m_UsingCamera1 = false;
-        cs::UsbCamera m_Camera0;
+        cs::UsbCamera m_Camera0;            // NOTE
         cs::UsbCamera m_Camera1;
 
         frc::AnalogInput m_AirPressureMeter{kAirPressureMeterPin};

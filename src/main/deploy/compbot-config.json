@@ -26,15 +26,15 @@
             "D": 0.0
         },
         "rotation": {
-            "zero-point": -0.461,
+            "zero-point": 0,
             "angles": {
-                "home":                   0.81,
-                "cargo-ship-shoot":       0.81,
-                "rocket-1-shoot":         0.625,
-                "rocket-2-shoot":         0.76,
-                "cargo-floor-pickup":     0.30,
-                "hatch-dispenser-pickup": 0.81,
-                "hatch-floor-pickup":     0.81
+                "home":                   0.73,
+                "cargo-ship-shoot":       0.73,
+                "rocket-1-shoot":         0.41,
+                "rocket-2-shoot":         0.73,
+                "cargo-floor-pickup":     0.02,
+                "hatch-dispenser-pickup": 0.73,
+                "hatch-floor-pickup":     0.73
             }
         },
         "roller-speed": {
@@ -52,17 +52,16 @@
     },
     "climb": {
         "PID": {
-            "P": 0.07,
+            "P": 0.08,
             "I": 0.0,
             "D": 0.0
         },
         "rotation": {
-            "zero-point": 30
-            ,
+            "zero-point": 0,
             "angles": {
                 "home":      80,
                 "arm-ready": 161,
-                "arm-climb": 220
+                "arm-climb": 230
             }
         }
     },
@@ -74,9 +73,9 @@
             "F": 0.0
         },
         "rotation": {
-            "grip-threshold": 1.5,
-            "top-position": 0.55,
-            "mid-position": 1.5
+            "grip-threshold": 1.75,
+            "top-position": 0.75,
+            "mid-position": 1.75
         }
     }
 }
