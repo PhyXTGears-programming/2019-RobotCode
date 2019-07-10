@@ -82,7 +82,7 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
             double m_MaxAcceleration;
             StopWatch m_TimeDelta;
 
-            double ComputeNextOutputDelta(double iVel, double fVel, double maxAccel, double timeDelta);
+            double ComputeNextOutput(double iVel, double fVel, double maxAccel, double timeDelta);
 
             // Config setpoints.
             double m_MaxNormalSpeed;

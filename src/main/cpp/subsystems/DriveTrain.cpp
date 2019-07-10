@@ -185,14 +185,14 @@ void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs)
         //       v_{i+1} is the next velocity to send to the motors,
         //       a is the max acceleration, and
         //       dt is the time delta in seconds since the velocity step.
-        double allowedLeft = ComputeNextOutputDelta(
+        double allowedLeft = ComputeNextOutput(
             currentLeft,
             desiredLeft,
             maxLeftAccel,
             timeDelta
         );
 
-        double allowedRight = ComputeNextOutputDelta(
+        double allowedRight = ComputeNextOutput(
             currentRight,
             desiredRight,
             maxRightAccel,
@@ -292,7 +292,7 @@ void DriveTrain::UseDukesSpeedLimit() {
     #endif
 }
 
-double DriveTrain::ComputeNextOutputDelta(double iVel, double fVel, double maxAccel, double timeDelta) {
+double DriveTrain::ComputeNextOutput(double iVel, double fVel, double maxAccel, double timeDelta) {
     double deltaVel = fVel - iVel;
-    return iVel + std::copysign(std::min(std::abs(deltaVel), maxAccel * timeDelta), deltaVel);
+    return iVel + deltaVel / 2.0;
 }
