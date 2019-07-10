@@ -122,7 +122,7 @@ void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
     frc::SmartDashboard::PutBoolean("climb ready", GetCreeperClimb().IsArmAtPosition("arm-ready"));
     frc::SmartDashboard::PutBoolean("climb done", GetCreeperClimb().IsArmAtPosition("arm-climb"));
-    frc::SmartDashboard::PutNumber("hatch anlge", GetHatchMechanism().GetArmPosition());
+    frc::SmartDashboard::PutNumber("hatch angle", GetHatchMechanism().GetArmPosition());
 
     bool manualControl = abs(m_OI.GetOperatorConsole().GetThrottle()) >= 0.75;
     bool cargoControl = m_OI.GetOperatorConsole().GetThrottle() >= 0.75;
