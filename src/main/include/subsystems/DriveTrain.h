@@ -21,9 +21,8 @@
 #   include <frc/Victor.h>
 #   define  MOTORTYPE frc::Victor
 #else
-    // The WPI_TalonSRX type provides compatibility with WPILib's drivetrain types.
-#   include <ctre/Phoenix.h>
-#   define  MOTORTYPE WPI_TalonSRX
+#   include <rev/CANSparkMax.h>
+#   define  MOTORTYPE rev::CANSparkMax
 #endif
 
 #include "RobotMap.h"
@@ -47,14 +46,16 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
 
     private:
         // Motors
-        MOTORTYPE m_MotorRightFront {kRightFrontMotor};
-        MOTORTYPE m_MotorRightBack  {kRightBackMotor};
-        MOTORTYPE m_MotorLeftFront  {kLeftFrontMotor};
-        MOTORTYPE m_MotorLeftBack   {kLeftBackMotor};
+        MOTORTYPE m_MotorRight1 {kRightMotor1, rev::CANSparkMax::MotorType::kBrushless};
+        MOTORTYPE m_MotorRight2 {kRightMotor2, rev::CANSparkMax::MotorType::kBrushless};
+        MOTORTYPE m_MotorRight3 {kRightMotor3, rev::CANSparkMax::MotorType::kBrushless};
+        MOTORTYPE m_MotorLeft1 {kLeftMotor1, rev::CANSparkMax::MotorType::kBrushless};
+        MOTORTYPE m_MotorLeft2 {kLeftMotor2, rev::CANSparkMax::MotorType::kBrushless};
+        MOTORTYPE m_MotorLeft3 {kLeftMotor3, rev::CANSparkMax::MotorType::kBrushless};
 
         // Group the motors into their sides and then combine them into the drivetrain
-        frc::SpeedControllerGroup m_RightMotors {m_MotorRightFront, m_MotorRightBack};
-        frc::SpeedControllerGroup m_LeftMotors {m_MotorLeftFront, m_MotorLeftBack};
+        frc::SpeedControllerGroup m_RightMotors {m_MotorRight1, m_MotorRight2, m_MotorRight3};
+        frc::SpeedControllerGroup m_LeftMotors {m_MotorLeft1, m_MotorLeft2, m_MotorLeft3};
         // frc::DifferentialDrive m_Drive {m_LeftMotors, m_RightMotors};
         // Encoders (reverse the right encoder)
         frc::Encoder m_EncoderRight {kRightEncoderPin0, kRightEncoderPin1, false};

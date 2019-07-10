@@ -5,45 +5,36 @@
 #include <frc/smartdashboard/SendableBuilder.h>
 
 #include <cmath>
+#include <iostream>
+#include <iomanip>
 
 DriveTrain::DriveTrain(wpi::json &jsonConfig) : frc::Subsystem("DriveTrain") {
 #   ifndef PROTOBOT
-        // Set up TalonSRXs.
-        m_MotorRightFront.ConfigFactoryDefault();
-        m_MotorRightBack.ConfigFactoryDefault();
-        m_MotorLeftFront.ConfigFactoryDefault();
-        m_MotorLeftBack.ConfigFactoryDefault();
+        // m_MotorRightFront.SetSmartCurrentLimit(45);
+        // m_MotorRightFront.SetSecondaryCurrentLimit(60);
 
-        int contLimit = 40;
-        int peakLimit = 50;
-        int peakTime = 1800;
+        // m_MotorRightBack.SetSmartCurrentLimit(45);
+        // m_MotorRightBack.SetSecondaryCurrentLimit(60);
 
-        m_MotorRightFront.EnableCurrentLimit(true);
-        m_MotorRightFront.ConfigContinuousCurrentLimit(contLimit, 10);
-        m_MotorRightFront.ConfigPeakCurrentLimit(peakLimit, 10);
-        m_MotorRightFront.ConfigPeakCurrentDuration(peakTime, 10);
+        // m_MotorLeftFront.SetSmartCurrentLimit(45);
+        // m_MotorLeftFront.SetSecondaryCurrentLimit(60);
 
-        m_MotorRightBack.EnableCurrentLimit(true);
-        m_MotorRightBack.ConfigContinuousCurrentLimit(contLimit, 10);
-        m_MotorRightBack.ConfigPeakCurrentLimit(peakLimit, 10);
-        m_MotorRightBack.ConfigPeakCurrentDuration(peakTime, 10);
+        // m_MotorLeftBack.SetSmartCurrentLimit(45);
+        // m_MotorLeftBack.SetSecondaryCurrentLimit(60);
 
-        m_MotorLeftFront.EnableCurrentLimit(true);
-        m_MotorLeftFront.ConfigContinuousCurrentLimit(contLimit, 10);
-        m_MotorLeftFront.ConfigPeakCurrentLimit(peakLimit, 10);
-        m_MotorLeftFront.ConfigPeakCurrentDuration(peakTime, 10);
+        m_MotorRight1.SetInverted(false);
+        m_MotorRight2.SetInverted(false);
+        m_MotorRight3.SetInverted(false);
+        m_MotorLeft1.SetInverted(true);
+        m_MotorLeft2.SetInverted(true);
+        m_MotorLeft3.SetInverted(true);
 
-        m_MotorLeftBack.EnableCurrentLimit(true);
-        m_MotorLeftBack.ConfigContinuousCurrentLimit(contLimit, 10);
-        m_MotorLeftBack.ConfigPeakCurrentLimit(peakLimit, 10);
-        m_MotorLeftBack.ConfigPeakCurrentDuration(peakTime, 10);
-
-        // The documentation says to do this, so that both sides get the proper values.
-        // See https://phoenix-documentation.readthedocs.io/en/latest/ch15_WPIDrive.html?highlight=wpi_talon
-        m_MotorRightFront.SetInverted(false);
-        m_MotorRightBack.SetInverted(false);
-        m_MotorLeftFront.SetInverted(true);
-        m_MotorLeftBack.SetInverted(true);
+        m_MotorRight1.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+        m_MotorRight2.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+        m_MotorRight3.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+        m_MotorLeft1.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+        m_MotorLeft2.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
+        m_MotorLeft3.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
 
 #   endif
 
