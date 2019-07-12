@@ -75,7 +75,8 @@
         "rotation": {
             "grip-threshold": 0.95,
             "top-position": 0.69,
-            "mid-position": 1.50
+            "mid-position": 1.50,
+            "bottom-position": 2.40
         }
     }
 }
