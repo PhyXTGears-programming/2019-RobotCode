@@ -29,13 +29,7 @@ DriveTrain::DriveTrain(wpi::json &jsonConfig) : frc::Subsystem("DriveTrain") {
         m_MotorLeft2.SetInverted(true);
         m_MotorLeft3.SetInverted(true);
 
-        m_MotorRight1.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
-        m_MotorRight2.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
-        m_MotorRight3.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
-        m_MotorLeft1.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
-        m_MotorLeft2.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
-        m_MotorLeft3.SetIdleMode(rev::CANSparkMax::IdleMode::kCoast);
-
+        SetIdleMode(m_IdleMode);
 #   endif
 
     m_EncoderLeft.SetDistancePerPulse(kEncoderDistPerPulse);
@@ -214,6 +208,38 @@ void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs)
     #endif
 
     Feed();
+}
+
+void DriveTrain::SetIdleMode(rev::CANSparkMax::IdleMode mode) {
+    m_IdleMode = mode;
+
+    m_MotorRight1.SetIdleMode(mode);
+    m_MotorRight2.SetIdleMode(mode);
+    m_MotorRight3.SetIdleMode(mode);
+
+    m_MotorLeft1.SetIdleMode(mode);
+    m_MotorLeft2.SetIdleMode(mode);
+    m_MotorLeft3.SetIdleMode(mode);
+}
+
+void DriveTrain::ToggleIdleMode() {
+    if (IdleMode::kCoast == m_IdleMode) {
+        SetIdleMode(IdleMode::kBrake);
+    } else {
+        SetIdleMode(IdleMode::kCoast);
+    }
+}
+
+IdleMode DriveTrain::GetIdleMode() {
+    return m_IdleMode;
+}
+
+wpi::StringRef DriveTrain::GetIdleModeText() {
+    if (IdleMode::kCoast == m_IdleMode) {
+        return "Coast";
+    } else {
+        return "Brake";
+    }
 }
 
 void DriveTrain::StopMotor() {

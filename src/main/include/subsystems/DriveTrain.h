@@ -27,6 +27,8 @@
 
 #include "RobotMap.h"
 
+typedef rev::CANSparkMax::IdleMode IdleMode;
+
 class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
     public:
         DriveTrain(wpi::json&);
@@ -34,6 +36,11 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
         void Drive(double left, double right);
         void Drive(frc::XboxController& driver);
         void ArcadeDrive(double xSpeed, double zRotation, bool squareInputs = false);
+
+        void SetIdleMode(IdleMode mode);
+        void ToggleIdleMode();
+        IdleMode GetIdleMode();
+        wpi::StringRef GetIdleModeText();
 
         void StopMotor() override;
         void GetDescription(wpi::raw_ostream& desc) const override;
@@ -52,6 +59,8 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
         MOTORTYPE m_MotorLeft1 {kLeftMotor1, rev::CANSparkMax::MotorType::kBrushless};
         MOTORTYPE m_MotorLeft2 {kLeftMotor2, rev::CANSparkMax::MotorType::kBrushless};
         MOTORTYPE m_MotorLeft3 {kLeftMotor3, rev::CANSparkMax::MotorType::kBrushless};
+
+        IdleMode m_IdleMode {IdleMode::kCoast};
 
         // Group the motors into their sides and then combine them into the drivetrain
         frc::SpeedControllerGroup m_RightMotors {m_MotorRight1, m_MotorRight2, m_MotorRight3};
