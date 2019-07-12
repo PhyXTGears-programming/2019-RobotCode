@@ -228,7 +228,7 @@ void Robot::TestPeriodic() {}
 
 void Robot::CompetitionJoystickInput() {
     // DRIVER CONTROLS
-    if (m_OI.GetDriverJoystick().GetBButton()) {
+    if (m_OI.GetDriverJoystick().GetBButtonPressed()) {
         std::cout << "Comp Joy Input: Driver: B Button Down" << std::endl;
         GetDriveTrain().ToggleIdleMode();
     }
