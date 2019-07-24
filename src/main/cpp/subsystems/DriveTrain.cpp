@@ -39,7 +39,7 @@ DriveTrain::DriveTrain(wpi::json &jsonConfig) : frc::Subsystem("DriveTrain") {
         Subsystem::AddChild("Left Drive PID", &m_LeftPID);
         Subsystem::AddChild("Right Drive PID", &m_RightPID);
     #else
-        m_MaxAcceleration = jsonConfig["drive"]["max-acceleration"];
+        m_MinAcceleration = jsonConfig["drive"]["min-acceleration"];
 
         m_MaxNormalSpeed = jsonConfig["drive"]["max-normal-speed"];
         m_SandstormStepSpeed = jsonConfig["drive"]["sandstorm-step-speed"];
@@ -147,27 +147,7 @@ void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs)
         double currentLeft = m_LeftMotors.Get() / m_maxOutput;
         double currentRight = m_RightMotors.Get() / m_maxOutput;
 
-        double maxLeftAccel = m_MaxAcceleration, maxRightAccel = m_MaxAcceleration;
-
-        /* *
-        // Descrease the max velocity step size for the slower drive side so
-        // turning takes effect sooner.
-        //
-        // WARNING: Doesn't really work from initial testing.  Robot drives more straight.
-        if (0.01 < std::abs(desiredLeft) - std::abs(desiredRight)) {
-            // Left speed is faster than right.
-            maxLeftAccel = m_MaxAcceleration;
-            maxRightAccel = m_MaxAcceleration * desiredRight / desiredLeft;
-        } else if (0.01 < std::abs(desiredRight) - std::abs(desiredLeft)) {
-            // Right speed is faster than left.
-            maxLeftAccel = m_MaxAcceleration * desiredLeft / desiredRight;
-            maxRightAccel = m_MaxAcceleration;
-        } else {
-            // Both speeds are effectively same.
-            maxLeftAccel = m_MaxAcceleration;
-            maxRightAccel = m_MaxAcceleration;
-        }
-        /* */
+        double minLeftAccel = m_MinAcceleration, minRightAccel = m_MinAcceleration;
 
         double timeDelta = m_TimeDelta.Split();
 
@@ -182,14 +162,14 @@ void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs)
         double allowedLeft = ComputeNextOutput(
             currentLeft,
             desiredLeft,
-            maxLeftAccel,
+            minLeftAccel,
             timeDelta
         );
 
         double allowedRight = ComputeNextOutput(
             currentRight,
             desiredRight,
-            maxRightAccel,
+            minRightAccel,
             timeDelta
         );
 
@@ -318,7 +298,7 @@ void DriveTrain::UseDukesSpeedLimit() {
     #endif
 }
 
-double DriveTrain::ComputeNextOutput(double iVel, double fVel, double maxAccel, double timeDelta) {
-    double deltaVel = fVel - iVel;
-    return iVel + deltaVel / 2.0;
+double DriveTrain::ComputeNextOutput(double iVel, double fVel, double minAccel, double timeDelta) {
+    double deltaVel = (fVel - iVel) * 0.4;
+    return iVel + std::copysign(std::min(std::fabs(deltaVel), minAccel), deltaVel);
 }
