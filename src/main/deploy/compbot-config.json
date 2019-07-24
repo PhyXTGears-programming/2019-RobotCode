@@ -28,13 +28,13 @@
         "rotation": {
             "zero-point": 0,
             "angles": {
-                "home":                   0.73,
-                "cargo-ship-shoot":       0.73,
-                "rocket-1-shoot":         0.41,
-                "rocket-2-shoot":         0.73,
-                "cargo-floor-pickup":     0.02,
-                "hatch-dispenser-pickup": 0.73,
-                "hatch-floor-pickup":     0.73
+                "home":                   0.65,
+                "cargo-ship-shoot":       0.65,
+                "rocket-1-shoot":         0.33,
+                "rocket-2-shoot":         0.65,
+                "cargo-floor-pickup":     0.00,
+                "hatch-dispenser-pickup": 0.65,
+                "hatch-floor-pickup":     0.65
             }
         },
         "roller-speed": {
