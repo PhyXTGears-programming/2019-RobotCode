@@ -45,7 +45,7 @@
         }
     },
     "drive": {
-        "min-acceleration": 1.0,
+        "min-acceleration": 0.1,
         "max-normal-speed": 1,
         "sandstorm-step-speed": 0.45,
         "turn-factor": 1

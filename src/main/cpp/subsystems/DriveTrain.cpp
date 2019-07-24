@@ -299,6 +299,15 @@ void DriveTrain::UseDukesSpeedLimit() {
 }
 
 double DriveTrain::ComputeNextOutput(double iVel, double fVel, double minAccel, double timeDelta) {
-    double deltaVel = (fVel - iVel) * 0.4;
-    return iVel + std::copysign(std::min(std::fabs(deltaVel), minAccel), deltaVel);
+    static double factor = 0.4;
+    // Compute how much further to accelerate.  Will be negative for reverse direction.
+    double delta = fVel - iVel;
+    // Make delta positive, so following rules apply regardless of direction.
+    double absDelta = std::fabs(delta);
+    // Prevent the velocity step from becoming too small to reach fVel.
+    double step = std::max(absDelta * factor, minAccel);
+    // Prevent the velocity step from exceeding fVel.
+    double clampDelta = std::min(absDelta, step);
+    // Restore the sign (aka direction) to the delta and apply step.
+    return iVel + std::copysign(clampDelta, delta);
 }
