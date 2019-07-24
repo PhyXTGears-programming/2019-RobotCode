@@ -122,7 +122,9 @@ void Robot::RobotPeriodic() {
     frc::SmartDashboard::PutNumber("climb stage", m_ClimbStep->GetSegment());
     frc::SmartDashboard::PutBoolean("climb ready", GetCreeperClimb().IsArmAtPosition("arm-ready"));
     frc::SmartDashboard::PutBoolean("climb done", GetCreeperClimb().IsArmAtPosition("arm-climb"));
-    frc::SmartDashboard::PutNumber("hatch anlge", GetHatchMechanism().GetArmPosition());
+    frc::SmartDashboard::PutNumber("hatch angle", GetHatchMechanism().GetArmPosition());
+
+    frc::SmartDashboard::PutString("drive mode", GetDriveTrain().GetIdleModeText());
 
     bool manualControl = abs(m_OI.GetOperatorConsole().GetThrottle()) >= 0.75;
     bool cargoControl = m_OI.GetOperatorConsole().GetThrottle() >= 0.75;
@@ -195,8 +197,6 @@ void Robot::AutonomousInit() {
     GetHatchMechanism().StopRotation();
     GetHatchMechanism().HoldPID();
 
-    m_CanSandstormStepDrive = true;
-
     m_OI.ClearButtonBuffer();
 }
 
@@ -205,8 +205,6 @@ void Robot::AutonomousPeriodic() {
 }
 
 void Robot::TeleopInit() {
-    m_CanSandstormStepDrive = false;
-
     m_OI.ClearButtonBuffer();
 }
 
@@ -230,10 +228,9 @@ void Robot::TestPeriodic() {}
 
 void Robot::CompetitionJoystickInput() {
     // DRIVER CONTROLS
-    if (m_OI.GetDriverJoystick().GetBButton() && m_CanSandstormStepDrive) {
+    if (m_OI.GetDriverJoystick().GetBButton()) {
         std::cout << "Comp Joy Input: Driver: B Button Down" << std::endl;
-        m_DriveSandstormStepWithCargo->Start();
-        m_CanSandstormStepDrive = false;
+        GetDriveTrain().ToggleIdleMode();
     }
 
     if (m_OI.GetDriverJoystick().GetAButtonPressed()) {
@@ -406,6 +403,7 @@ void Robot::CompetitionJoystickInput() {
         m_Bling.SetBling(m_Bling.ClimbReady);
     } else if (console.GetCreeperClimbEnabled()) {
         std::cout << "Comp Joy Input: Console: Climb Sequence Pressed" << std::endl;
+        GetDriveTrain().SetIdleMode(IdleMode::kBrake);
         m_ClimbStep->Start();
         m_Bling.SetBling(m_Bling.Climb);
     }

@@ -114,8 +114,6 @@ class Robot : public frc::TimedRobot {
     private:
         frc::SendableChooser<frc::Command*> m_Chooser;
 
-        bool m_CanSandstormStepDrive;
-
         bool m_UsingCamera1 = false;
         cs::UsbCamera m_Camera0;            // NOTE
         cs::UsbCamera m_Camera1;
