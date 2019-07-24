@@ -111,8 +111,7 @@ void ClimbStep::Execute() {
         case Segment::RaiseCylinder:
             Robot::GetCreeperClimb().RotateArmToPosition("home");
             Robot::GetCreeperClimb().PistonRetract();
-            m_StopCylinderDelay.Start();
-            m_Segment = Segment::StopCylinder;
+            m_Segment = Segment::End;
             break;
         case Segment::StopCylinder:
             if (m_StopCylinderDelay.IsDone()) {

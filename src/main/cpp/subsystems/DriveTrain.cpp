@@ -5,46 +5,31 @@
 #include <frc/smartdashboard/SendableBuilder.h>
 
 #include <cmath>
+#include <iostream>
+#include <iomanip>
 
 DriveTrain::DriveTrain(wpi::json &jsonConfig) : frc::Subsystem("DriveTrain") {
 #   ifndef PROTOBOT
-        // Set up TalonSRXs.
-        m_MotorRightFront.ConfigFactoryDefault();
-        m_MotorRightBack.ConfigFactoryDefault();
-        m_MotorLeftFront.ConfigFactoryDefault();
-        m_MotorLeftBack.ConfigFactoryDefault();
+        // m_MotorRightFront.SetSmartCurrentLimit(45);
+        // m_MotorRightFront.SetSecondaryCurrentLimit(60);
 
-        int contLimit = 40;
-        int peakLimit = 50;
-        int peakTime = 1800;
+        // m_MotorRightBack.SetSmartCurrentLimit(45);
+        // m_MotorRightBack.SetSecondaryCurrentLimit(60);
 
-        m_MotorRightFront.EnableCurrentLimit(true);
-        m_MotorRightFront.ConfigContinuousCurrentLimit(contLimit, 10);
-        m_MotorRightFront.ConfigPeakCurrentLimit(peakLimit, 10);
-        m_MotorRightFront.ConfigPeakCurrentDuration(peakTime, 10);
+        // m_MotorLeftFront.SetSmartCurrentLimit(45);
+        // m_MotorLeftFront.SetSecondaryCurrentLimit(60);
 
-        m_MotorRightBack.EnableCurrentLimit(true);
-        m_MotorRightBack.ConfigContinuousCurrentLimit(contLimit, 10);
-        m_MotorRightBack.ConfigPeakCurrentLimit(peakLimit, 10);
-        m_MotorRightBack.ConfigPeakCurrentDuration(peakTime, 10);
+        // m_MotorLeftBack.SetSmartCurrentLimit(45);
+        // m_MotorLeftBack.SetSecondaryCurrentLimit(60);
 
-        m_MotorLeftFront.EnableCurrentLimit(true);
-        m_MotorLeftFront.ConfigContinuousCurrentLimit(contLimit, 10);
-        m_MotorLeftFront.ConfigPeakCurrentLimit(peakLimit, 10);
-        m_MotorLeftFront.ConfigPeakCurrentDuration(peakTime, 10);
+        m_MotorRight1.SetInverted(false);
+        m_MotorRight2.SetInverted(false);
+        m_MotorRight3.SetInverted(false);
+        m_MotorLeft1.SetInverted(true);
+        m_MotorLeft2.SetInverted(true);
+        m_MotorLeft3.SetInverted(true);
 
-        m_MotorLeftBack.EnableCurrentLimit(true);
-        m_MotorLeftBack.ConfigContinuousCurrentLimit(contLimit, 10);
-        m_MotorLeftBack.ConfigPeakCurrentLimit(peakLimit, 10);
-        m_MotorLeftBack.ConfigPeakCurrentDuration(peakTime, 10);
-
-        // The documentation says to do this, so that both sides get the proper values.
-        // See https://phoenix-documentation.readthedocs.io/en/latest/ch15_WPIDrive.html?highlight=wpi_talon
-        m_MotorRightFront.SetInverted(false);
-        m_MotorRightBack.SetInverted(false);
-        m_MotorLeftFront.SetInverted(true);
-        m_MotorLeftBack.SetInverted(true);
-
+        SetIdleMode(m_IdleMode);
 #   endif
 
     m_EncoderLeft.SetDistancePerPulse(kEncoderDistPerPulse);
@@ -54,7 +39,7 @@ DriveTrain::DriveTrain(wpi::json &jsonConfig) : frc::Subsystem("DriveTrain") {
         Subsystem::AddChild("Left Drive PID", &m_LeftPID);
         Subsystem::AddChild("Right Drive PID", &m_RightPID);
     #else
-        m_MaxAcceleration = jsonConfig["drive"]["max-acceleration"];
+        m_MinAcceleration = jsonConfig["drive"]["min-acceleration"];
 
         m_MaxNormalSpeed = jsonConfig["drive"]["max-normal-speed"];
         m_SandstormStepSpeed = jsonConfig["drive"]["sandstorm-step-speed"];
@@ -88,11 +73,11 @@ void DriveTrain::Drive(frc::XboxController& driver) {
     // Get left stick axes values.
     double hidX = -driver.GetX(frc::XboxController::kRightHand);
     double hidY = driver.GetY(frc::XboxController::kLeftHand);
-    double sprintFactor = 0.75;
+    double sprintFactor = 0.65;
     sprintFactor += driver.GetTriggerAxis(frc::XboxController::kRightHand) * 0.25;
-    sprintFactor -= driver.GetTriggerAxis(frc::XboxController::kLeftHand) * 0.25;
+    sprintFactor -= driver.GetTriggerAxis(frc::XboxController::kLeftHand) * 0.20;
 
-    double turnFactor = 1 - (driver.GetTriggerAxis(frc::XboxController::kLeftHand) * 0.3); // THIS
+    double turnFactor = 0.6 - (driver.GetTriggerAxis(frc::XboxController::kLeftHand) * 0.15); // THIS
 
     if (ENABLE_DRIVETRAIN_CONTROL) {
         ArcadeDrive(hidY * sprintFactor, hidX * turnFactor, true);
@@ -162,27 +147,7 @@ void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs)
         double currentLeft = m_LeftMotors.Get() / m_maxOutput;
         double currentRight = m_RightMotors.Get() / m_maxOutput;
 
-        double maxLeftAccel = m_MaxAcceleration, maxRightAccel = m_MaxAcceleration;
-
-        /* *
-        // Descrease the max velocity step size for the slower drive side so
-        // turning takes effect sooner.
-        //
-        // WARNING: Doesn't really work from initial testing.  Robot drives more straight.
-        if (0.01 < std::abs(desiredLeft) - std::abs(desiredRight)) {
-            // Left speed is faster than right.
-            maxLeftAccel = m_MaxAcceleration;
-            maxRightAccel = m_MaxAcceleration * desiredRight / desiredLeft;
-        } else if (0.01 < std::abs(desiredRight) - std::abs(desiredLeft)) {
-            // Right speed is faster than left.
-            maxLeftAccel = m_MaxAcceleration * desiredLeft / desiredRight;
-            maxRightAccel = m_MaxAcceleration;
-        } else {
-            // Both speeds are effectively same.
-            maxLeftAccel = m_MaxAcceleration;
-            maxRightAccel = m_MaxAcceleration;
-        }
-        /* */
+        double minLeftAccel = m_MinAcceleration, minRightAccel = m_MinAcceleration;
 
         double timeDelta = m_TimeDelta.Split();
 
@@ -194,17 +159,17 @@ void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs)
         //       v_{i+1} is the next velocity to send to the motors,
         //       a is the max acceleration, and
         //       dt is the time delta in seconds since the velocity step.
-        double allowedLeft = ComputeNextOutputDelta(
+        double allowedLeft = ComputeNextOutput(
             currentLeft,
             desiredLeft,
-            maxLeftAccel,
+            minLeftAccel,
             timeDelta
         );
 
-        double allowedRight = ComputeNextOutputDelta(
+        double allowedRight = ComputeNextOutput(
             currentRight,
             desiredRight,
-            maxRightAccel,
+            minRightAccel,
             timeDelta
         );
 
@@ -223,6 +188,38 @@ void DriveTrain::ArcadeDrive(double xSpeed, double zRotation, bool squareInputs)
     #endif
 
     Feed();
+}
+
+void DriveTrain::SetIdleMode(rev::CANSparkMax::IdleMode mode) {
+    m_IdleMode = mode;
+
+    m_MotorRight1.SetIdleMode(mode);
+    m_MotorRight2.SetIdleMode(mode);
+    m_MotorRight3.SetIdleMode(mode);
+
+    m_MotorLeft1.SetIdleMode(mode);
+    m_MotorLeft2.SetIdleMode(mode);
+    m_MotorLeft3.SetIdleMode(mode);
+}
+
+void DriveTrain::ToggleIdleMode() {
+    if (IdleMode::kCoast == m_IdleMode) {
+        SetIdleMode(IdleMode::kBrake);
+    } else {
+        SetIdleMode(IdleMode::kCoast);
+    }
+}
+
+IdleMode DriveTrain::GetIdleMode() {
+    return m_IdleMode;
+}
+
+wpi::StringRef DriveTrain::GetIdleModeText() {
+    if (IdleMode::kCoast == m_IdleMode) {
+        return "Coast";
+    } else {
+        return "Brake";
+    }
 }
 
 void DriveTrain::StopMotor() {
@@ -301,7 +298,7 @@ void DriveTrain::UseDukesSpeedLimit() {
     #endif
 }
 
-double DriveTrain::ComputeNextOutputDelta(double iVel, double fVel, double maxAccel, double timeDelta) {
-    double deltaVel = fVel - iVel;
-    return iVel + std::copysign(std::min(std::abs(deltaVel), maxAccel * timeDelta), deltaVel);
+double DriveTrain::ComputeNextOutput(double iVel, double fVel, double minAccel, double timeDelta) {
+    double deltaVel = (fVel - iVel) * 0.4;
+    return iVel + std::copysign(std::min(std::fabs(deltaVel), minAccel), deltaVel);
 }

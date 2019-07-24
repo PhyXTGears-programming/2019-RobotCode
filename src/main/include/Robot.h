@@ -33,6 +33,7 @@
 #include "commands/RaiseHatch.h"
 #include "commands/ReadyCreeperArm.h"
 #include "commands/ReadyHatch.h"
+#include "commands/ReadyTakeHatch.h"
 #include "commands/RotateCargoForCargoShip.h"
 #include "commands/RotateCargoForLevelOneRocket.h"
 #include "commands/ShootCargoForCargoShip.h"
@@ -88,6 +89,7 @@ class Robot : public frc::TimedRobot {
 
         static GrabHatchFromLoadingStation*   m_GrabHatchFromLoadingStation;
         static ReadyHatch*                    m_ReadyHatch;
+        static ReadyTakeHatch*                m_ReadyTakeHatch;
 
         // JSON Reader for Config (this should probably be moved later)
         static wpi::json m_JsonConfig;
@@ -113,8 +115,6 @@ class Robot : public frc::TimedRobot {
 
     private:
         frc::SendableChooser<frc::Command*> m_Chooser;
-
-        bool m_CanSandstormStepDrive;
 
         bool m_UsingCamera1 = false;
         cs::UsbCamera m_Camera0;            // NOTE

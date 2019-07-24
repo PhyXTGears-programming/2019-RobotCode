@@ -71,6 +71,17 @@
 #define CAN_7 7
 #define CAN_8 8
 #define CAN_9 9
+#define CAN_10 10
+#define CAN_11 11
+#define CAN_12 12
+#define CAN_13 13
+#define CAN_14 14
+#define CAN_15 15
+#define CAN_16 16
+#define CAN_17 17
+#define CAN_18 18
+#define CAN_19 19
+#define CAN_20 20
 
 #define AIR_0 0
 #define AIR_1 1
@@ -110,11 +121,13 @@
 
 #else
 
-// CAN IDs for CAN Bus TalonSRX's.
-#   define kLeftFrontMotor  CAN_1
-#   define kLeftBackMotor   CAN_7
-#   define kRightFrontMotor CAN_2
-#   define kRightBackMotor  CAN_4
+// CAN IDs for CAN Bus Spark Maxes.
+#   define kRightMotor1 CAN_13
+#   define kRightMotor2 CAN_14
+#   define kRightMotor3 CAN_15
+#   define kLeftMotor3  CAN_10
+#   define kLeftMotor1  CAN_11
+#   define kLeftMotor2  CAN_12
 
 // Pin numbers for wheel encoders
 #   define kLeftEncoderPin0  DIO_0
