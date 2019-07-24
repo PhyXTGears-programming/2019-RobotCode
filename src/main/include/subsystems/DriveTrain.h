@@ -88,10 +88,10 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
             };
         #else
             // Limit acceleration.
-            double m_MaxAcceleration;
+            double m_MinAcceleration;
             StopWatch m_TimeDelta;
 
-            double ComputeNextOutput(double iVel, double fVel, double maxAccel, double timeDelta);
+            double ComputeNextOutput(double iVel, double fVel, double minAccel, double timeDelta);
 
             // Config setpoints.
             double m_MaxNormalSpeed;
