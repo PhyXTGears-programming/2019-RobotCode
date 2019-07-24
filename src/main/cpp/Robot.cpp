@@ -44,6 +44,7 @@ RaiseHatch* Robot::m_RaiseHatch;
 
 GrabHatchFromLoadingStation*  Robot::m_GrabHatchFromLoadingStation;
 ReadyHatch*                   Robot::m_ReadyHatch;
+ReadyTakeHatch*               Robot::m_ReadyTakeHatch;
 
 // Initialize JSON reader
 wpi::json Robot::m_JsonConfig;
@@ -95,6 +96,7 @@ Robot::Robot() {
     // Allocate and initialize commands - Hatch
     m_GrabHatchFromLoadingStation  = new GrabHatchFromLoadingStation();
     m_ReadyHatch                   = new ReadyHatch();
+    m_ReadyTakeHatch               = new ReadyTakeHatch();
     m_RaiseHatch                   = new RaiseHatch();
     m_LowerHatch                   = new LowerHatch();
 }
@@ -228,7 +230,7 @@ void Robot::TestPeriodic() {}
 
 void Robot::CompetitionJoystickInput() {
     // DRIVER CONTROLS
-    if (m_OI.GetDriverJoystick().GetBButton()) {
+    if (m_OI.GetDriverJoystick().GetBButtonPressed()) {
         std::cout << "Comp Joy Input: Driver: B Button Down" << std::endl;
         GetDriveTrain().ToggleIdleMode();
     }
@@ -337,10 +339,8 @@ void Robot::CompetitionJoystickInput() {
         m_ReadyHatch->Start();
         m_Bling.SetBling(m_Bling.HatchPattern);
     } else if (console.GetHatchLowerPressed()) {
-        std::cout << "Comp Joy Input: Console: Hatch Lower Pressed" << std::endl;
-        m_LowerHatch
-          ->Until([]() { return Robot::m_OI.GetOperatorConsole().GetHatchLowerReleased(); })
-          ->Start();
+        std::cout << "Comp Joy Input: Console: Hatch Bottom Position Pressed" << std::endl;
+        m_ReadyTakeHatch->Start();
         m_Bling.SetBling(m_Bling.HatchPattern);
     }
 

@@ -28,13 +28,13 @@
         "rotation": {
             "zero-point": 0,
             "angles": {
-                "home":                   0.73,
-                "cargo-ship-shoot":       0.73,
-                "rocket-1-shoot":         0.41,
-                "rocket-2-shoot":         0.73,
-                "cargo-floor-pickup":     0.02,
-                "hatch-dispenser-pickup": 0.73,
-                "hatch-floor-pickup":     0.73
+                "home":                   0.65,
+                "cargo-ship-shoot":       0.65,
+                "rocket-1-shoot":         0.33,
+                "rocket-2-shoot":         0.65,
+                "cargo-floor-pickup":     0.00,
+                "hatch-dispenser-pickup": 0.65,
+                "hatch-floor-pickup":     0.65
             }
         },
         "roller-speed": {
@@ -45,7 +45,7 @@
         }
     },
     "drive": {
-        "max-acceleration": 12.0,
+        "min-acceleration": 1.0,
         "max-normal-speed": 1,
         "sandstorm-step-speed": 0.45,
         "turn-factor": 1
@@ -60,7 +60,7 @@
             "zero-point": 0,
             "angles": {
                 "home":      80,
-                "arm-ready": 161,
+                "arm-ready": 163,
                 "arm-climb": 230
             }
         }
@@ -75,7 +75,8 @@
         "rotation": {
             "grip-threshold": 0.95,
             "top-position": 0.69,
-            "mid-position": 1.50
+            "mid-position": 1.50,
+            "bottom-position": 2.40
         }
     }
 }

@@ -60,7 +60,7 @@ class DriveTrain : public frc::Subsystem, public frc::RobotDriveBase {
         MOTORTYPE m_MotorLeft2 {kLeftMotor2, rev::CANSparkMax::MotorType::kBrushless};
         MOTORTYPE m_MotorLeft3 {kLeftMotor3, rev::CANSparkMax::MotorType::kBrushless};
 
-        IdleMode m_IdleMode {IdleMode::kCoast};
+        IdleMode m_IdleMode {IdleMode::kBrake};
 
         // Group the motors into their sides and then combine them into the drivetrain
         frc::SpeedControllerGroup m_RightMotors {m_MotorRight1, m_MotorRight2, m_MotorRight3};

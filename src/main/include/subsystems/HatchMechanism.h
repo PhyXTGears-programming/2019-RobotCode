@@ -23,6 +23,7 @@ class HatchMechanism : public frc::Subsystem {
         // Use PID to hold position.
         void RotateToTopPosition();
         void RotateToMidPosition();
+        void RotateToBottomPosition();
 
         // Stop moving arm.  Zero speed, disable PID.
         void StopRotation();
@@ -55,6 +56,7 @@ class HatchMechanism : public frc::Subsystem {
         struct Config {
             double TopPosition = 0.0;
             double MidPosition = 0.0;
+            double BottomPosition = 0.0;
             double GripThreshold = 0.0;
         };
 

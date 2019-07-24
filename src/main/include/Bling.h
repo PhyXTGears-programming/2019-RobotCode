@@ -22,7 +22,7 @@ class Bling {
 
     private:
         const double m_PwmMap [SizeValue] = {
-            [Default]                   = -0.91, // Rainbow Forest Palette
+            [Default]                   = -0.99, // Rainbow Forest Palette
             [CargoIntakePattern]        =  0.65, // Orange
             [CargoShootShipPattern]     = -0.39, // Color Waves, Lava Palette
             [CargoShootRocketPattern]   = -0.57, // Large Fire
